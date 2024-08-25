@@ -12,5 +12,5 @@ This Vue web-app will consume my OpenMusic.API, as I develop the app I expect th
 ## Running this project
 For now this project will be interacting with the API when it is running locally, the API is not currently deployed so if you wish to use this you will either have to deploy or run the API yourself.
 To run the front-end locally you simply need to clone the repository and open it in VSCode or a simmilar application.
-- Open a new terminal and write ```npm run dev```
+- Open a new terminal and write ```npm run serve```
 - The project should now be running locally at the address listed in the terminal
