@@ -1,0 +1,23 @@
+.sidebar {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+}
+.sidebar-list {
+    margin-top:15px;
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+    .router-link-active {
+        background-color: gray;
+    }
+    a {
+        width:100%;
+        height:100%;
+        padding: 15px;
+        display: block;
+        border-radius: 8px;
+    }
+}
