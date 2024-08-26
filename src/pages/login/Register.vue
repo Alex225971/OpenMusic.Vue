@@ -1,5 +1,6 @@
 <template>
   <div class="col-10 p-5">
+  <h1 class="mb-5">Register</h1>
     <form class="col-sm-12 col-md-8 col-lg-4 mb-4" @submit.prevent="submitForm">
       <div>
         <label for="exampleInputEmail1" class="form-label">First name</label>
@@ -70,7 +71,8 @@ export default {
                 email: this.email,
                 password: this.password
             };
-            console.log(formData);
+            console.log(formData)
+            this.$store.dispatch('users/registerUser', formData)
         }
     }
 }

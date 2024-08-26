@@ -14,7 +14,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <form class="d-flex col-4">
+        <form class="d-flex col-4" @submit.prevent="executeSearch">
           <input
             class="form-control me-2"
             type="search"
@@ -24,9 +24,19 @@
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
         <div class="user-link">
-          <router-link class="link-light" to="/login">Username</router-link>
+          <router-link class="link-light" to="/login">Log in/Register</router-link>
         </div>
       </div>
     </nav>
   </header>
 </template>
+
+<script>
+export default {
+    methods: {
+        executeSearch() {
+          console.log("search sent")
+        }
+    }
+}
+</script>

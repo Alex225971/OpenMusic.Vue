@@ -1,5 +1,6 @@
 <template>
   <div class="col-10 p-5">
+    <h1 class="mb-5">Login</h1>
     <form class="col-sm-12 col-md-8 col-lg-4 mb-4" @submit.prevent="submitForm">
       <div>
         <label for="loginEmail" class="form-label">Email address</label>
@@ -32,3 +33,24 @@
     </p>
   </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            email:'',
+            password:''
+        }
+    },
+    methods: {
+        submitForm() {
+            const formData = {
+                email: this.email,
+                password: this.password
+            };
+            console.log(formData)
+            this.$store.dispatch('users/loginUser', formData)
+        }
+    }
+}
+</script>
