@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from './pages/login/Login.vue';
 import Register from './pages/login/Register.vue';
 import NotFound from './pages/NotFound.vue';
+import Profile from './pages/profile/Profile.vue'
 import Home from './pages/home/Home.vue';
 
 const router = createRouter({
@@ -9,8 +9,9 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: '/register' },
         { path: '/home', component: Home },
+        { path: '/profile', component: Profile },
         { path: '/register', component: Register },
-        { path: '/login', component: Login },
+        { path: '/login', component: Register },
         { path: '/explore', component: null },
         { path: '/library', component: null },
         { path: '/playlist/:id', component: null },

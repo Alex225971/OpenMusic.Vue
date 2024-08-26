@@ -23,34 +23,63 @@
           v-model="password"
         />
       </div>
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-primary">{{ submitButtonCaption }}</button>
     </form>
+    <p v-if="!formIsValid" class="text-danger" >Please enter a valid email and password.</p>
     <p>
       Haven't set up an account yet?
-      <router-link to="/register" class="link-light"
-        >register an account now</router-link
-      >
+      <a @click="switchMode" class="link-light">register an account now</a>
     </p>
   </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            email:'',
-            password:''
-        }
+  data() {
+    return {
+      email: '',
+      password: '',
+      formIsValid: true,
+      mode: 'login',
+    };
+  },
+  computed: {
+    submitButtonCaption() {
+      if(this.mode === 'login') {
+        return 'Login';
+      } else {
+        return 'Register'
+      }
     },
-    methods: {
-        submitForm() {
-            const formData = {
-                email: this.email,
-                password: this.password
-            };
-            console.log(formData)
-            this.$store.dispatch('users/loginUser', formData)
-        }
+    switchModeButtonCaption() {
+      if(this.mode === 'login') {
+        return 'Switch to register';
+      } else {
+        return 'Switch to login'
+      }
     }
-}
+  },
+  methods: {
+    submitForm() {
+      this.formIsValid = true;
+      if(this.email === '' || !this.email.includes('@') || this.password.length < 6) {
+        this.formIsValid = false;
+        return;
+      }
+      const formData = {
+        email: this.email,
+        password: this.password,
+      };
+      console.log(formData);
+      this.$store.dispatch('users/loginUser', formData);
+    },
+    switchMode() {
+      if(this.mode === 'login') {
+        this.mode = 'register';
+      } else {
+        this.mode = 'login';
+      }
+    },
+  },
+};
 </script>

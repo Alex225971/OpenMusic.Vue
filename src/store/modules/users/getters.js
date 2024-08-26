@@ -1,8 +1,14 @@
 export default {
-    users(state) {
-        return state.users;
+    user(state) {
+        return state.user;
     },
-    hasUsers(state) {
-        return state.users && state.users.length > 0;
+    hasUser(state) {
+        return state.user && state.user.length > 0;
+    },
+    token(state) {
+        return state.token;
+    },
+    isAuthenticated(state) {
+        return !!state.token;
     }
 };

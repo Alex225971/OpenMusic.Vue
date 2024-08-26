@@ -21,10 +21,11 @@
             placeholder="Search songs, albums, artists"
             aria-label="Search"
           />
-          <button class="btn btn-outline-light" type="submit">Search</button>
+          <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
         </form>
         <div class="user-link">
-          <router-link class="link-light" to="/login">Log in/Register</router-link>
+          <router-link class="link-light" to="/login" v-if="!isLoggedIn">Log in/Register</router-link>
+          <router-link class="link-light" to="/profile" v-if="isLoggedIn">{{ hasUser }}</router-link>
         </div>
       </div>
     </nav>
@@ -33,10 +34,20 @@
 
 <script>
 export default {
-    methods: {
-        executeSearch() {
-          console.log("search sent")
-        }
+  computed: {
+    hasUser() {
+      console.log("hasUser " + this.$store.getters.user);
+      return this.$store.getters.user;
+    },
+    isLoggedIn() {
+      console.log("isloggedin " + this.$store.getters['user/isAuthenticated']);
+      return this.$store.getters['user/isAuthenticated'];
     }
+  },
+  methods: {
+      executeSearch() {
+        console.log("search sent")
+      }
+  }
 }
 </script>

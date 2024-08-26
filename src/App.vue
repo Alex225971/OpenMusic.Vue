@@ -15,7 +15,7 @@ import Sidebar from './components/layout/Sidebar.vue';
 export default {
   components: {
     PageHeader,
-    Sidebar,
+    Sidebar
   },
 };
 </script>

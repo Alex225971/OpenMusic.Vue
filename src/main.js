@@ -5,6 +5,8 @@ import store from './store/index.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'toastr/build/toastr.css'
+import 'toastr/build/toastr.min.js'
 
 import App from './App.vue';
 

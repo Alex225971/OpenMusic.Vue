@@ -1,5 +1,6 @@
 export default {
-    registerUser(state, payload) {
-        state.users.push(payload);
+    setUser(state, payload) {
+        state.token = payload.token;
+        state.userId = payload.userId;
     }
 };
