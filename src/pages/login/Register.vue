@@ -124,15 +124,16 @@ export default {
         email: this.email,
         password: this.password,
       };
-      console.log(formData);
       try {
         if (this.mode === 'login') {
           await this.$store.dispatch('user/loginUser', {
             email: this.email,
             password: this.password
           });
+          this.$router.replace('/home');
         } else {
           await this.$store.dispatch('user/registerUser', formData);
+          this.$router.replace('/home');
         }
       } catch (error) {
         this.error = new Error(error.message || 'Authentication failed');

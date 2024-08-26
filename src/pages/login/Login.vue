@@ -70,7 +70,6 @@ export default {
         email: this.email,
         password: this.password,
       };
-      console.log(formData);
       this.$store.dispatch('users/loginUser', formData);
     },
     switchMode() {

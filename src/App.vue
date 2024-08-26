@@ -17,5 +17,8 @@ export default {
     PageHeader,
     Sidebar
   },
+  created() {
+    this.$store.dispatch('user/checkAuth');
+  }
 };
 </script>

@@ -1,6 +1,6 @@
 export default {
     user(state) {
-        return state.user;
+        return state.firstName;
     },
     hasUser(state) {
         return state.user && state.user.length > 0;

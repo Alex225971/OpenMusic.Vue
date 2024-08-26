@@ -15,6 +15,7 @@
       </ul>
     </div>
     <hr />
+    <h5 v-if="isLoggedIn" class="text-center">Playlists</h5>
     <div class="sidebar-list text-light">
       <ul>
         <li v-if="isLoggedIn">
@@ -37,7 +38,6 @@
 export default {
   computed: {
     isLoggedIn() {
-      console.log('isloggedin ' + this.$store.getters['user/isAuthenticated']);
       return this.$store.getters['user/isAuthenticated'];
     },
   },

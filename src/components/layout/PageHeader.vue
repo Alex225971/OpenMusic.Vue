@@ -26,6 +26,7 @@
         <div class="user-link">
           <router-link class="link-light" to="/login" v-if="!isLoggedIn">Log in/Register</router-link>
           <router-link class="link-light" to="/profile" v-if="isLoggedIn">{{ hasUser }}</router-link>
+          <a class="btn btn-light" href="#" v-if="isLoggedIn" @click="logout">Log Out</a>
         </div>
       </div>
     </nav>
@@ -36,17 +37,19 @@
 export default {
   computed: {
     hasUser() {
-      console.log("hasUser " + this.$store.getters.user);
-      return this.$store.getters.user;
+      console.log("User name: " + this.$store.getters['user/user'])
+      return this.$store.getters['user'];
     },
     isLoggedIn() {
-      console.log("isloggedin " + this.$store.getters['user/isAuthenticated']);
       return this.$store.getters['user/isAuthenticated'];
     }
   },
   methods: {
       executeSearch() {
-        console.log("search sent")
+        console.log("search sent");
+      },
+      logout() {
+        this.$store.dispatch('user/logoutUser');
       }
   }
 }

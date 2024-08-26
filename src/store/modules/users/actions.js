@@ -22,29 +22,30 @@ export default {
             response = await fetch('https://localhost:7229/api/Auth/login', {
                 method: 'POST',
                 body: JSON.stringify({
-                email: data.email,
+                    email: data.email,
                     password: data.password
                 }),
                 headers: new Headers({'content-type': 'application/json'})
             }); 
-            toast.success("Registration was successful", {
-              autoClose: 2000,
-            });
+            const responseData = await response.json();
+
+            localStorage.setItem('token', responseData.token);
+            localStorage.setItem('userId', responseData.userId);
 
             context.commit('setUser', {
                 ...userData,
-                userId: response.userId,
-                token: response.token
+                firstName: data.firstName,
+                lastName: data.lastName,
+                userId: responseData.userId,
+                token: responseData.token
             });
             return;
         } else {
-            console.log(response)
             toast.error(`Error ${response.status} please try again`, {
               autoClose: 2000,
             });
         }
     },
-
     async loginUser(context, data) {
         const userData = {
             email: data.email,
@@ -58,19 +59,39 @@ export default {
         });
 
         const responseData = await response.json();
-        console.log(responseData);
 
-        if(response.status > 199 && response.status < 300) {
-            toast.success(`Successfully logged in`, {
-              autoClose: 2000,
-            });
-        }
+        localStorage.setItem('firstName', data.firstName);
+        localStorage.setItem('lastName', data.lastName);
+        localStorage.setItem('token', responseData.token);
+        localStorage.setItem('userId', responseData.userId);
 
-        console.log(responseData.token);
         context.commit('setUser', {
             ...userData,
             userId: responseData.userId,
             token: responseData.token
+        });
+    },
+    checkAuth(context) {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+
+        if(token && userId) {
+            context.commit('setUser', {
+                userId: userId,
+                token: token
+            });
+        }
+    },
+    async logoutUser(context) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+
+        context.commit('setUser', {
+            token: null,
+            userId: null
+        });
+        toast.success(`Logged out, see you soon`, {
+            autoClose: 2000,
         });
     }
 };

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from './store/index.js';
 import Register from './pages/login/Register.vue';
 import NotFound from './pages/NotFound.vue';
 import Profile from './pages/profile/Profile.vue'
@@ -8,17 +9,27 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', redirect: '/register' },
-        { path: '/home', component: Home },
-        { path: '/profile', component: Profile },
-        { path: '/register', component: Register },
-        { path: '/login', component: Register },
-        { path: '/explore', component: null },
-        { path: '/library', component: null },
-        { path: '/playlist/:id', component: null },
-        { path: '/artist/:id', component: null },
-        { path: '/search', component: null },
-        { path: '/:notFound(.*)', component: NotFound },
+        { path: '/home', component: Home, meta: { guarded: true } },
+        { path: '/profile', component: Profile, meta: { guarded: true } },
+        { path: '/register', component: Register, meta: { anonymousOnly: true } },
+        { path: '/login', component: Register, meta: { anonymousOnly: true }  },
+        { path: '/explore', component: null, meta: { guarded: true } },
+        { path: '/library', component: null, meta: { guarded: true } },
+        { path: '/playlist/:id', component: null, meta: { guarded: true } },
+        { path: '/artist/:id', component: null, meta: { guarded: true } },
+        { path: '/search', component: null, meta: { guarded: true } },
+        { path: '/:notFound(.*)', component: NotFound, meta: { guarded: true } },
     ]
 });
+
+router.beforeEach(function(to, from, next) {
+    if(to.meta.guarded && !store.getters['user/isAuthenticated']) {
+        next('/register');
+    } else if(to.meta.anonymousOnly && store.getters.isAuthenticated) {
+        next('/home')
+    } else {
+        next();
+    }
+})
 
 export default router;
