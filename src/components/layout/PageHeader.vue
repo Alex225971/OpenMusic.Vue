@@ -1,6 +1,8 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary"
+    >
       <div class="container-fluid">
         <a class="navbar-brand" href="#">OpenMusic</a>
         <button
@@ -21,12 +23,17 @@
             placeholder="Search songs, albums, artists"
             aria-label="Search"
           />
-          <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+          <button class="btn btn-outline-light" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
         </form>
         <div class="user-link">
-          <router-link class="link-light" to="/login" v-if="!isLoggedIn">Log in/Register</router-link>
-          <router-link class="link-light" to="/profile" v-if="isLoggedIn">{{ hasUser }}</router-link>
-          <a class="btn btn-light" href="#" v-if="isLoggedIn" @click="logout">Log Out</a>
+          <router-link class="link-light" to="/login" v-if="!isLoggedIn"
+            >Log in/Register</router-link
+          >
+          <a @click="logout" class="link-light me-2" to="/profile" v-if="isLoggedIn"
+            >Welcome back {{ getUserName }}</a
+          >
         </div>
       </div>
     </nav>
@@ -36,21 +43,21 @@
 <script>
 export default {
   computed: {
-    hasUser() {
-      console.log("User name: " + this.$store.getters['user/user'])
-      return this.$store.getters['user'];
+    getUserName() {
+      console.log('User name: ' + this.$store.getters['user/userName']);
+      return this.$store.getters['user/userName'];
     },
     isLoggedIn() {
       return this.$store.getters['user/isAuthenticated'];
-    }
+    },
   },
   methods: {
-      executeSearch() {
-        console.log("search sent");
-      },
-      logout() {
-        this.$store.dispatch('user/logoutUser');
-      }
-  }
-}
+    executeSearch() {
+      console.log('search sent');
+    },
+    logout() {
+      this.$store.dispatch('user/logoutUser');
+    },
+  },
+};
 </script>

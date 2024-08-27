@@ -5,7 +5,6 @@ export default {
     async registerUser(context, data) {
         const userData = {
             firstName: data.firstName,
-            lastName: data.lastName,
             email: data.email,
             password: data.password
         };
@@ -29,13 +28,13 @@ export default {
             }); 
             const responseData = await response.json();
 
+            localStorage.setItem('firstName', responseData.firstName);
             localStorage.setItem('token', responseData.token);
             localStorage.setItem('userId', responseData.userId);
 
             context.commit('setUser', {
                 ...userData,
-                firstName: data.firstName,
-                lastName: data.lastName,
+                firstName: responseData.firstName,
                 userId: responseData.userId,
                 token: responseData.token
             });
@@ -60,33 +59,37 @@ export default {
 
         const responseData = await response.json();
 
-        localStorage.setItem('firstName', data.firstName);
-        localStorage.setItem('lastName', data.lastName);
+        localStorage.setItem('firstName', responseData.firstName);
         localStorage.setItem('token', responseData.token);
         localStorage.setItem('userId', responseData.userId);
 
         context.commit('setUser', {
             ...userData,
+            firstName: responseData.firstName,
             userId: responseData.userId,
             token: responseData.token
         });
     },
     checkAuth(context) {
+        const firstName = localStorage.getItem('firstName');
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
 
         if(token && userId) {
             context.commit('setUser', {
+                firstName: firstName,
                 userId: userId,
                 token: token
             });
         }
     },
     async logoutUser(context) {
+        localStorage.removeItem('firstName');
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
 
         context.commit('setUser', {
+            firstName: null,
             token: null,
             userId: null
         });

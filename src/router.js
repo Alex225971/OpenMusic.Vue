@@ -4,6 +4,7 @@ import Register from './pages/login/Register.vue';
 import NotFound from './pages/NotFound.vue';
 import Profile from './pages/profile/Profile.vue'
 import Home from './pages/home/Home.vue';
+import CreatePlaylist from './pages/playlists/CreatePlaylist.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,9 +13,13 @@ const router = createRouter({
         { path: '/home', component: Home, meta: { guarded: true } },
         { path: '/profile', component: Profile, meta: { guarded: true } },
         { path: '/register', component: Register, meta: { anonymousOnly: true } },
-        { path: '/login', component: Register, meta: { anonymousOnly: true }  },
+        { path: '/login', component: Register, meta: { anonymousOnly: true } },
         { path: '/explore', component: null, meta: { guarded: true } },
         { path: '/library', component: null, meta: { guarded: true } },
+        {
+            path: '/playlist', component: null, meta: { guarded: true },
+            children: [{ path: 'new', name: 'user', component: CreatePlaylist }],
+        },
         { path: '/playlist/:id', component: null, meta: { guarded: true } },
         { path: '/artist/:id', component: null, meta: { guarded: true } },
         { path: '/search', component: null, meta: { guarded: true } },
@@ -22,10 +27,10 @@ const router = createRouter({
     ]
 });
 
-router.beforeEach(function(to, from, next) {
-    if(to.meta.guarded && !store.getters['user/isAuthenticated']) {
+router.beforeEach(function (to, from, next) {
+    if (to.meta.guarded && !store.getters['user/isAuthenticated']) {
         next('/register');
-    } else if(to.meta.anonymousOnly && store.getters.isAuthenticated) {
+    } else if (to.meta.anonymousOnly && store.getters['user/isAuthenticated']) {
         next('/home')
     } else {
         next();
