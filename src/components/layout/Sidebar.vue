@@ -23,7 +23,7 @@
             ><i class="bi bi-plus me-2"></i> Create a new playlist</router-link
           >
         </li>
-        <router-link class="link-light mb-2" v-for="playlist in playlists" :key="playlist.id" :to="{path: '/playlist/' + playlist.id}">{{ playlist.name }}</router-link>
+        <router-link @click="getNewPlaylist(playlist.id)" class="link-light mb-2" v-for="playlist in playlists" :key="playlist.id" :to="{path: '/playlist/' + playlist.id}">{{ playlist.name }}</router-link>
       </ul>
     </div>
 
@@ -59,6 +59,11 @@ export default {
         'Val: ' + JSON.stringify(this.val)
       );
     },
+    getNewPlaylist(id) {
+      this.$store.dispatch('playlists/loadInDetail', {
+        id: id
+      });
+    }
   },
   computed: {
     playlists() {

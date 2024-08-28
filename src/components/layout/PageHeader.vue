@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     executeSearch() {
-      console.log('search sent');
+      this.$store.dispatch('search/executeSearch');
     },
     logout() {
       this.$store.dispatch('user/logoutUser');

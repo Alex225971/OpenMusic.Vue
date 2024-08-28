@@ -70,7 +70,26 @@ export default {
         console.log("Data being committed " + JSON.stringify(playlists));
 
         context.commit('setUserPlaylists', playlists);
-    }
+    },
+    async loadInDetail(context, data) {
+        store.getters['playlists/currentPlaylistId'];
+        let token = store.getters['user/token'];
+        console.log("ID PASSED: " + data.id);
 
+        const response = await fetch('https://localhost:7229/api/Playlists/' + data.id, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("RESPONSE DATA: " + JSON.stringify(responseData))
+
+        context.commit('setCurrentPlaylist', {
+            ...responseData
+        });
+    }
 
 };

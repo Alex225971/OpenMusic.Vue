@@ -6,6 +6,7 @@ import Profile from './pages/profile/Profile.vue'
 import Home from './pages/home/Home.vue';
 import CreatePlaylist from './pages/playlists/CreatePlaylist.vue'
 import PlaylistDetail from './pages/playlists/PlaylistDetail.vue';
+import Library from './pages/library/Library.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -16,7 +17,7 @@ const router = createRouter({
         { path: '/register', component: Register, meta: { anonymousOnly: true } },
         { path: '/login', component: Register, meta: { anonymousOnly: true } },
         { path: '/explore', component: null, meta: { guarded: true } },
-        { path: '/library', component: null, meta: { guarded: true } },
+        { path: '/library', component: Library, meta: { guarded: true } },
         {
             path: '/playlist', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'user', component: CreatePlaylist }],

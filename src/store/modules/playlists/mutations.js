@@ -15,5 +15,9 @@ export default {
     setCurrentPlaylistId(state, payload) {
         state.currentPlaylistId = payload.id
         console.log("PAYLOAD ID: " + payload.id)
+    },
+    setCurrentPlaylist(state, payload) {
+        console.log("PAYLOAD: " + JSON.stringify(payload))
+        state.currentPlaylist = payload
     }
 };
