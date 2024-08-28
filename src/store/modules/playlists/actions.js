@@ -1,5 +1,6 @@
 import 'vue3-toastify/dist/index.css';
 import store from 'C:/Users/duble/Documents/code/OpenMusic.Vue/src/store/index.js'
+import playlists from '.';
 
 export default {
     async createPlaylist(context, data) {
@@ -32,11 +33,44 @@ export default {
 
         const responseData = await response.json();
 
-        console.log(responseData);
-
+        console.log("Committing playlist: " + JSON.stringify(playlistData))
         context.commit('setPlaylist', {
             ...playlistData
         });
+        console.log("Id being used for redirect: " + responseData.id)
+        context.commit('setCurrentPlaylistId', {
+            id: responseData.id
+        });
+    },
+    async getUserPlaylists(context, data) {
+        let token = store.getters['user/token'];
+        let query = '?creatorId=' + store.getters['user/userId'];
 
+        console.log("Getting playlists with user ID: " + store.getters['user/userId']);
+
+        const response = await fetch('https://localhost:7229/api/Playlists' + query, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+        const playlists = [];
+
+        for(var key in responseData) {
+            const playlist = {
+                id: responseData[key].id,
+                name: responseData[key].name,
+                description: responseData[key].description,
+                imageUrl: responseData[key].imageUrl
+            };
+            playlists.push(playlist);
+        }
+        console.log("Data being committed " + JSON.stringify(playlists));
+
+        context.commit('setUserPlaylists', playlists);
     }
+
+
 };

@@ -126,6 +126,7 @@ export default {
       };
       try {
         if (this.mode === 'login') {
+          console.log("form mode " + this.mode)
           await this.$store.dispatch('user/loginUser', {
             email: this.email,
             password: this.password

@@ -1,10 +1,13 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import playlists from '../playlists';
+import store from '../..';
 
 export default {
     async registerUser(context, data) {
         const userData = {
             firstName: data.firstName,
+            lastName: data.firstName,
             email: data.email,
             password: data.password
         };
@@ -12,10 +15,10 @@ export default {
         var response = await fetch('https://localhost:7229/api/Auth/register', {
             method: 'POST',
             body: JSON.stringify(userData),
-            headers: new Headers({'content-type': 'application/json'})
+            headers: new Headers({ 'content-type': 'application/json' })
         });
 
-        if(response.status > 199 && response.status < 300) {
+        if (response.status > 199 && response.status < 300) {
             //If the registration was successful we want to log in the user so they don't have to log in immediately after
 
             response = await fetch('https://localhost:7229/api/Auth/login', {
@@ -24,8 +27,8 @@ export default {
                     email: data.email,
                     password: data.password
                 }),
-                headers: new Headers({'content-type': 'application/json'})
-            }); 
+                headers: new Headers({ 'content-type': 'application/json' })
+            });
             const responseData = await response.json();
 
             localStorage.setItem('firstName', responseData.firstName);
@@ -41,7 +44,7 @@ export default {
             return;
         } else {
             toast.error(`Error ${response.status} please try again`, {
-              autoClose: 2000,
+                autoClose: 2000,
             });
         }
     },
@@ -54,7 +57,7 @@ export default {
         const response = await fetch('https://localhost:7229/api/Auth/login', {
             method: 'POST',
             body: JSON.stringify(userData),
-            headers: new Headers({'content-type': 'application/json'})
+            headers: new Headers({ 'content-type': 'application/json' })
         });
 
         const responseData = await response.json();
@@ -69,13 +72,15 @@ export default {
             userId: responseData.userId,
             token: responseData.token
         });
+
+        store.dispatch('playlists/getUserPlaylists');
     },
     checkAuth(context) {
         const firstName = localStorage.getItem('firstName');
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
 
-        if(token && userId) {
+        if (token && userId) {
             context.commit('setUser', {
                 firstName: firstName,
                 userId: userId,
@@ -88,11 +93,14 @@ export default {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
 
+        console.log("Logged out")
+
         context.commit('setUser', {
             firstName: null,
             token: null,
             userId: null
         });
+        
         toast.success(`Logged out, see you soon`, {
             autoClose: 2000,
         });

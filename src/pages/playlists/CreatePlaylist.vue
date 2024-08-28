@@ -35,6 +35,7 @@
 </template>
 <script>
 import { ref } from 'vue';
+import router from '../../router';
 export default {
   data() {
     return {
@@ -45,17 +46,17 @@ export default {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
       if (this.selectedFile) {
-        console.log("File selected: ", this.selectedFile.name);  // Log for debugging
-        console.log("File size: ", this.selectedFile.size);  // e.g., 93485 (in bytes)
+        console.log("File selected: ", this.selectedFile.name);
+        console.log("File size: ", this.selectedFile.size);
         console.log("File type: ", this.selectedFile.type);
       }
     },
-    submitPlaylist() {
+    async submitPlaylist() {
       if (this.name === '') {
         this.formIsValid = false;
         return;
       }
-      this.$store.dispatch(
+      await this.$store.dispatch(
         'playlists/createPlaylist',
         {
           name: this.name,
@@ -65,7 +66,8 @@ export default {
         },
         this.$store.getters['user/token']
       );
-    },
+      router.push({ path: `${this.$store.getters['playlists/currentPlaylistId']}` })
+    }
   },
 };
 </script>

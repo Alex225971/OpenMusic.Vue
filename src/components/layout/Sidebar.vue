@@ -19,10 +19,11 @@
     <div class="sidebar-list text-light">
       <ul>
         <li v-if="isLoggedIn">
-          <router-link to="/playlist/new" class="link-light"
+          <router-link to="/playlist/new" class="btn btn-outline-success text-light mb-2"
             ><i class="bi bi-plus me-2"></i> Create a new playlist</router-link
           >
         </li>
+        <router-link class="link-light mb-2" v-for="playlist in playlists" :key="playlist.id" :to="{path: '/playlist/' + playlist.id}">{{ playlist.name }}</router-link>
       </ul>
     </div>
 
@@ -36,7 +37,34 @@
 
 <script>
 export default {
+  data() {
+    return {
+      val: this.$store.getters['playlists/playlistDetails'],
+      playlistData: this.$store.getters['playlists/playlistDetails']
+    };
+  },
+  created() {
+    //TODO - make sure user is logged in before making request for playlists
+    if(this.isLoggedIn) {
+      this.loadPlaylists();
+    }
+  },
+  methods: {
+    loadPlaylists() {
+      this.$store.dispatch('playlists/getUserPlaylists', {
+        token: localStorage.getItem('token'),
+        creatorId: localStorage.getItem('userId'),
+      });
+      console.log(
+        'Val: ' + JSON.stringify(this.val)
+      );
+    },
+  },
   computed: {
+    playlists() {
+      console.log("Computed playlists: " + JSON.stringify(this.$store.getters['playlists/playlistDetails']))
+      return this.$store.getters['playlists/playlistDetails'];
+    },
     isLoggedIn() {
       return this.$store.getters['user/isAuthenticated'];
     },
