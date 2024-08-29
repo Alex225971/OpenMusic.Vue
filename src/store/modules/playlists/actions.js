@@ -33,11 +33,19 @@ export default {
 
         const responseData = await response.json();
 
-        console.log("Committing playlist: " + JSON.stringify(playlistData))
-        context.commit('setPlaylist', {
-            ...playlistData
+        // console.log("Committing playlist: " + JSON.stringify(playlistData))
+        // context.commit('setPlaylist', {
+        //     ...playlistData
+        // });
+
+        // console.log("Committing playlist: " + JSON.stringify(playlistData))
+        
+        console.log("TRYING TO ADD_PLAYLIST: " + JSON.stringify(responseData.responseData))
+        context.commit('ADD_PLAYLIST', {
+            responseData
         });
-        console.log("Id being used for redirect: " + responseData.id)
+        // console.log("Id being used for redirect: " + responseData.id);
+
         context.commit('setCurrentPlaylistId', {
             id: responseData.id
         });

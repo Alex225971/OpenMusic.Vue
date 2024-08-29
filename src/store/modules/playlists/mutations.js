@@ -19,5 +19,9 @@ export default {
     setCurrentPlaylist(state, payload) {
         console.log("PAYLOAD: " + JSON.stringify(payload))
         state.currentPlaylist = payload
-    }
+    },
+    ADD_PLAYLIST(state, playlist) {
+        console.log("TRYING TO PUSH: " + JSON.stringify(playlist.responseData))
+        state.playlists.push(playlist.responseData);
+    },
 };
