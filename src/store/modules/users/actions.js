@@ -1,5 +1,6 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import router from '../../../router';
 import playlists from '../playlists';
 import store from '../..';
 
@@ -93,14 +94,16 @@ export default {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
 
-        console.log("Logged out")
-
         context.commit('setUser', {
             firstName: null,
             token: null,
             userId: null
         });
+
+        context.commit('playlists/CLEAR_PLAYLISTS', null, { root: true });
         
+        router.replace('/login');
+
         toast.success(`Logged out, see you soon`, {
             autoClose: 2000,
         });

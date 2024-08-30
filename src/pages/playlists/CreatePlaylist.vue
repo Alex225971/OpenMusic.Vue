@@ -1,5 +1,5 @@
 <template>
-  <div class="col-10 p-5">
+  <div class="col-10 p-5 pb-0">
     <form @submit.prevent="submitPlaylist">
       <div class="mb-3">
         <label for="playlistTitle" class="form-label"
@@ -45,11 +45,6 @@ export default {
   methods: {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-      if (this.selectedFile) {
-        console.log("File selected: ", this.selectedFile.name);
-        console.log("File size: ", this.selectedFile.size);
-        console.log("File type: ", this.selectedFile.type);
-      }
     },
     async submitPlaylist() {
       if (this.name === '') {

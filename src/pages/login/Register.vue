@@ -1,5 +1,5 @@
 <template>
-  <div class="col-10 p-5">
+  <div class="col-10 p-5 pb-0">
     <h1 class="mb-5">{{ submitButtonCaption }}</h1>
     <div>
       <div class="d-flex justify-content-center" v-if="isLoading">
@@ -126,7 +126,6 @@ export default {
       };
       try {
         if (this.mode === 'login') {
-          console.log("form mode " + this.mode)
           await this.$store.dispatch('user/loginUser', {
             email: this.email,
             password: this.password

@@ -20,6 +20,9 @@
         display: block;
         border-radius: 8px;
     }
+    .router-link:hover {
+        background-color: darkslategrey;
+    }
     .link-light{
         text-decoration: none;
     }

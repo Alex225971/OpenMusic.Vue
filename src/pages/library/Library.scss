@@ -1,0 +1,16 @@
+.playlist-card:hover {
+    cursor: pointer;
+    img.playlist-thumbnail {
+        transform: scale(1.1);
+        transition: all 0.1s ease-out;
+    }
+    .card-title {
+        text-decoration: underline;
+    }
+}
+img.playlist-thumbnail {
+    margin: 0 auto;
+    width: 80%;
+    height: auto;
+    transition: all 0.1s ease-out;
+}

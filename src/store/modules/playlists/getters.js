@@ -3,7 +3,6 @@ export default {
         return state.currentPlaylistId;
     },
     currentPlaylist(state) {
-        console.log("GETTERS DATA:" + state.currentPlaylist)
         return state.currentPlaylist;
     },
     playlistDetails(state) {

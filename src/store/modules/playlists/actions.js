@@ -17,12 +17,8 @@ export default {
             image: data.image
         };
 
-        console.log("playlistData: " + JSON.stringify(playlistData));
-
         Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
-        //formData.append("image", new Blob([data.image], { type: "image/png" }), renamedImage + ".png");
 
-        console.log("form data: " + formData.image);
         const response = await fetch('https://localhost:7229/api/Playlists', {
             method: 'POST',
             body: formData,
@@ -33,18 +29,9 @@ export default {
 
         const responseData = await response.json();
 
-        // console.log("Committing playlist: " + JSON.stringify(playlistData))
-        // context.commit('setPlaylist', {
-        //     ...playlistData
-        // });
-
-        // console.log("Committing playlist: " + JSON.stringify(playlistData))
-        
-        console.log("TRYING TO ADD_PLAYLIST: " + JSON.stringify(responseData.responseData))
         context.commit('ADD_PLAYLIST', {
             responseData
         });
-        // console.log("Id being used for redirect: " + responseData.id);
 
         context.commit('setCurrentPlaylistId', {
             id: responseData.id
@@ -53,8 +40,6 @@ export default {
     async getUserPlaylists(context, data) {
         let token = store.getters['user/token'];
         let query = '?creatorId=' + store.getters['user/userId'];
-
-        console.log("Getting playlists with user ID: " + store.getters['user/userId']);
 
         const response = await fetch('https://localhost:7229/api/Playlists' + query, {
             method: 'GET',
@@ -75,14 +60,12 @@ export default {
             };
             playlists.push(playlist);
         }
-        console.log("Data being committed " + JSON.stringify(playlists));
 
         context.commit('setUserPlaylists', playlists);
     },
     async loadInDetail(context, data) {
         store.getters['playlists/currentPlaylistId'];
         let token = store.getters['user/token'];
-        console.log("ID PASSED: " + data.id);
 
         const response = await fetch('https://localhost:7229/api/Playlists/' + data.id, {
             method: 'GET',
@@ -92,8 +75,6 @@ export default {
         });
 
         const responseData = await response.json();
-
-        console.log("RESPONSE DATA: " + JSON.stringify(responseData))
 
         context.commit('setCurrentPlaylist', {
             ...responseData

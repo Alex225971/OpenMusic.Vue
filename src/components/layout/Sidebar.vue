@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar sidebar-dark bg-dark col-2 border-end border-secondary">
+  <div class="sidebar sidebar-dark bg-dark col-2 border-end border-secondary flex-grow-1">
     <div class="sidebar-list text-light">
       <ul>
         <li>
@@ -19,9 +19,9 @@
     <div class="sidebar-list text-light">
       <ul>
         <li v-if="isLoggedIn">
-          <router-link to="/playlist/new" class="btn btn-outline-success text-light mb-2"
-            ><i class="bi bi-plus me-2"></i> Create a new playlist</router-link
-          >
+          <router-link to="/playlist/new" class="btn btn-outline-success text-light mb-2">
+            <i class="bi bi-plus me-2"></i> Create a new playlist
+          </router-link>
         </li>
         <router-link @click="getNewPlaylist(playlist.id)" class="link-light mb-2" v-for="playlist in playlists" :key="playlist.id" :to="{path: '/playlist/' + playlist.id}">{{ playlist.name }}</router-link>
       </ul>
@@ -55,9 +55,6 @@ export default {
         token: localStorage.getItem('token'),
         creatorId: localStorage.getItem('userId'),
       });
-      console.log(
-        'Val: ' + JSON.stringify(this.val)
-      );
     },
     getNewPlaylist(id) {
       this.$store.dispatch('playlists/loadInDetail', {
@@ -67,7 +64,6 @@ export default {
   },
   computed: {
     playlists() {
-      console.log("Computed playlists: " + JSON.stringify(this.$store.getters['playlists/playlistDetails']))
       return this.$store.getters['playlists/playlistDetails'];
     },
     isLoggedIn() {

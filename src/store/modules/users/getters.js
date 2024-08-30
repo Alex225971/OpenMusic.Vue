@@ -9,7 +9,6 @@ export default {
         return state.token;
     },
     userId(state) {
-        console.log("User ID Found: " + state.userId);
         return state.userId;
     },
     isAuthenticated(state) {

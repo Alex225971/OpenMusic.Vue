@@ -44,7 +44,6 @@
 export default {
   computed: {
     getUserName() {
-      console.log('User name: ' + this.$store.getters['user/userName']);
       return this.$store.getters['user/userName'];
     },
     isLoggedIn() {

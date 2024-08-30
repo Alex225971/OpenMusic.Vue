@@ -14,14 +14,21 @@ export default {
     },
     setCurrentPlaylistId(state, payload) {
         state.currentPlaylistId = payload.id
-        console.log("PAYLOAD ID: " + payload.id)
     },
     setCurrentPlaylist(state, payload) {
-        console.log("PAYLOAD: " + JSON.stringify(payload))
         state.currentPlaylist = payload
     },
     ADD_PLAYLIST(state, playlist) {
-        console.log("TRYING TO PUSH: " + JSON.stringify(playlist.responseData))
         state.playlists.push(playlist.responseData);
     },
+    CLEAR_PLAYLISTS(state) {
+        state.currentPlaylist = null;
+        state.currentPlaylistId = null;
+        state.playlists = [];
+        state.name = null;
+        state.description = null;
+        state.imageUrl = '';
+        state.creatorId = null;
+        state.image = null;
+    }
 };

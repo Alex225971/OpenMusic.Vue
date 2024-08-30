@@ -30,8 +30,6 @@ const router = createRouter({
 });
 
 router.beforeEach(function (to, from, next) {
-    console.log("isAuthenticated: " + store.getters['user/isAuthenticated']);
-        console.log("anonymous only route: " + to.meta.anonymousOnly);
 
     if (to.meta.guarded && !store.getters['user/isAuthenticated']) {
         next('/register');
