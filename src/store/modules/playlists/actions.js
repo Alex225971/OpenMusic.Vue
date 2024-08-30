@@ -51,7 +51,7 @@ export default {
         const responseData = await response.json();
         const playlists = [];
 
-        for(var key in responseData) {
+        for (var key in responseData) {
             const playlist = {
                 id: responseData[key].id,
                 name: responseData[key].name,

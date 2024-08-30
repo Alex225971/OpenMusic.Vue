@@ -1,8 +1,5 @@
 export default {
-    setUser(state, payload) {
-        state.artists = payload.artists;
-        state.albums = payload.albums;
-        state.songs = payload.songs;
-        state.playlists = payload.playlists;
+    SET_SEARCH_RESULTS(state, payload) {
+        state.searchResults = payload;
     }
 };

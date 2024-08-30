@@ -4,7 +4,7 @@
       class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">OpenMusic</a>
+        <a class="navbar-brand" href="/home">OpenMusic</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -18,12 +18,24 @@
         </button>
         <form class="d-flex col-4" @submit.prevent="executeSearch">
           <input
-            class="form-control me-2"
+            class="form-control search-bar"
             type="search"
             placeholder="Search songs, albums, artists"
             aria-label="Search"
+            v-on:keyup="executePreSearch($event.target.value)"
+            ref="search"
           />
-          <button class="btn btn-outline-light" type="submit">
+          <div class="search-results col-4">
+            <div class="row mt-2" v-if="searchResults">
+            <div class="col-12 ms-3 m-2">
+                <h5><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</h5>
+              </div>
+              <div class="col-12 ms-3 m-2" v-for="playlist in searchResults.playlists" :key="playlist.id">
+                <h5><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</h5>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-outline-light search-button" type="submit">
             <i class="bi bi-search"></i>
           </button>
         </form>
@@ -42,6 +54,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      searchResultsData: this.$store.getters['searchResults/searchResults']
+    };
+  },
   computed: {
     getUserName() {
       return this.$store.getters['user/userName'];
@@ -49,10 +66,13 @@ export default {
     isLoggedIn() {
       return this.$store.getters['user/isAuthenticated'];
     },
+    searchResults() {
+      return this.$store.getters['searchResults/searchResults'];
+    },
   },
   methods: {
-    executeSearch() {
-      this.$store.dispatch('search/executeSearch');
+    executePreSearch(input) {
+      return this.$store.dispatch('searchResults/executePreSearch', input);
     },
     logout() {
       this.$store.dispatch('user/logoutUser');
@@ -60,3 +80,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import './PageHeader.scss';
+</style>

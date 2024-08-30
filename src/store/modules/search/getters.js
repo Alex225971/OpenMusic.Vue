@@ -1,5 +1,5 @@
 export default {
-    getArtists(state) {
-        return state.artists;
+    searchResults(state) {
+        return state.searchResults;
     },
 };

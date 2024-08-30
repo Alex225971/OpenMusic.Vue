@@ -4,7 +4,31 @@ import playlists from '../playlists';
 import store from '../..';
 
 export default {
-    async executeSearch(context, data) {
-        console.log("Search executed (again)");
+    async executePreSearch(context, data) {
+
+        var defaultParams = {
+            pageNumber: 1,
+            pageSize: 6,
+            queryString: data
+        }
+
+        if(defaultParams.queryString ===  '') {
+            context.commit('SET_SEARCH_RESULTS', null);
+            return;
+        }
+        
+        let token = store.getters['user/token'];
+        let query = '?pageNumber=' + defaultParams.pageNumber + '&pageSize=' + defaultParams.pageSize + '&queryString=' + defaultParams.queryString;
+
+        const response = await fetch('https://localhost:7229/api/search' + query, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        var responseData = await response.json();
+
+        context.commit('SET_SEARCH_RESULTS', responseData);
     }
 };

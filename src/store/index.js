@@ -7,7 +7,7 @@ const store = createStore({
     modules: {
         user: userModule,
         playlists: playlistsModule,
-        search: searchModule
+        searchResults: searchModule,
     }
 });
 
