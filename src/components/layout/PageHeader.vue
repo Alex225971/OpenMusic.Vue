@@ -26,12 +26,12 @@
             ref="search"
           />
           <div class="search-results col-4">
-            <div class="row mt-2" v-if="searchResults">
-            <div class="col-12 ms-3 m-2">
-                <h5><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</h5>
+            <div class="row my-2" v-if="searchResults">
+              <div class="col-12 ms-3 m-2">
+                <router-link @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', params: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
               </div>
               <div class="col-12 ms-3 m-2" v-for="playlist in searchResults.playlists" :key="playlist.id">
-                <h5><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</h5>
+                <router-link @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', params: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
               </div>
             </div>
           </div>
@@ -74,9 +74,15 @@ export default {
     executePreSearch(input) {
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
+    detailedSearch() {
+      console.log("Search!")
+    },
     logout() {
       this.$store.dispatch('user/logoutUser');
     },
+    fillSearch(input) {
+      this.$refs.search.value = input;
+    }
   },
 };
 </script>

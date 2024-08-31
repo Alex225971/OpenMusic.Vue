@@ -7,6 +7,7 @@ import Home from './pages/home/Home.vue';
 import CreatePlaylist from './pages/playlists/CreatePlaylist.vue'
 import PlaylistDetail from './pages/playlists/PlaylistDetail.vue';
 import Library from './pages/library/Library.vue';
+import DetailedSearch from './pages/searchResults/DetailedSearchResults.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -22,9 +23,9 @@ const router = createRouter({
             path: '/playlist', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'user', component: CreatePlaylist }],
         },
+        { path: '/search?queryString=:queryString', name: 'search', component: DetailedSearch, meta: { guarded : true} },
         { path: '/playlist/:id', component: PlaylistDetail, meta: { guarded: true } },
         { path: '/artist/:id', component: null, meta: { guarded: true } },
-        { path: '/search', component: null, meta: { guarded: true } },
         { path: '/:notFound(.*)', component: NotFound, meta: { guarded: true } },
     ]
 });

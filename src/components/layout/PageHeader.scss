@@ -6,7 +6,8 @@
     top: 48px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
-    display: none;
+    opacity: 0.0;
+    display: unset;
 }
 .form-control.search-bar:focus{
     border-bottom-left-radius: 0px;
@@ -16,11 +17,15 @@
     border-bottom-right-radius: 0px;
 }
 .form-control.search-bar:focus + .search-results{
+    position: fixed;
     display: block;
+    top: 48px;
+    left: auto;
     height: fit-content;
     border-right: 1px solid #eee;
     border-left: 1px solid #eee;
     border-bottom: 1px solid #eee;
+    opacity: 1;
 }
 .form-control.search-bar {
     border-top-right-radius: 0px;
@@ -31,11 +36,13 @@
     border-bottom-left-radius: 0px;
 }
 .search-results{
-    h5 {
-        color:#bbb;
+    z-index:5;
+    a {
+        text-decoration: none!important;
+        color:#bbb!important;
     }
-    h5:hover {
-        color:#eee;
+    a:hover {
+        color:#eee!important;
         cursor: pointer;
     }
 }
