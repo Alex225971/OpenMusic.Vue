@@ -30,5 +30,10 @@ export default {
         var responseData = await response.json();
 
         context.commit('SET_SEARCH_RESULTS', responseData);
+    },
+
+    async setCurrentSearch(context, data) {
+        console.log("TRYING TO COMMIT: " + data);
+        context.commit('SET_CURRENT_SEARCH', data);
     }
 };

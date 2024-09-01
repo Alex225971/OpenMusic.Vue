@@ -16,7 +16,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <form class="d-flex col-4" @submit.prevent="executeSearch">
+        <form class="d-flex col-4" v-on:keyup.enter="detailedSearch(this.$refs.search.value)" @submit.prevent="executePreSearch(this.$refs.search.value)">
           <input
             class="form-control search-bar"
             type="search"
@@ -74,14 +74,22 @@ export default {
     executePreSearch(input) {
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
-    detailedSearch() {
+    detailedSearch(input) {      
+      this.$store.dispatch('searchResults/setCurrentSearch', input)
       console.log("Search!")
+      //this.$router.replace('/search?queryString=' + input);
+      this.clearSearchBox();
     },
     logout() {
       this.$store.dispatch('user/logoutUser');
     },
     fillSearch(input) {
       this.$refs.search.value = input;
+      this.$store.dispatch('searchResults/setCurrentSearch', input)
+      return this.$store.dispatch('searchResults/executePreSearch', input);
+    },
+    clearSearchBox() {
+      this.fillSearch(null);
     }
   },
 };
