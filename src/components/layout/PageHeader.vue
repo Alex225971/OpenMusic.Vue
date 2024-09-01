@@ -1,8 +1,6 @@
 <template>
   <header>
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary"
-    >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
       <div class="container-fluid">
         <a class="navbar-brand" href="/home">OpenMusic</a>
         <button
@@ -12,8 +10,7 @@
           data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+          aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <form class="d-flex col-4" v-on:keyup.enter="detailedSearch(this.$refs.search.value)" @submit.prevent="executePreSearch(this.$refs.search.value)">
@@ -40,12 +37,20 @@
           </button>
         </form>
         <div class="user-link">
-          <router-link class="link-light" to="/login" v-if="!isLoggedIn"
-            >Log in/Register</router-link
-          >
-          <a @click="logout" class="link-light me-2" to="/profile" v-if="isLoggedIn"
-            >Welcome back {{ getUserName }}</a
-          >
+          <router-link class="link-light" to="/login" v-if="!isLoggedIn">
+            Log in/Register
+          </router-link>
+
+          <div class="dropdown" v-if="isLoggedIn">
+            <a class="dropdown-toggle link-light me-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Welcome back {{ getUserName }}
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><router-link to="/profile" class="dropdown-item" href="#">Profile</router-link></li>
+              <li><a class="dropdown-item" @click="logout" href="#">Log out</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
@@ -81,7 +86,12 @@ export default {
       this.clearSearchBox();
     },
     logout() {
-      this.$store.dispatch('user/logoutUser');
+      let text = "Are you sure you want tom log out?";
+      if (confirm(text) == true) {
+        this.$store.dispatch('user/logoutUser');
+      } else {
+        return;
+      }
     },
     fillSearch(input) {
       this.$refs.search.value = input;

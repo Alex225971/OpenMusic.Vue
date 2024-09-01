@@ -4,7 +4,9 @@ import store from './store/index.js';
 import VueUploadComponent from 'vue-upload-component'
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
+
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'toastr/build/toastr.css'
 import 'toastr/build/toastr.min.js'

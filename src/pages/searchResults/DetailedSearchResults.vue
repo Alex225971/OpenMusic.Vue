@@ -1,13 +1,58 @@
 <template>
     <div class="col-10 p-5 pb-0">
         <div v-if="searchResults.songs.length > 0" class="songs">
-            <h3>Songs</h3>
+            <div class="row">
+                    <div class="col-1">
+                        <h3>Songs</h3>
+                    </div>
+                    <div class="col-9 align-content-center">
+                        <h4>Title</h4>
+                    </div>
+                    <div class="col-2 align-content-center">
+                        <h4>Release Date</h4>
+                </div>
+            </div>
+            <hr/>
+
+            <div v-for="song in searchResults.songs" :key="song.id" class="playlist-row row d-flex align-content-center">
+                <div class="col-1">
+                </div>
+                <div class="col-9 align-content-center">
+                    <h4>{{ song.title }} - {{ song.artistName || 'Unknown Artist' }}</h4>
+                </div>
+                <div class="col-1 align-content-center">
+                    <p class="mb-0">{{ song.releaseDate }}</p>
+                </div>
+                <div class="col-1 align-content-center">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical options-menu"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Add to playlist</a></li>
+                            <li><a class="dropdown-item" href="#">Go to album</a></li>
+                            <li><a class="dropdown-item" href="#">Go to artist</a></li>
+                            <li><a class="dropdown-item" href="#">Play next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <hr/>
         </div>
         <div v-if="searchResults.albums.length > 0" class="albums">
-            <h3>Albums</h3>
+            <div class="row">
+                    <div class="col-1">
+                        <h3>Albums</h3>
+                    </div>
+                    <div class="col-9 align-content-center">
+                        <h4>Title</h4>
+                    </div>
+                    <div class="col-2 align-content-center">
+                        <h4>Release Year</h4>
+                </div>
+            </div>
             <hr/>
-            
+
             <div v-for="album in searchResults.albums" :key="album.id" class="playlist-row row d-flex align-content-center">
                 <div class="col-1">
                     <img class="w-100 h-100 p-3" :src="album.image" alt="">
@@ -19,6 +64,7 @@
                     <p>{{ album.year }}</p>
                 </div>
             </div>
+            <hr/>
         </div>
         <div v-if="searchResults.artists.length > 0" class="artists">
             <h3>Artists</h3>
@@ -40,7 +86,7 @@
             
             <div v-for="playlist in searchResults.playlists" :key="playlist.id" class="playlist-row row d-flex align-content-center">
                 <div class="col-1">
-                <img class="w-100 h-100 p-3" :src="playlist.imageUrl" alt="">
+                    <img class="w-100 h-100 p-3" :src="playlist.imageUrl" alt="">
                 </div>
                 <div class="col-11 align-content-center">
                     <h4>{{ playlist.name }}</h4>
@@ -70,7 +116,13 @@ export default {
             let myParam = urlParams.get('queryString');
             console.log("SEARCH: " + this.currentSearch);
             this.$store.dispatch('searchResults/setCurrentSearch', myParam)
+        },
+        openOptions() {
+            //this.$refs.song-options
         }
     }
 }
 </script>
+<style lang="scss">
+@import './DetailedSearchResults.scss';
+</style>

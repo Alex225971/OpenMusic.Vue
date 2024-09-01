@@ -1,0 +1,16 @@
+.playlist-row:hover {
+    .thumbnail-play-button {
+        width:100px;
+        height:auto;
+        display: block;
+        position:absolute;
+    }
+}
+.thumbnail-play-button {
+    width:100%;
+    height:auto;
+    display:none;
+}
+.options-menu {
+    cursor: pointer;
+}
