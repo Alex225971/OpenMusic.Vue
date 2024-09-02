@@ -6,7 +6,7 @@ const props = defineProps({
   isOpen: Boolean,
 });
 
-const emit = defineEmits(["modal-close"]);
+const emit = defineEmits(["modal-close","submit-modal"]);
 
 const target = ref(null)
 onClickOutside(target, ()=>emit('modal-close'))
@@ -26,7 +26,7 @@ onClickOutside(target, ()=>emit('modal-close'))
         <div class="modal-footer">
           <slot name="footer">
             <div>
-              <button @click.stop="emit('modal-close')">Submit</button>
+              <button class="btn btn-outline-light" type="submit" @click="emit('submit-modal')" @click.stop="emit('modal-close')">Submit</button>
             </div>
           </slot>
         </div>
