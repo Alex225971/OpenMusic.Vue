@@ -106,20 +106,19 @@
 
         </div>
 
-        <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
+        <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit-modal="submitHandler" @submit="submitHandler" name="first-modal">
             <template #header>Custom header</template>
             <template #content>Custom content</template>
-            <template #footer>Custom content</template>
+            <!-- <template #footer>Custom content</template> -->
         </modal-component>
 
     </div>
 </template>
 <script setup>
-
+    import ModalComponent from "../../components/layout/modal/Modal.vue";
 </script>
 <script>
 import { ref } from "vue";
-import ModalComponent from "../../components/layout/modal/Modal.vue";
 
 export default {
     data() {
@@ -150,6 +149,9 @@ export default {
         },
         closeModal() {
             this.isModalOpened = false;
+        },
+        submitHandler() {
+            console.log("Modal submitted")
         }
     }
 }
