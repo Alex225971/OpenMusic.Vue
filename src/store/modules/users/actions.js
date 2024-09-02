@@ -3,6 +3,7 @@ import 'vue3-toastify/dist/index.css';
 import router from '../../../router';
 import playlists from '../playlists';
 import store from '../..';
+import { jwtDecode } from "jwt-decode";
 
 export default {
     async registerUser(context, data) {
@@ -74,12 +75,21 @@ export default {
             token: responseData.token
         });
 
+        const decodedToken = jwtDecode(responseData.token);
+        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']; 
+        
+        console.log("USER ROLES: " + role);
+        context.commit('SET_ROLES', role);
+
+        localStorage.setItem('role', role);
+
         store.dispatch('playlists/getUserPlaylists');
     },
     checkAuth(context) {
         const firstName = localStorage.getItem('firstName');
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
+        const role = localStorage.getItem('role');
 
         if (token && userId) {
             context.commit('setUser', {
@@ -87,6 +97,7 @@ export default {
                 userId: userId,
                 token: token
             });
+            context.commit('SET_ROLES', role);
         }
     },
     async logoutUser(context) {

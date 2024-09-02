@@ -49,6 +49,8 @@
             <ul class="dropdown-menu">
               <li><router-link to="/profile" class="dropdown-item" href="#">Profile</router-link></li>
               <li><a class="dropdown-item" @click="logout" href="#">Log out</a></li>
+              <li v-if="userRole == 'Admin'"><a class="dropdown-item" href="#">Admin - create artist</a></li>
+              <li v-if="userRole == 'Admin'"><a class="dropdown-item" href="#">Admin - create album</a></li>
             </ul>
           </div>
         </div>
@@ -74,6 +76,10 @@ export default {
     searchResults() {
       return this.$store.getters['searchResults/searchResults'];
     },
+    userRole() {
+      console.log("USER ROLE: " + this.$store.getters['user/userRole']);
+      return this.$store.getters['user/userRole'];
+    }
   },
   methods: {
     executePreSearch(input) {
