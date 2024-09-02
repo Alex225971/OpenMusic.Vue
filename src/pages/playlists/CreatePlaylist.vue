@@ -1,5 +1,6 @@
 <template>
   <div class="col-10 p-5 pb-0">
+    <p class="form-text text-light">Please note playlists are always public (for now) all users will be able to see your playlists</p>
     <form @submit.prevent="submitPlaylist">
       <div class="mb-3">
         <label for="playlistTitle" class="form-label"
@@ -27,7 +28,13 @@
         <label for="playlistCover" class="form-label"
           >Playlist cover photo</label
         >
-        <input name="image" class="form-control" type="file" id="image" @change="onFileSelected"/>
+        <input
+          name="image"
+          class="form-control"
+          type="file"
+          id="image"
+          @change="onFileSelected"
+        />
       </div>
       <button class="btn btn-outline-light">Create playlist</button>
     </form>
@@ -61,8 +68,10 @@ export default {
         },
         this.$store.getters['user/token']
       );
-      router.push({ path: `${this.$store.getters['playlists/currentPlaylistId']}` })
-    }
+      router.push({
+        path: `${this.$store.getters['playlists/currentPlaylistId']}`,
+      });
+    },
   },
 };
 </script>

@@ -2,7 +2,6 @@
   <div class="my-0 m-auto col-10 p-5 pb-0">
     <div class="my-0 m-auto col-6 p-5">
       <div class="row">
-        <p>{{ getPlaylist }}</p>
         <div class="col-lg-4">
           <img class="w-100 h-auto" :src="getPlaylist.imageUrl" />
           <h3 class="mt-3 text-center">{{ getPlaylist.name }}</h3>

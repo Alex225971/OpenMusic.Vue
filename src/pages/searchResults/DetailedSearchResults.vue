@@ -18,7 +18,7 @@
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4>{{ song.title }} - {{ song.artistName || 'Unknown Artist' }}</h4>
+                    <h4>{{ song.title }} - {{ song.artistName || 'Unknown Artist' }} {{song.albumName || ' (Single)' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>
@@ -29,7 +29,7 @@
                             <i class="bi bi-three-dots-vertical options-menu"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Add to playlist</a></li>
+                            <li><a class="dropdown-item" @click="openModal">Add to playlist</a></li>
                             <li><a class="dropdown-item" href="#">Go to album</a></li>
                             <li><a class="dropdown-item" href="#">Go to artist</a></li>
                             <li><a class="dropdown-item" href="#">Play next</a></li>
@@ -47,9 +47,9 @@
                     <div class="col-9 align-content-center">
                         <h4>Title</h4>
                     </div>
-                    <div class="col-2 align-content-center">
+                    <div class="col-1 align-content-center">
                         <h4>Release Year</h4>
-                </div>
+                    </div>
             </div>
             <hr/>
 
@@ -60,8 +60,19 @@
                 <div class="col-9 align-content-center">
                     <h4>{{ album.title }}</h4>
                 </div>
-                <div class="col-2 align-content-center">
+                <div class="col-1 align-content-center">
                     <p>{{ album.year }}</p>
+                </div>
+                <div class="col-1 align-content-center">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical options-menu"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Go to album</a></li>
+                            <li><a class="dropdown-item" href="#">Go to artist</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <hr/>
@@ -94,11 +105,28 @@
             </div>
 
         </div>
+
+        <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
+            <template #header>Custom header</template>
+            <template #content>Custom content</template>
+            <template #footer>Custom content</template>
+        </modal-component>
+
     </div>
 </template>
+<script setup>
+
+</script>
 <script>
-//console.log(this.$router.query.queryString);
+import { ref } from "vue";
+import ModalComponent from "../../components/layout/modal/Modal.vue";
+
 export default {
+    data() {
+        return {
+            isModalOpened: ref(false)
+        }
+    },
     created() {
         this.logQuery();
     },
@@ -117,8 +145,11 @@ export default {
             console.log("SEARCH: " + this.currentSearch);
             this.$store.dispatch('searchResults/setCurrentSearch', myParam)
         },
-        openOptions() {
-            //this.$refs.song-options
+        openModal() {
+            this.isModalOpened = true;
+        },
+        closeModal() {
+            this.isModalOpened = false;
         }
     }
 }
