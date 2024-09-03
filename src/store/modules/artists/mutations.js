@@ -1,6 +1,6 @@
 export default {
     SET_ARTISTS(state, payload) {
-        state.name = payload.name;
+        state.artists = payload;
     },
     SET_CURRENT_ARTIST(state, payload) {
         state.currentArtist = payload;

@@ -3,6 +3,18 @@
     <form>
     <div class="row">
       <div class="col-6">
+        <h5 for="artist" v-if="artists && artists.length > 0">Artist</h5>
+        <div class="dropdown" v-if="artists && artists.length > 0">
+          <a class="dropdown-toggle btn btn-outline-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select an existing Artist
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" v-for="artist in artists" :key="artist.id" @click="selectArtist(artist.id)">{{ artist.name }}</a></li>
+          </ul>
+        </div>
+        <hr v-if="artists && artists.length > 0"/>
+
+        <h5 class="mb-3">Song details</h5>
         <label for="songTitle" class="form-label">Song title <span class="text-danger">*</span></label>
         <input type="text" class="form-control mb-3" placeholder="Title" id="songTitle">
         <label for="releaseDate" class="form-label">Song release date</label>
@@ -21,16 +33,19 @@
 <script>
 export default {
     created() {
-        
+        this.$store.dispatch('artists/getArtists');
     },
     computed: {
         artists() {
-            return this.$store.getters['artists/getArtists'];
+          return this.$store.getters['artists/getArtists'];
         }
     },
     methods: {
       generateSongField() {
         
+      },
+      selectArtist(artistId) {
+        this.$store.dispatch('albums/getAlbumsByArtist', artistId);
       }
     }
 }
