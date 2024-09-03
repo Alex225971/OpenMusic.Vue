@@ -4,6 +4,8 @@ import playlistsModule from './modules/playlists/index.js'
 import searchModule from "./modules/search/index.js";
 import artistsModule from "./modules/artists/index.js";
 import albumsModule from "./modules/albums/index.js";
+import songsModule from "./modules/songs/index.js";
+
 
 const store = createStore({
     modules: {
@@ -11,7 +13,8 @@ const store = createStore({
         playlists: playlistsModule,
         searchResults: searchModule,
         artists: artistsModule,
-        albums: albumsModule
+        albums: albumsModule,
+        songs: songsModule
     }
 });
 

@@ -1,6 +1,6 @@
 <template>
   <div class="my-0 m-auto col-10 p-5 pb-0">
-    <form>
+    <form @submit.prevent="createSong">
     <div class="row">
       <div class="col-6">
         <h5 for="artist" v-if="artists && artists.length > 0">Artist</h5>
@@ -16,13 +16,17 @@
 
         <h5 class="mb-3">Song details</h5>
         <label for="songTitle" class="form-label">Song title <span class="text-danger">*</span></label>
-        <input type="text" class="form-control mb-3" placeholder="Title" id="songTitle">
+        <input type="text" class="form-control mb-3" placeholder="Title" id="songTitle" name="songTitle">
+
         <label for="releaseDate" class="form-label">Song release date</label>
         <input type="date" class="form-control mb-3" id="releaseDate" min="1">
-        <label for="playlistCover" class="form-label">Song file</label>
-        <input name="songFile" class="form-control mb-3" type="file" id="songFile" @change="onFileSelected"/>
+
+        <label for="songFile" class="form-label">Song file</label>
+        <input @change="onFileSelected" name="songFile" class="form-control mb-3" type="file" id="songFile"/>
+
         <label for="songGenre" class="form-label">Genres</label>
         <input type="text" class="form-control mb-3" placeholder="Genres, separated by commas" id="songGenre">
+
         <button class="btn btn-light">Submit</button>
       </div>
     </div>
@@ -32,21 +36,29 @@
 
 <script>
 export default {
+  data() {
+    return {
+      selectedFile: null,
+    };
+  },
     created() {
-        this.$store.dispatch('artists/getArtists');
+      this.$store.dispatch('artists/getArtists');
     },
     computed: {
         artists() {
           return this.$store.getters['artists/getArtists'];
         }
     },
-    methods: {
-      generateSongField() {
-        
-      },
-      selectArtist(artistId) {
-        this.$store.dispatch('albums/getAlbumsByArtist', artistId);
-      }
-    }
+  methods: {
+    selectArtist(artistId) {
+      this.$store.dispatch('albums/getAlbumsByArtist', artistId);
+    },
+    createSong() {
+      this.$store.dispatch('songs/createSong');
+    },
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0];
+    },
+  }
 }
 </script>
