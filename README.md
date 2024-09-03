@@ -6,11 +6,11 @@ This Vue web-app will consume my OpenMusic.API, as I develop the app I expect th
 ### Project goals
 - [x] Allow users to register accounts and login
 - [ ] Provide functionality for users to interact with the API to do the following:
-    - [ ] Search albums playlists, artists and songs
+    - [x] Search albums playlists, artists and songs
     - [ ] Filter search results
     - [ ] Create playlists and add songs to them
     - [ ] Listen to songs in a playlist format or album format
-    - [ ] View arists and albums in more detail
+    - [ ] View artists and albums in more detail
 - [ ] Provide meaningful error messages to the user
 - [ ] Have a responsive layout with loading animations
 

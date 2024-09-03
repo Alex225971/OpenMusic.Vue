@@ -8,6 +8,10 @@ import CreatePlaylist from './pages/playlists/CreatePlaylist.vue'
 import PlaylistDetail from './pages/playlists/PlaylistDetail.vue';
 import Library from './pages/library/Library.vue';
 import DetailedSearch from './pages/searchResults/DetailedSearchResults.vue'
+import CreateArtist from './pages/admin/CreateArtist.vue';
+import CreateAlbum from './pages/admin/CreateAlbum.vue';
+import CreateSong from './pages/admin/CreateSong.vue';
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -19,13 +23,26 @@ const router = createRouter({
         { path: '/login', component: Register, meta: { anonymousOnly: true } },
         { path: '/explore', component: null, meta: { guarded: true } },
         { path: '/library', component: Library, meta: { guarded: true } },
+        { path: '/search?queryString=:queryString', name: 'search', component: DetailedSearch, meta: { guarded : true} },
         {
             path: '/playlist', component: null, meta: { guarded: true },
-            children: [{ path: 'new', name: 'user', component: CreatePlaylist }],
+            children: [{ path: 'new', name: 'playlist', component: CreatePlaylist }],
         },
-        { path: '/search?queryString=:queryString', name: 'search', component: DetailedSearch, meta: { guarded : true} },
         { path: '/playlist/:id', component: PlaylistDetail, meta: { guarded: true } },
+        {
+            path: '/artist', component: null, meta: { guarded: true },
+            children: [{ path: 'new', name: 'artist', component: CreateArtist }],
+        },
         { path: '/artist/:id', component: null, meta: { guarded: true } },
+        {
+            path: '/album', component: null, meta: { guarded: true },
+            children: [{ path: 'new', name: 'album', component: CreateAlbum }],
+        },
+        { path: '/album/:id', component: null, meta: { guarded: true } },
+        {
+            path: '/song', component: null, meta: { guarded: true },
+            children: [{ path: 'new', name: 'song', component: CreateSong }],
+        },
         { path: '/:notFound(.*)', component: NotFound, meta: { guarded: true } },
     ]
 });
