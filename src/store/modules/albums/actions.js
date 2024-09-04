@@ -10,7 +10,7 @@ export default {
             title: data.title,
             year: data.year,
             image: data.image,
-            artistId: data.artistId,
+            artistId: store.getters['artists/currentArtistId'] || '',
             genres: [],
             songs: []
         };
@@ -28,6 +28,8 @@ export default {
         let responseData = await response.json();
         
         console.log("RESPONSE DATA:" + JSON.stringify(responseData));
+
+        //context.commit('SET_ALBUMS', responseData);
     },
     async getAlbumsByArtist(context, data) {
         let token = store.getters['user/token'];

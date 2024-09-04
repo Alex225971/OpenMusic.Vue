@@ -20,7 +20,34 @@ export default {
         context.commit('SET_ARTISTS', responseData);
     },
     async createArtist(context, data) {
-        console.log("artist created: " + JSON.stringify(data));
+
+        var formData = new FormData();
+        let token = store.getters['user/token'];
+
+        const playlistData = {
+            name: data.title,
+            bio: data.bio,
+            started: data.startDate,
+            ended: data.endDate
+        };
+
+        Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
+
+        const response = await fetch('https://localhost:7229/api/Artists', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        let responseData = await response.json();
+        
+        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
+    },
+    async selectArtist(context, data) {
+        console.log("SELECTED ARTIST: " + data);
+        context.commit('SET_CURRENT_ARTIST_ID', data);
     }
 
 };

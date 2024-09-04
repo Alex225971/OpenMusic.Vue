@@ -4,11 +4,12 @@
     <div class="row">
       <div class="col-6">
         <h5 for="artist" v-if="artists && artists.length > 0">Artist</h5>
-        <div class="dropdown" v-if="artists && artists.length > 0">
-          <a class="dropdown-toggle btn btn-outline-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select an existing Artist
+        <div class="dropdown mb-3" v-if="artists && artists.length > 0">
+          <a class="dropdown-toggle btn btn-outline-light" name="artist" type="button" data-bs-toggle="dropdown" aria-expanded="false" ref="artistName" v-bind="artistName">
+            Unknown Artist (empty)
           </a>
           <ul class="dropdown-menu">
+            <li v-if="currentArtistId"><a class="dropdown-item"  @click="selectArtist(null)">Unknown Artist (empty)</a></li>
             <li><a class="dropdown-item" v-for="artist in artists" :key="artist.id" @click="selectArtist(artist.id)">{{ artist.name }}</a></li>
           </ul>
         </div>
@@ -47,11 +48,19 @@ export default {
     computed: {
         artists() {
           return this.$store.getters['artists/getArtists'];
+        },
+        currentArtistId() {
+          return this.$store.getters['artists/currentArtistId'];
         }
     },
   methods: {
     selectArtist(artistId) {
-      this.$store.dispatch('albums/getAlbumsByArtist', artistId);
+      if(artistId != null) {
+        this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtists'].find(artist => artist.id === artistId).name;
+      } else {
+        this.$refs.artistName.innerHTML = 'Unknown Artist (empty)';
+      }
+      this.$store.dispatch('artists/selectArtist', artistId);
     },
     createSong() {
       this.$store.dispatch('songs/createSong');

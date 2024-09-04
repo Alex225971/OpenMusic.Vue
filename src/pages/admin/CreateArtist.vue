@@ -3,21 +3,21 @@
     <form>
           <div class="col-6">
             <label for="artistName" class="form-label">Artist name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control mb-3" id="artistName" placeholder="Name">
+            <input type="text" class="form-control mb-3" id="artistName" placeholder="Name" v-model="artistName">
           </div>
         <div class="col-6">
           <label for="artistName" class="form-label">Bio</label>
-          <textarea type="text" class="form-control mb-3" placeholder="Write a short bio for the artist" id="artistName"></textarea>
+          <textarea type="text" class="form-control mb-3" placeholder="Write a short bio for the artist" id="artistName" v-model="artistBio"></textarea>
         </div>
 
         <div class="row">
           <div class="col-3">
             <label for="startDate" class="mb-2">Start date:</label>
-            <input class="form-control" type="date" id="startDate" name="artistStart" value="2018-07-22"/>
+            <input class="form-control" type="date" id="startDate" name="artistStart" value="2024-01-01" v-model="startDate"/>
           </div>
           <div class="col-3 pe-0">
             <label for="endDate" class="mb-2">End date:</label>
-            <input class="form-control mb-3" type="date" id="endDate" name="artistEnd" value="2018-07-22"/>
+            <input class="form-control mb-3" type="date" id="endDate" name="artistEnd" value="2024-01-01" v-model="endDate"/>
           </div>
         </div>
         <button class="btn btn-light" type="submit">Submit</button>
@@ -27,7 +27,7 @@
 <script>
 export default {
     created() {
-        
+      
     },
     computed: {
         artists() {
@@ -37,10 +37,10 @@ export default {
     methods: {
         loadArtists() {
             this.$store.dispatch('artists/getArtists', {
-                token: localStorage.getItem('token')
+              token: localStorage.getItem('token')
             });
         },
-        createSongInputElement() {
+        createArtist() {
           
         }
     }

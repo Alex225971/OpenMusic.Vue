@@ -30,8 +30,8 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" @click="openModal">Add to playlist</a></li>
-                            <li><a class="dropdown-item" href="#">Go to album</a></li>
-                            <li><a class="dropdown-item" href="#">Go to artist</a></li>
+                            <li v-if="song.albumId"><a class="dropdown-item" href="#">Go to album</a></li>
+                            <li v-if="song.artistId"><a class="dropdown-item" href="#">Go to artist</a></li>
                             <li><a class="dropdown-item" href="#">Play next</a></li>
                         </ul>
                     </div>
@@ -70,7 +70,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Go to album</a></li>
-                            <li><a class="dropdown-item" href="#">Go to artist</a></li>
+                            <li v-if="album.artistId"><router-link :to="{ name: 'artist', params: { id: album.artistId } }" class="dropdown-item">Go to artist</router-link></li>
                         </ul>
                     </div>
                 </div>
