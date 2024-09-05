@@ -47,5 +47,24 @@ export default {
 
         //context.commit('SET_ARTISTS', responseData);
     },
+    async loadInDetail(context, data) {
+        store.getters['albums/currentAlbumId'];
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Albums/' + data.id, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
+
+        context.commit('SET_CURRENT_ALBUM', {
+            ...responseData
+        });
+    }
 
 };

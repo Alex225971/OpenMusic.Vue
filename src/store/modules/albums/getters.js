@@ -1,9 +1,9 @@
 export default {
     currentAlbumId(state) {
-        return state.currentArtistId;
+        return state.currentAlbumId;
     },
     currentAlbum(state) {
-        return state.currentArtist;
+        return state.currentAlbum;
     },
     getAlbums(state) {
         return state.artists;

@@ -18,7 +18,7 @@
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4>{{ song.title }} - {{ song.artistName || 'Unknown Artist' }} {{song.albumName || ' (Single)' }}</h4>
+                    <h4 class="mb-0">{{ song.title }} - {{ song.artistName || 'Unknown Artist' }} {{song.albumName || ' (Single)' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>
@@ -45,7 +45,7 @@
                         <h3>Albums</h3>
                     </div>
                     <div class="col-9 align-content-center">
-                        <h4>Title</h4>
+                        <h4 >Title</h4>
                     </div>
                     <div class="col-1 align-content-center">
                         <h4>Release Year</h4>
@@ -58,10 +58,10 @@
                     <img class="w-100 h-100 p-3" :src="album.image" alt="">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4>{{ album.title }}</h4>
+                    <h4 class="mb-0">{{ album.title }} - {{ album.artistName || 'Unknown Artist' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
-                    <p>{{ album.year }}</p>
+                    <p class="mb-0">{{ album.year }}</p>
                 </div>
                 <div class="col-1 align-content-center">
                     <div class="dropdown">
@@ -69,8 +69,8 @@
                             <i class="bi bi-three-dots-vertical options-menu"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Go to album</a></li>
-                            <li v-if="album.artistId"><router-link :to="{ name: 'artist', params: { id: album.artistId } }" class="dropdown-item">Go to artist</router-link></li>
+                            <li><router-link :to="{path: '/album/' + album.id}" class="dropdown-item">Go to album</router-link></li>
+                            <li v-if="album.artistId"><router-link :to="{path: '/artist/' + album.artistId}" class="dropdown-item">Go to artist</router-link></li>
                         </ul>
                     </div>
                 </div>

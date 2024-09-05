@@ -11,6 +11,9 @@ import DetailedSearch from './pages/searchResults/DetailedSearchResults.vue'
 import CreateArtist from './pages/admin/CreateArtist.vue';
 import CreateAlbum from './pages/admin/CreateAlbum.vue';
 import CreateSong from './pages/admin/CreateSong.vue';
+import AlbumDetail from './pages/album/AlbumDetail.vue';
+import ArtistDetail from './pages/artist/ArtistDetail.vue';
+
 
 
 const router = createRouter({
@@ -33,12 +36,12 @@ const router = createRouter({
             path: '/artist', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'artist', component: CreateArtist }],
         },
-        { path: '/artist/:id', component: null, meta: { guarded: true } },
+        { path: '/artist/:id', component: ArtistDetail, meta: { guarded: true } },
         {
             path: '/album', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'album', component: CreateAlbum }],
         },
-        { path: '/album/:id', component: null, meta: { guarded: true } },
+        { path: '/album/:id', component: AlbumDetail, meta: { guarded: true } },
         {
             path: '/song', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'song', component: CreateSong }],
