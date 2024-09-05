@@ -58,6 +58,7 @@ export default {
         this.selectedFile = event.target.files[0];
       },
       createAlbum() {
+        console.log("ALBUM TITLE: " + this.albumTitle)
         this.$store.dispatch('albums/createAlbum', {
           title: this.albumTitle,
           year: this.albumYear,
@@ -68,6 +69,7 @@ export default {
       selectArtist(artistId) {
         if(artistId != null) {
           this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtists'].find(artist => artist.id === artistId).name;
+          this.$store.dispatch('artists/selectArtist', artistId);
         } else {
           this.$refs.artistName.innerHTML = 'Unknown Artist (empty)';
         }

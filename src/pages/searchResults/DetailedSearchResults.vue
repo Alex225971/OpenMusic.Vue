@@ -14,11 +14,11 @@
             </div>
             <hr/>
 
-            <div v-for="song in searchResults.songs" :key="song.id" class="playlist-row row d-flex align-content-center">
+            <div v-for="song in searchResults.songs" :key="song.id" class="playlist-row row d-flex align-content-center mt-3">
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4 class="mb-0">{{ song.title }} - {{ song.artistName || 'Unknown Artist' }} {{song.albumName || ' (Single)' }}</h4>
+                    <h4 class="mb-0">{{ song.title }} - {{ song.artistName || 'Unknown Artist' }} - {{song.albumTitle || ' (Single)' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>

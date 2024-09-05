@@ -6,6 +6,7 @@ export default {
         state.currentAlbum = payload;
     },
     SET_CURRENT_ALBUM_ID(state, payload) {
+        console.log("Current album ID: " + payload);
         state.currentAlbumId = payload;
     }
 };

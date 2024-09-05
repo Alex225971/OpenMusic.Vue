@@ -19,8 +19,36 @@ export default {
 
         //context.commit('SET_SEARCH_RESULTS', responseData);
     },
-    async createSongs(context, data) {
-        console.log("song created: " + JSON.stringify(data));
+    async createSong(context, data) {
+
+        var formData = new FormData();
+        let token = store.getters['user/token'];
+
+        const playlistData = {
+            title: data.title,
+            releaseDate: data.releaseDate,
+            SongUrl : '1',
+            songFile: data.songFile,
+            artistId: store.getters['artists/currentArtistId'] || '',
+            albumId: store.getters['albums/currentAlbumId'] || '',
+            genres: []
+        };
+
+        console.log("album ID: " + playlistData.albumId)
+
+        Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
+
+        const response = await fetch('https://localhost:7229/api/Songs', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        var responseData = await response.json();
+        
+        console.log("song created: " + JSON.stringify(responseData));
     }
 
 };
