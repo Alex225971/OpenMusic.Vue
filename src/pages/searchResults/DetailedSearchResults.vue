@@ -140,6 +140,14 @@ export default {
             return this.$store.getters['searchResults/searchResults'];
         }
     },
+    watch: {
+        '$route.query.queryString': {
+            immediate: true,
+            handler(newQuery) {
+                this.$store.dispatch('searchResults/executePreSearch', newQuery)
+            }
+        }
+    },
     methods: {
         logQuery() {
             //let myParam = this.currentSearch

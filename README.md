@@ -4,11 +4,14 @@
 This Vue web-app will consume my OpenMusic.API, as I develop the app I expect the API will change alongside it.
 
 ### Project goals
+- [x] Learn the basics of Vue - components, conditional content, etc.
+- [x] Use Vue Router, create a Single Page Application
+- [x] Setup VueX to store local state for songs, artists, albums and playlists
 - [x] Allow users to register accounts and login
 - [ ] Provide functionality for users to interact with the API to do the following:
-    - [x] Search albums playlists, artists and songs
+    - [x] Search albums playlists, artists, albums and songs
+    - [x] CRUD operations for playlists, artists, albums and songs
     - [ ] Filter search results
-    - [ ] Create playlists and add songs to them
     - [ ] Listen to songs in a playlist format or album format
     - [ ] View artists and albums in more detail
 - [ ] Provide meaningful error messages to the user
