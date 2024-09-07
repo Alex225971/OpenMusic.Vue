@@ -1,6 +1,6 @@
 <template>
     <div class="col-10 p-5 pb-0">
-        <div v-if="searchResults.songs.length > 0" class="songs">
+        <div v-if="searchResults?.songs.length > 0" class="songs">
             <div class="row">
                     <div class="col-1">
                         <h3>Songs</h3>
@@ -39,7 +39,7 @@
             </div>
             <hr/>
         </div>
-        <div v-if="searchResults.albums.length > 0" class="albums">
+        <div v-if="searchResults?.albums.length > 0" class="albums">
             <div class="row">
                     <div class="col-1">
                         <h3>Albums</h3>
@@ -53,7 +53,7 @@
             </div>
             <hr/>
 
-            <div v-for="album in searchResults.albums" :key="album.id" class="playlist-row row d-flex align-content-center">
+            <div v-for="album in searchResults?.albums" :key="album.id" class="playlist-row row d-flex align-content-center">
                 <div class="col-1">
                     <img class="w-100 h-100 p-3" :src="album.image" alt="">
                 </div>
@@ -77,7 +77,7 @@
             </div>
             <hr/>
         </div>
-        <div v-if="searchResults.artists.length > 0" class="artists">
+        <div v-if="searchResults?.artists.length > 0" class="artists">
             <h3>Artists</h3>
             <hr/>
             
@@ -90,12 +90,12 @@
                 </div>
             </div>
         </div>
-        <div v-if="searchResults.playlists.length > 0" class="playlists">
+        <div v-if="searchResults?.playlists.length > 0" class="playlists">
             
             <h3>Playlists</h3>
             <hr/>
             
-            <div v-for="playlist in searchResults.playlists" :key="playlist.id" class="playlist-row row d-flex align-content-center">
+            <div v-for="playlist in searchResults?.playlists" :key="playlist.id" class="playlist-row row d-flex align-content-center">
                 <div class="col-1">
                     <img class="w-100 h-100 p-3" :src="playlist.imageUrl" alt="">
                 </div>
@@ -133,16 +133,19 @@ export default {
         currentSearch() {
             return this.$store.getters['searchResults/currentSearch'];
         },
+        currentQueryString() {
+            return this.$route.query.queryString;
+        },
         searchResults() {
             return this.$store.getters['searchResults/searchResults'];
         }
     },
     methods: {
         logQuery() {
-            let urlParams = new URLSearchParams(window.location.search);
-            let myParam = urlParams.get('queryString');
-            console.log("SEARCH: " + this.currentSearch);
-            this.$store.dispatch('searchResults/setCurrentSearch', myParam)
+            //let myParam = this.currentSearch
+            let myParam = this.currentQueryString
+            console.log("SEARCH: " + JSON.stringify(this.currentQueryString));
+            this.$store.dispatch('searchResults/executePreSearch', myParam)
         },
         openModal() {
             this.isModalOpened = true;

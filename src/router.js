@@ -26,7 +26,7 @@ const router = createRouter({
         { path: '/login', component: Register, meta: { anonymousOnly: true } },
         { path: '/explore', component: null, meta: { guarded: true } },
         { path: '/library', component: Library, meta: { guarded: true } },
-        { path: '/search?queryString=:queryString', name: 'search', component: DetailedSearch, meta: { guarded : true} },
+        { path: '/search', name: 'search', component: DetailedSearch, meta: { guarded : true} },
         {
             path: '/playlist', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'playlist', component: CreatePlaylist }],

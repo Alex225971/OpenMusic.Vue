@@ -22,13 +22,14 @@
             v-on:keyup="executePreSearch($event.target.value)"
             ref="search"
           />
+          <!-- TODO - store the presearch value to be accessed later in the searchResults created function. This will mean The URL params should execute the search as the search box will have it's value set after a refresh -->
           <div class="search-results col-4">
             <div class="row my-2" v-if="searchResults">
               <div class="col-12 ms-3 m-2">
-                <router-link @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', params: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
+                <router-link @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
               </div>
               <div class="col-12 ms-3 m-2" v-for="playlist in searchResults.playlists" :key="playlist.id">
-                <router-link @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', params: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
+                <router-link @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', query: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
               </div>
             </div>
           </div>
@@ -80,6 +81,9 @@ export default {
     userRole() {
       console.log("USER ROLE: " + this.$store.getters['user/userRole']);
       return this.$store.getters['user/userRole'];
+    },
+    currentSearch() {
+      return this.$store.getters['searchResults/currentSearch'];
     }
   },
   methods: {
