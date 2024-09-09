@@ -49,6 +49,37 @@ export default {
         var responseData = await response.json();
         
         console.log("song created: " + JSON.stringify(responseData));
+    },
+    async getAllSongs(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Songs/', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+        console.log("RESPONSE DATA (SONGS):" + JSON.stringify(responseData));
+
+        context.commit('SET_SONGS', responseData);
+    },
+    async deleteSong(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Songs/' + data, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("DELETE SONG:" + JSON.stringify(responseData));
+
+        context.commit('SET_SONG', null);
     }
 
 };

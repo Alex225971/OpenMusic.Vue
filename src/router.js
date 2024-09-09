@@ -15,6 +15,7 @@ import AlbumDetail from './pages/album/AlbumDetail.vue';
 import ArtistDetail from './pages/artist/ArtistDetail.vue';
 import AlbumsMenu from './pages/admin/Albums/AlbumsMenu.vue';
 import ArtistsMenu from './pages/admin/Artists/ArtistsMenu.vue';
+import SongsMenu from './pages/admin/Songs/SongsMenu.vue';
 
 
 
@@ -50,6 +51,7 @@ const router = createRouter({
             path: '/song', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'song', component: CreateSong }],
         },
+        { path: '/song/menu', component: SongsMenu, meta: { guarded: true } },
         { path: '/:notFound(.*)', component: NotFound, meta: { guarded: true } },
     ]
 });

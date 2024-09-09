@@ -1,6 +1,6 @@
 export default {
     SET_SONGS(state, payload) {
-        state.name = payload.name;
+        state.songs = payload;
     },
     SET_CURRENT_SONG(state, payload) {
         state.currentSong = payload;

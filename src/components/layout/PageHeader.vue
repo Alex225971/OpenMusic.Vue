@@ -49,9 +49,9 @@
             <ul class="dropdown-menu">
               <li><router-link to="/profile" class="dropdown-item" href="#">Profile</router-link></li>
               <li><a class="dropdown-item" @click="logout" href="#">Log out</a></li>
-              <li v-if="userRole == 'Admin'"><router-link to="/artist/menu" class="dropdown-item">Admin - artist menu</router-link></li>
-              <li v-if="userRole == 'Admin'"><router-link to="/album/menu" class="dropdown-item">Admin - albums menu</router-link></li>
-              <li v-if="userRole == 'Admin'"><router-link to="/song/new" class="dropdown-item">Admin - create song</router-link></li>
+              <li v-if="userRole == 'Admin'"><router-link to="/artist/menu" class="dropdown-item">Admin-artist menu</router-link></li>
+              <li v-if="userRole == 'Admin'"><router-link to="/album/menu" class="dropdown-item">Admin-albums menu</router-link></li>
+              <li v-if="userRole == 'Admin'"><router-link to="/song/menu" class="dropdown-item">Admin-songs menu</router-link></li>
             </ul>
           </div>
         </div>
