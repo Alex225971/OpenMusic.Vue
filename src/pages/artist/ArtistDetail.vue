@@ -7,9 +7,6 @@
       <div class="col-12 ">
         <h2>Songs</h2>
         <div class="row" v-for="song in getArtist.songs" :key="song.id">
-          <div class="col-1">
-            <img :src="song.imageUrl" class="img-thumbnail"/>
-          </div>
           <div class="col-3">
             <h5>{{ song.title }}</h5>
           </div>
@@ -22,6 +19,7 @@
         </div>
       </div>
     </div>
+    <hr />
     <div class="row mt-2 ms-5" v-if="getArtist.albums.length > 0">
       <h2>Albums</h2>
       <div v-for="album in getArtist.albums" :key="album.id" class="col-1">

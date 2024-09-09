@@ -82,16 +82,25 @@
             <hr/>
             
             <div v-for="artist in searchResults.artists" :key="artist.id" class="playlist-row row d-flex align-content-center">
-                <div class="col-3">
+                <div class="col-2">
                     <h4>{{ artist.name }}</h4>
                 </div>
                 <div class="col-9 align-content-center">
                     <p>{{ artist.bio }}</p>
                 </div>
+                <div class="col-1 align-content-center">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical options-menu"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li v-if="artist.id"><router-link :to="{path: '/artist/' + artist.id}" class="dropdown-item">Go to artist</router-link></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <div v-if="searchResults?.playlists.length > 0" class="playlists">
-            
             <h3>Playlists</h3>
             <hr/>
             
@@ -107,8 +116,20 @@
         </div>
 
         <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit-modal="submitHandler" @submit="submitHandler" name="first-modal">
-            <template #header>Custom header</template>
-            <template #content>Custom content</template>
+            <template #header>
+                <h5>Save to playlist</h5>
+                <hr />
+            </template>
+            <template #content>
+                <div class="row" >
+                    <div class="col-2">
+                        img
+                    </div>
+                    <div class="col-10">
+                        Playlist name
+                    </div>
+                </div>
+            </template>
             <!-- <template #footer>Custom content</template> -->
         </modal-component>
 

@@ -22,8 +22,7 @@
             v-on:keyup="executePreSearch($event.target.value)"
             ref="search"
           />
-          <!-- TODO - store the presearch value to be accessed later in the searchResults created function. This will mean The URL params should execute the search as the search box will have it's value set after a refresh -->
-          <div class="search-results col-4">
+          <div class="search-results col-4" :class="{ 'search-active': isActive, 'search-hidden': isHidden }">
             <div class="row my-2" v-if="searchResults">
               <div class="col-12 ms-3 m-2">
                 <router-link @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
@@ -50,8 +49,8 @@
             <ul class="dropdown-menu">
               <li><router-link to="/profile" class="dropdown-item" href="#">Profile</router-link></li>
               <li><a class="dropdown-item" @click="logout" href="#">Log out</a></li>
-              <li v-if="userRole == 'Admin'"><router-link to="/artist/new" class="dropdown-item">Admin - create artist</router-link></li>
-              <li v-if="userRole == 'Admin'"><router-link to="/album/new" class="dropdown-item">Admin - create album</router-link></li>
+              <li v-if="userRole == 'Admin'"><router-link to="/artist/menu" class="dropdown-item">Admin - artist menu</router-link></li>
+              <li v-if="userRole == 'Admin'"><router-link to="/album/menu" class="dropdown-item">Admin - albums menu</router-link></li>
               <li v-if="userRole == 'Admin'"><router-link to="/song/new" class="dropdown-item">Admin - create song</router-link></li>
             </ul>
           </div>
@@ -65,7 +64,7 @@
 export default {
   data() {
     return {
-      searchResultsData: this.$store.getters['searchResults/searchResults']
+      searchResultsData: this.$store.getters['searchResults/searchResults'],
     };
   },
   computed: {
@@ -107,11 +106,12 @@ export default {
     fillSearch(input) {
       this.$refs.search.value = input;
       this.$store.dispatch('searchResults/setCurrentSearch', input)
+      this.handleLinkClick();
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
     clearSearchBox() {
       this.fillSearch(null);
-    }
+    },
   },
 };
 </script>

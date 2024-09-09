@@ -67,6 +67,38 @@ export default {
         context.commit('SET_CURRENT_ARTIST', {
             ...responseData
         });
+    },
+    async getAllArtists(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Artists/', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+        console.log("RESPONSE DATA (ARTISTS):" + JSON.stringify(responseData));
+
+        context.commit('SET_ARTISTS', responseData);
+
+    },
+    async deleteArtist(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Artists/' + data, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("DELETE ARTIST:" + JSON.stringify(responseData));
+
+        context.commit('SET_ARTIST', null);
     }
 
 };

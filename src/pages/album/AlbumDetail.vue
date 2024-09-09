@@ -12,6 +12,17 @@
           <p v-if="getAlbum.songs.length == 0" class="text-center">
             No songs in this album, strange...
           </p>
+          <div class="row" v-for="song in getAlbum.songs" :key="song.id">
+            <div class="col-1">
+              <p class="m-2">{{ song.id }}</p> 
+            </div>
+            <div class="col-10">
+              <p class="m-2">{{ song.title }}</p>
+            </div>
+            <div class="col-1">
+              <i class="bi bi-plus m-2"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>

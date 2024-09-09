@@ -13,6 +13,8 @@ import CreateAlbum from './pages/admin/CreateAlbum.vue';
 import CreateSong from './pages/admin/CreateSong.vue';
 import AlbumDetail from './pages/album/AlbumDetail.vue';
 import ArtistDetail from './pages/artist/ArtistDetail.vue';
+import AlbumsMenu from './pages/admin/Albums/AlbumsMenu.vue';
+import ArtistsMenu from './pages/admin/Artists/ArtistsMenu.vue';
 
 
 
@@ -37,11 +39,13 @@ const router = createRouter({
             children: [{ path: 'new', name: 'artist', component: CreateArtist }],
         },
         { path: '/artist/:id', component: ArtistDetail, meta: { guarded: true } },
+        { path: '/artist/menu', component: ArtistsMenu, meta: { guarded: true } },
         {
             path: '/album', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'album', component: CreateAlbum }],
         },
         { path: '/album/:id', component: AlbumDetail, meta: { guarded: true } },
+        { path: '/album/menu', component: AlbumsMenu, meta: { guarded: true } },
         {
             path: '/song', component: null, meta: { guarded: true },
             children: [{ path: 'new', name: 'song', component: CreateSong }],

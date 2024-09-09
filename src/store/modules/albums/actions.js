@@ -70,6 +70,38 @@ export default {
     },
     async selectAlbum(context, data) {
         context.commit('SET_CURRENT_ALBUM_ID', data);
+    },
+    async getAllAlbums(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Albums/', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("ALL ALBUMS:" + JSON.stringify(responseData));
+
+        context.commit('SET_ALBUMS', responseData);
+    },
+    async deleteAlbum(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Albums/' + data, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("DELETE ALBUM:" + JSON.stringify(responseData));
+
+        context.commit('SET_ALBUM', null);
     }
 
 };
