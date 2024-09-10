@@ -4,8 +4,8 @@
       <div class="row">
         <div class="col-lg-4">
           <img class="w-100 h-auto" :src="getAlbum.image" />
-          <h3 class="mt-3 text-center">{{ getAlbum.name }}</h3>
-          <p class="mt-2 text-center">{{ getAlbum.description }}</p>
+          <h3 class="mt-3 text-center">{{ getAlbum.title }}</h3>
+          <p class="mt-2 text-center">{{ getAlbum.artistName }}</p>
         </div>
         <div class="col-lg-8">
           <h4 class="text-center">Songs</h4>

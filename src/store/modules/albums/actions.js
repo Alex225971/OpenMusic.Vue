@@ -6,16 +6,32 @@ export default {
         var formData = new FormData();
         let token = store.getters['user/token'];
 
-        const playlistData = {
+        console.log("Songs upon creation:", JSON.stringify(data.songs));
+
+        const albumData = {
             title: data.title,
             year: data.year,
             image: data.image,
             artistId: store.getters['artists/currentArtistId'] || '',
             genres: [],
-            songs: []
         };
 
-        Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
+        Object.keys(albumData).forEach(key => formData.append(key, albumData[key]));
+
+
+        //Songs set after, hopefully this means they don't get ignored
+        data.songs.forEach((song, index) => {
+        formData.append(`songs[${index}].title`, song.title);
+        formData.append(`songs[${index}].releaseDate`, song.releaseDate);
+        formData.append(`songs[${index}].songUrl`, '1');
+        
+        // If you need to upload song files as well, append the files
+            if (song.songFile) {
+                formData.append(`songs[${index}].songFile`, song.songFile);
+            }
+        });
+
+        console.log("COMPLETE FORM DATA: " + formData);
 
         const response = await fetch('https://localhost:7229/api/Albums', {
             method: 'POST',

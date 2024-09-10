@@ -5,7 +5,7 @@
       <div class="col-6">
         <label for="artist" class="form-label">Artist (select)</label>
         <div class="dropdown mb-3" v-if="artists && artists.length > 0">
-          <a class="dropdown-toggle btn btn-outline-light" name="artist" type="button" data-bs-toggle="dropdown" aria-expanded="false" ref="artistName" v-bind="artistName">
+          <a class="dropdown-toggle btn btn-outline-light" name="artist" type="button" data-bs-toggle="dropdown" aria-expanded="false" ref="artistName">
             Unknown Artist (empty)
           </a>
           <ul class="dropdown-menu">
@@ -21,25 +21,43 @@
         <input type="number" class="form-control mb-3" placeholder="2024" id="albumYear" min="1" v-model="albumYear">
 
         <label for="albumCover" class="form-label">Album cover image</label>
-        <input class="form-control mb-3" name="albumCover" type="file" id="image" @change="onFileSelected" />
+        <input class="form-control mb-3" name="albumCover" type="file" id="image" @change="onAlbumCoverSelected"/>
 
         <button class="btn btn-light">Submit</button>
       </div>
-      <!-- TODO - add programmatically produced song fields -->
-      <!-- <div class="col-6">
-        <h5 id="songButton">Songs</h5>
-        <button class="btn btn-light" type="button" @click="generateSongField"><i class="bi bi-plus"></i></button>
-      </div> -->
+      <div class="col-6">
+        <div class="form-group mb-3" v-for="(song, index) in songs" :key="index">
+            <div class="row">
+              <div class="col-4">
+                <label class="form-label" :for="'songTitle-' + index">Song {{ index + 1 }} name</label>
+                <input class="form-control" v-model="song.title" :id="'songTitle-' + index" type="text" placeholder="Song title" />
+              </div>
+              <div class="col-4">
+                <label class="form-label" :for="'releaseDate-' + index">Release date</label>
+                <input type="date" class="form-control" :id="'releaseDate-' + index" min="1" v-model="song.releaseDate">
+              </div>
+              <div class="col-4">
+                <label class="form-label" :for="'songFile-' + index">Song file</label>
+                <input @change="onFileSelected($event, index)" name="songFile" class="form-control" type="file" :id="'songFile-' + index"/>
+              </div>
+            </div>
+          </div>
+
+        <button class="btn btn-outline-light" type="button" @click="addSong">Add song<i class="bi bi-plus"></i></button>
+      </div>
     </div>
     </form>
   </div>
 </template>
 
 <script>
+
 export default {
     data() {
       return {
         selectedFile: null,
+        songFiles: [],
+        songs: []
       };
     },
     created() {
@@ -54,16 +72,27 @@ export default {
       }
     },
     methods: {
-      onFileSelected(event) {
+      addSong() {
+        this.songs.push({ 
+          title: '', 
+          releaseDate: null,
+          songFile: null
+        });
+      },
+      onAlbumCoverSelected(event) {
         this.selectedFile = event.target.files[0];
       },
+      onFileSelected(event, index) {
+        this.songs[index].songFile = event.target.files[0];
+      },
       createAlbum() {
-        console.log("ALBUM TITLE: " + this.albumTitle)
+        console.log("Songs Data:", JSON.stringify(this.songs));
         this.$store.dispatch('albums/createAlbum', {
           title: this.albumTitle,
           year: this.albumYear,
           image: this.selectedFile,
-          artistId: ''
+          artistId: '',
+          songs: this.songs
         });
       },
       selectArtist(artistId) {

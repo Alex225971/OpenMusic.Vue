@@ -78,6 +78,7 @@ export default {
         this.$store.dispatch('albums/getAlbumsByArtist', artistId);
       } else {
         this.$refs.artistName.innerHTML = 'Unknown Artist (empty)';
+        this.$store.dispatch('albums/getAlbumsByArtist', null);
       }
       this.$store.dispatch('artists/selectArtist', artistId);
     },

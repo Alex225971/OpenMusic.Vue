@@ -14,7 +14,7 @@
             <h5>{{ song.artistName }}</h5>
           </div>
           <div class="col-2">
-            <h5>{{ song.albumName || 'Single' }}</h5>
+            <h5>{{ song.albumTitle || 'Single' }}</h5>
           </div>
         </div>
       </div>

@@ -9,10 +9,10 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Bio</th>
-              <th>Started</th>
-              <th>Ended</th>
+              <th>Title</th>
+              <th>Genre</th>
+              <th>Artist</th>
+              <th>Album</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -20,9 +20,9 @@
             <tr v-for="song in songs" :key="song.id">
               <th scope="row">{{ song.id }}</th>
               <td>{{ song.title }}</td>
-              <td> prop</td>
-              <td>prop</td>
-              <td>prop</td>
+              <td>{{ song.genre}}</td>
+              <td>{{ song.artistName || '-' }}</td>
+              <td>{{ song.albumName || '-' }}</td>
               <td>
                 <router-link :to="{ path: '/song/' + song.id }" class="btn btn-primary me-2">Edit</router-link>
                 <button @click="deleteSong(song.id)" class="btn btn-danger me-2">Delete</button>

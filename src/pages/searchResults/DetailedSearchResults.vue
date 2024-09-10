@@ -1,5 +1,10 @@
 <template>
     <div class="col-10 p-5 pb-0">
+        <div v-if="searchResults.songs.length == 0 && searchResults.albums.length == 0 && searchResults.artists.length == 0 && searchResults.playlists.length == 0">
+            <div class="row">
+                <h3>Awkward, no results found...</h3>
+            </div>
+        </div>
         <div v-if="searchResults?.songs.length > 0" class="songs">
             <div class="row">
                     <div class="col-1">
