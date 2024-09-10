@@ -22,7 +22,7 @@
               <td>{{ song.title }}</td>
               <td>{{ song.genre}}</td>
               <td>{{ song.artistName || '-' }}</td>
-              <td>{{ song.albumName || '-' }}</td>
+              <td>{{ song.albumTitle || '-' }}</td>
               <td>
                 <router-link :to="{ path: '/song/' + song.id }" class="btn btn-primary me-2">Edit</router-link>
                 <button @click="deleteSong(song.id)" class="btn btn-danger me-2">Delete</button>
