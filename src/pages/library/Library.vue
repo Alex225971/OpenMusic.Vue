@@ -8,7 +8,7 @@
             <div v-for="playlist in playlists" :key="playlist.id" class="card text-light playlist-card border border-light bg-dark col-xl-2 col-lg-4 col-md-6 m-3">
                 <img :src="playlist.imageUrl" class="card-img-top playlist-thumbnail" :alt="playlist.name + 'thumbnail image'">
                 <div class="card-body">
-                    <h5 class="card-title">{{ playlist.name }}</h5>
+                    <h5 class="card-title"><router-link class="link-light text-decoration-none" :to="{ path: '/playlist/' + playlist.id }">{{ playlist.name }}</router-link></h5>
                     <p class="card-text">{{ playlist.description }}</p>
                 </div>
             </div>

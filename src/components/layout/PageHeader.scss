@@ -49,3 +49,21 @@
 .search-results.search-hidden {
     display: none;
 }
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #c2c2c2;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #198754;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #197a4d;
+}
