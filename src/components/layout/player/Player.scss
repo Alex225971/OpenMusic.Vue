@@ -1,0 +1,63 @@
+.player-container {
+    width: 100vw;
+    height: 80px;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left:0;
+    right: auto;
+    display: flex;
+    align-items: center;
+}
+.player-buttons {
+    width: 250px;
+}
+audio {
+    width: 1000px;
+    height:100px;
+}
+
+audio::-webkit-media-controls-panel {
+  -webkit-justify-content: center;
+  height: 25px;
+}
+
+/* Removes the timeline */
+audio::-webkit-media-controls-timeline {
+  display: inline !important;
+}
+
+/* Removes the time stamp */
+audio::-webkit-media-controls-current-time-display {
+  display: inline;
+}
+audio::-webkit-media-controls-time-remaining-display {
+  display: inline;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  background: #121212;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  background: #198754;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 12px;
+  background: #198754;
+  cursor: pointer;
+}

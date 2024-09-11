@@ -23,7 +23,7 @@
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4 class="mb-0">{{ song.title }} - {{ song.artistName || 'Unknown Artist' }} - {{song.albumTitle || ' (Single)' }}</h4>
+                    <h4 class="mb-0"><a @click="playSong(song)" class="link-light text-decoration-none">{{ song.title }}</a> - {{ song.artistName || 'Unknown Artist' }} - {{song.albumTitle || ' (Single)' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>
@@ -122,16 +122,19 @@
 
         <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit-modal="submitHandler" @submit="submitHandler" name="first-modal">
             <template #header>
-                <h5>Save to playlist</h5>
+                <h4 class="mb-4">Save to playlist</h4>
                 <hr />
             </template>
             <template #content>
-                <div class="row" >
-                    <div class="col-2">
-                        img
+                <div class="row" v-for="playlist in userPlaylists" :key="playlist.id">
+                    <div class="col-2 mb-3">
+                        <img class="w-100 h-100" :src="playlist.imageUrl" alt="">
                     </div>
-                    <div class="col-10">
-                        Playlist name
+                    <div class="col-9">
+                        {{ playlist.name }}
+                    </div>
+                    <div class="col-1">
+                        <i class="bi bi-plus"></i>
                     </div>
                 </div>
             </template>
@@ -139,17 +142,23 @@
         </modal-component>
 
     </div>
+    <Player v-if="showPlayer" :songUrl="selectedSongUrl"/>
 </template>
 <script setup>
     import ModalComponent from "../../components/layout/modal/Modal.vue";
 </script>
 <script>
-import { ref } from "vue";
+import { defineAsyncComponent, defineComponent, ref } from "vue";
+import Player from "../../components/layout/player/Player.vue";
 
 export default {
+    components: {
+        Player,
+    },
     data() {
         return {
-            isModalOpened: ref(false)
+            isModalOpened: ref(false),
+            showPlayer: false
         }
     },
     created() {
@@ -164,6 +173,9 @@ export default {
         },
         searchResults() {
             return this.$store.getters['searchResults/searchResults'];
+        },
+        userPlaylists() {
+            return this.$store.getters['playlists/playlistDetails'];
         }
     },
     watch: {
@@ -175,6 +187,12 @@ export default {
         }
     },
     methods: {
+        playSong(song) {
+            console.log(JSON.stringify(song))
+            this.selectedSongUrl = song.songUrl;
+            this.showPlayer = true;
+            document.getElementById('player').play();
+        },
         logQuery() {
             //let myParam = this.currentSearch
             let myParam = this.currentQueryString
@@ -182,6 +200,7 @@ export default {
             this.$store.dispatch('searchResults/executePreSearch', myParam)
         },
         openModal() {
+            this.getUserPlaylists();
             this.isModalOpened = true;
         },
         closeModal() {
@@ -189,6 +208,9 @@ export default {
         },
         submitHandler() {
             console.log("Modal submitted")
+        },
+        getUserPlaylists() {
+            this.$store.dispatch('playlists/getUserPlaylists');
         }
     }
 }
