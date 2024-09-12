@@ -5,10 +5,11 @@
             <source :src="songUrl" type="audio/ogg">
         </audio>
         <div class="player-buttons me-3">
-            <div>
-                <button class="btn btn-outline-success border-0" @click="togglePlay"><i v-if="!isPlaying" class="bi bi-play-fill"></i><i v-else class="bi bi-pause-fill"></i></button> 
-                <input class="ms-2 slider" type="range" min="1" max="100" value="50" onchange="document.getElementById('player').volume = this.value / 100" />
-            </div>
+          <div>
+            <button class="btn btn-outline-success border-0" @click="togglePlay"><i v-if="!isPlaying" class="bi bi-play-fill"></i><i v-else class="bi bi-pause-fill"></i></button> 
+            <input class="ms-2 slider" type="range" min="1" max="100" value="50" onchange="document.getElementById('player').volume = this.value / 100" />
+            <div class="ms-2 btn btn-outline-success mute-button border-0" @click="toggleMute"><i v-if="!isMuted" class="bi bi-volume-mute-fill"></i> <i v-else class="bi bi-volume-up-fill"></i></div>
+          </div>
         </div>
         <div class="player-timeline-container me-4" ref="timelineContainer" @click="handleClick" @mousedown="startSeek" @mouseup="stopSeek" @mousemove="seek">
           <div class="player-timeline">
@@ -31,6 +32,7 @@ export default {
   data() {
     return {
       isPlaying: true,
+      isMuted: false
     };
   },
   methods: {
@@ -42,6 +44,10 @@ export default {
       }
       this.isPlaying = !this.isPlaying;
     },
+    toggleMute() {
+      this.$refs.player.muted = !this.$refs.player.muted;
+      this.isMuted = !this.isMuted
+    },
     updateTimeline() {
       const progressBar = this.$refs.timelineBar;
       const progressPercent = (this.$refs.player.currentTime / this.$refs.player.duration) * 100;
@@ -52,15 +58,12 @@ export default {
         this.seekToTime(event);
       }
     },
-
     startSeek() {
       this.isSeeking = true;
     },
-
     stopSeek() {
       this.isSeeking = false;
     },
-
     seek(event) {
       if (this.isSeeking) {
         this.seekToTime(event);

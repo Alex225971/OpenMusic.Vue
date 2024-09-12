@@ -11,7 +11,7 @@
     align-items: center;
 }
 .player-buttons {
-    width: 200px;
+    width: 255px;
 }
 audio {
     width: 1000px;
@@ -133,6 +133,6 @@ audio::-webkit-media-controls-timeline-container {
   border-radius: 8px;
   background-color: #198754;
   position: relative;
-  width: 0%; /* Initially 0% width */
-  transition: width 0.1s linear; /* Smooth transition for updates */
+  width: 0%;
+  transition: width 0.1s linear;
 }
