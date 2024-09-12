@@ -1,4 +1,5 @@
 .player-container {
+    padding-top: 1px;
     width: 100vw;
     height: 80px;
     position: fixed;
@@ -10,7 +11,7 @@
     align-items: center;
 }
 .player-buttons {
-    width: 250px;
+    width: 200px;
 }
 audio {
     width: 1000px;
@@ -22,28 +23,27 @@ audio::-webkit-media-controls-panel {
   height: 25px;
 }
 
-/* Removes the timeline */
-audio::-webkit-media-controls-timeline {
-  display: inline !important;
+audio::-webkit-media-controls-timeline-container {
+    display: block;
+    background-color: red;
 }
 
-/* Removes the time stamp */
-audio::-webkit-media-controls-current-time-display {
-  display: inline;
-}
-audio::-webkit-media-controls-time-remaining-display {
-  display: inline;
-}
 .slider {
+  transition: all ease-in-out 0.1s;
   -webkit-appearance: none;
-  width: 100%;
-  background: #121212;
+  background: #e4e4e4;
   outline: none;
   opacity: 0.7;
+  height: 5px;
   -webkit-transition: .2s;
   transition: opacity .2s;
+  border-radius: 8px;
 }
 
+.slider:hover {
+  transition: all ease-in-out 0.1s;
+  height: 7px;
+}
 .slider:hover {
   opacity: 1;
 }
@@ -51,7 +51,9 @@ audio::-webkit-media-controls-time-remaining-display {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 12px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
   background: #198754;
   cursor: pointer;
 }
@@ -60,4 +62,27 @@ audio::-webkit-media-controls-time-remaining-display {
   width: 12px;
   background: #198754;
   cursor: pointer;
+}
+
+.player-timeline {
+  transition: all ease-in-out 0.1s;
+  width: 100%;
+  height: 5px;
+  background-color: #e4e4e4;
+  border-radius: 8px;
+  opacity: 0.7;
+  overflow: hidden;
+}
+
+.player-timeline:hover {
+  transition: all ease-in-out 0.1s;
+  height: 8px;
+  opacity: 1;
+}
+
+.timeline-bar {
+  height: 100%;
+  background-color: #198754;
+  width: 0%; /* Initially 0% width */
+  transition: width 0.1s linear; /* Smooth transition for updates */
 }

@@ -122,8 +122,7 @@
 
         <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit-modal="submitHandler" @submit="submitHandler" name="first-modal">
             <template #header>
-                <h4 class="mb-4">Save to playlist</h4>
-                <hr />
+                <h4 class="mb-2">Save to playlist</h4>
             </template>
             <template #content>
                 <div class="row" v-for="playlist in userPlaylists" :key="playlist.id">
@@ -142,7 +141,7 @@
         </modal-component>
 
     </div>
-    <Player v-if="showPlayer" :songUrl="selectedSongUrl"/>
+    <Player v-if="showPlayer" :songUrl="selectedSongUrl" :key="playerKey"/>
 </template>
 <script setup>
     import ModalComponent from "../../components/layout/modal/Modal.vue";
@@ -158,7 +157,9 @@ export default {
     data() {
         return {
             isModalOpened: ref(false),
-            showPlayer: false
+            showPlayer: false,
+            selectedSongUrl: null,
+            playerKey: 0
         }
     },
     created() {
@@ -190,6 +191,7 @@ export default {
         playSong(song) {
             console.log(JSON.stringify(song))
             this.selectedSongUrl = song.songUrl;
+            this.playerKey++; //Adding a key means a new instance of the player will be created when the song is played
             this.showPlayer = true;
             document.getElementById('player').play();
         },

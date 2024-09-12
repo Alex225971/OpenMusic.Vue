@@ -16,10 +16,11 @@ onClickOutside(target, ()=>emit('modal-close'))
 <template>
   <div v-if="isOpen" class="modal-mask">
     <div class="modal-wrapper">
-      <div class="modal-container" ref="target">
+      <div class="modal-container p-5" ref="target">
         <div class="modal-header">
           <slot name="header">Default header, if you're seeing this something probably went wrong</slot>
         </div>
+        <hr/>
         <div class="modal-body">
           <slot name="content">Default body, if you're seeing this something probably went wrong</slot>
         </div>
