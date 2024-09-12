@@ -71,7 +71,8 @@ audio::-webkit-media-controls-timeline-container {
   background-color: #e4e4e4;
   border-radius: 8px;
   opacity: 0.7;
-  overflow: hidden;
+  // overflow: hidden;
+  position: relative;
 }
 
 .player-timeline:hover {
@@ -80,9 +81,58 @@ audio::-webkit-media-controls-timeline-container {
   opacity: 1;
 }
 
+.player-timeline:hover .player-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #196d46;
+  display: block;
+  top: -3px;
+  left: auto;
+  right: -7px;
+  z-index: 2;
+  position: absolute;
+}
+
+.player-timeline-container {
+  width:100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.player-timeline-container:hover {
+  cursor: pointer;
+}
+
+.player-container:hover .player-dot{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #196d46;
+  display: block;
+  top: -5px;
+  left: auto;
+  right: -7px;
+  z-index: 2;
+  position: absolute;
+}
+
+.player-timeline-container:hover .player-timeline{
+  transition: all ease-in-out 0.1s;
+  height: 8px;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.player-timeline-container:hover .player-timeline .player-dot{
+  top: -3px;
+}
+
 .timeline-bar {
   height: 100%;
+  border-radius: 8px;
   background-color: #198754;
+  position: relative;
   width: 0%; /* Initially 0% width */
   transition: width 0.1s linear; /* Smooth transition for updates */
 }

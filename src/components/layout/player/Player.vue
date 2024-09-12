@@ -10,9 +10,13 @@
                 <input class="ms-2 slider" type="range" min="1" max="100" value="50" onchange="document.getElementById('player').volume = this.value / 100" />
             </div>
         </div>
-        <div class="player-timeline me-4" ref="timelineContainer" @click="handleClick" @mousedown="startSeek" @mouseup="stopSeek" @mousemove="seek">
-          <div class="timeline-bar" ref="timelineBar"></div>
-      </div>
+        <div class="player-timeline-container me-4" ref="timelineContainer" @click="handleClick" @mousedown="startSeek" @mouseup="stopSeek" @mousemove="seek">
+          <div class="player-timeline">
+            <div class="timeline-bar" ref="timelineBar">
+              <div class="player-dot"></div>
+            </div>
+          </div>
+        </div>
     </div>
 </template>
 
