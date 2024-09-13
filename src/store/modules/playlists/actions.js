@@ -79,6 +79,23 @@ export default {
         context.commit('setCurrentPlaylist', {
             ...responseData
         });
+    },
+    async addSongToPlaylist(context, data) {
+        let token = store.getters['user/token'];
+        let playlistId = data.id;
+        let songId = data.songId;
+
+        const response = await fetch('https://localhost:7229/api/Playlists/' + playlistId, {
+            method: 'PUT',
+            body: data,
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        console.log("PLAYLIST UPDATED: " + responseData);
     }
 
 };

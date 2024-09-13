@@ -139,7 +139,7 @@ const emit = defineEmits(["play-song"]);
                     <div class="col-9">
                         {{ playlist.name }}
                     </div>
-                    <div class="col-1 fs-3 playlist-add-button">
+                    <div class="col-1 fs-3 playlist-add-button" @click="logPlaylist(playlist)">
                         <i class="bi bi-plus"></i>
                     </div>
                 </div>
@@ -218,6 +218,10 @@ export default {
         },
         getUserPlaylists() {
             this.$store.dispatch('playlists/getUserPlaylists');
+        },
+        logPlaylist(playlist) {
+            console.log(JSON.stringify(playlist));
+            
         }
     }
 }

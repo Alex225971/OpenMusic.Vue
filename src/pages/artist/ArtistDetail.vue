@@ -23,7 +23,13 @@
     <div class="row mt-2 ms-5" v-if="getArtist.albums.length > 0">
       <h2>Albums</h2>
       <div v-for="album in getArtist.albums" :key="album.id" class="col-1">
-        <img :src="album.image" :alt="album.name" class="mt-3 img-thumbnail">
+        <div class="album-cover">
+          <img :src="album.image" :alt="album.name" class="mt-3 img-thumbnail">
+          <div class="play-icon">
+            <i class="bi bi-play-fill text-white fs-1"></i>
+          </div>
+        </div>
+        
         <h5 class="mt-2">{{ album.title }}</h5>
         <p>{{ album.year }}</p>
       </div>
@@ -53,3 +59,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import './ArtistDetail.scss';
+</style>

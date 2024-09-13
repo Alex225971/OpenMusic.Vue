@@ -46,7 +46,7 @@ export default {
       isMuted: false
     };
   },
-  mounted() {
+  onMounted() {
     this.$refs.player.volume = this.volume;
   },
   methods: {
@@ -67,9 +67,12 @@ export default {
       this.isMuted = !this.isMuted;
     },
     updateTimeline() {
-      const progressBar = this.$refs.timelineBar;
-      const progressPercent = (this.$refs.player.currentTime / this.$refs.player.duration) * 100;
-      progressBar.style.width = `${progressPercent}%`;
+      console.log("seekToTime: " + this.$refs.player);
+      if(this.$refs.player) {
+        const progressBar = this.$refs.timelineBar;
+        const progressPercent = (this.$refs.player.currentTime / this.$refs.player.duration) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+      }
     },
     handleClick(event) {
       if (!this.isSeeking) {
@@ -97,9 +100,9 @@ export default {
     },
     loadNewSong() {
       const newSongUrl = this.src; 
-      this.$refs.audioPlayer.src = newSongUrl;
-      this.$refs.audioPlayer.play(); 
-    },
+      this.$refs.player.src = newSongUrl;
+      this.$refs.player.play();
+    }
   },
   computed: {
     playerState() {
