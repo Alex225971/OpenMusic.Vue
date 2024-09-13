@@ -6,7 +6,7 @@ const emit = defineEmits(["play-song"]);
 </script>
 
 <template>
-    <div class="col-10 p-5 pb-0">
+    <div class="col-10 p-5 pb-0 overflow-auto 100vh">
         <div v-if="searchResults.songs.length == 0 && searchResults.albums.length == 0 && searchResults.artists.length == 0 && searchResults.playlists.length == 0">
             <div class="row">
                 <h3>Awkward, no results found...</h3>
@@ -42,8 +42,8 @@ const emit = defineEmits(["play-song"]);
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" @click="openModal">Add to playlist</a></li>
-                            <li v-if="song.albumId"><a class="dropdown-item" href="#">Go to album</a></li>
-                            <li v-if="song.artistId"><a class="dropdown-item" href="#">Go to artist</a></li>
+                            <li v-if="song.albumId"><router-link :to="{path: '/album/' + song.albumId}" class="dropdown-item">Go to album</router-link></li>
+                            <li v-if="song.artistId"><router-link :to="{path: '/artist/' + song.artistId}" class="dropdown-item">Go to artist</router-link></li>
                             <li><a class="dropdown-item" href="#">Play next</a></li>
                         </ul>
                     </div>
@@ -132,14 +132,14 @@ const emit = defineEmits(["play-song"]);
                 <h4 class="mb-2">Save to playlist</h4>
             </template>
             <template #content>
-                <div class="row" v-for="playlist in userPlaylists" :key="playlist.id">
+                <div class="row playlist-modal-row" v-for="playlist in userPlaylists" :key="playlist.id">
                     <div class="col-2 mb-3">
                         <img class="w-100 h-100" :src="playlist.imageUrl" alt="">
                     </div>
                     <div class="col-9">
                         {{ playlist.name }}
                     </div>
-                    <div class="col-1">
+                    <div class="col-1 fs-3 playlist-add-button">
                         <i class="bi bi-plus"></i>
                     </div>
                 </div>

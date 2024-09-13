@@ -9,8 +9,8 @@
             <button class="btn btn-outline-success border-0 p-1" @click="togglePlay"><i class="bi bi-skip-start-fill"></i></button> 
             <button class="btn btn-outline-success border-0 fs-2 p-1" @click="togglePlay"><i v-if="!isPlaying" class="bi bi-play-fill"></i><i v-else class="bi bi-pause-fill"></i></button>
             <button class="btn btn-outline-success border-0 p-1" @click="togglePlay"><i class="bi bi-skip-end-fill"></i></button> 
-            <input class="ms-2 slider" type="range" min="1" max="100" value="50" onchange="document.getElementById('player').volume = this.value / 100" />
-            <div class="ms-2 btn btn-outline-success mute-button border-0 fs-2 p-1" @click="toggleMute"><i v-if="!isMuted" class="bi bi-volume-mute-fill"></i> <i v-else class="bi bi-volume-up-fill"></i></div>
+            <input class="ms-2 slider" ref="volumeSlider" type="range" min="1" max="100" :value="volume * 100" @change="setVolume" />
+            <div class="ms-2 btn btn-outline-success mute-button border-0 fs-2 p-1" @click="toggleMute"><i v-if="!isMuted" class="bi bi-volume-up-fill"></i> <i v-else class="bi bi-volume-mute-fill"></i></div>
           </div>
         </div>
         <div class="player-timeline-container me-4" ref="timelineContainer" @click="handleClick" @mousedown="startSeek" @mouseup="stopSeek" @mousemove="seek">
@@ -38,7 +38,7 @@ export default {
     showPlayer: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return {
@@ -46,7 +46,14 @@ export default {
       isMuted: false
     };
   },
+  mounted() {
+    this.$refs.player.volume = this.volume;
+  },
   methods: {
+    setVolume() {
+      this.$refs.player.volume = this.$refs.volumeSlider.value / 100;
+      this.$store.dispatch('player/setVolume', this.$refs.player.volume);
+    },
     togglePlay() {
       if (this.isPlaying) {
         this.$refs.player.pause();
@@ -98,6 +105,9 @@ export default {
     playerState() {
       console.log("playerState: " + this.$refs.player)
       return this.$refs.player;
+    },
+    volume() {
+      return this.$store.getters['player/volume'];
     }
   }
 };

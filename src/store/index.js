@@ -5,6 +5,8 @@ import searchModule from "./modules/search/index.js";
 import artistsModule from "./modules/artists/index.js";
 import albumsModule from "./modules/albums/index.js";
 import songsModule from "./modules/songs/index.js";
+import playerModule from "./modules/player/index.js";
+
 
 
 const store = createStore({
@@ -14,7 +16,8 @@ const store = createStore({
         searchResults: searchModule,
         artists: artistsModule,
         albums: albumsModule,
-        songs: songsModule
+        songs: songsModule,
+        player: playerModule
     }
 });
 
