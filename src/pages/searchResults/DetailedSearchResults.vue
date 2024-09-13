@@ -1,3 +1,10 @@
+<script setup>
+import ModalComponent from "../../components/layout/modal/Modal.vue";
+import { defineEmits } from "vue";
+
+const emit = defineEmits(["play-song"]);
+</script>
+
 <template>
     <div class="col-10 p-5 pb-0">
         <div v-if="searchResults.songs.length == 0 && searchResults.albums.length == 0 && searchResults.artists.length == 0 && searchResults.playlists.length == 0">
@@ -23,7 +30,7 @@
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4 class="mb-0"><a @click="playSong(song)" class="link-light text-decoration-none">{{ song.title }}</a> - {{ song.artistName || 'Unknown Artist' }} - {{song.albumTitle || ' (Single)' }}</h4>
+                    <h4 class="mb-0"><a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - {{ song.artistName || 'Unknown Artist' }} - {{song.albumTitle || ' (Single)' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>
@@ -120,7 +127,7 @@
 
         </div>
 
-        <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit-modal="submitHandler" @submit="submitHandler" name="first-modal">
+        <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
             <template #header>
                 <h4 class="mb-2">Save to playlist</h4>
             </template>
@@ -143,9 +150,7 @@
     </div>
     <Player v-if="showPlayer" :songUrl="selectedSongUrl" :key="playerKey"/>
 </template>
-<script setup>
-    import ModalComponent from "../../components/layout/modal/Modal.vue";
-</script>
+
 <script>
 import { defineAsyncComponent, defineComponent, ref } from "vue";
 import Player from "../../components/layout/player/Player.vue";
@@ -189,7 +194,7 @@ export default {
     },
     methods: {
         playSong(song) {
-            console.log(JSON.stringify(song))
+            console.log(JSON.stringify(song));
             this.selectedSongUrl = song.songUrl;
             this.playerKey++; //Adding a key means a new instance of the player will be created when the song is played
             this.showPlayer = true;
