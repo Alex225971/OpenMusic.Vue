@@ -85,17 +85,17 @@ export default {
         let playlistId = data.id;
         let songId = data.songId;
 
-        const response = await fetch('https://localhost:7229/api/Playlists/' + playlistId, {
+        const response = await fetch('https://localhost:7229/api/Playlists/' + playlistId + '?songId=' + songId, {
             method: 'PUT',
-            body: data,
             headers: {
                 "Authorization": "Bearer " + token
             }
         });
 
         const responseData = await response.json();
-
         console.log("PLAYLIST UPDATED: " + responseData);
+
+
     }
 
 };

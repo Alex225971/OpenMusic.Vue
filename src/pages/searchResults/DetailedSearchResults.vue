@@ -30,7 +30,9 @@ const emit = defineEmits(["play-song"]);
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4 class="mb-0"><a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - {{ song.artistName || 'Unknown Artist' }} - {{song.albumTitle || ' (Single)' }}</h4>
+                    <h4 class="mb-0"><a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - 
+                    <router-link v-if="song.artistId" :to="{path: '/artist/' + song.artistId}" class="link-light text-decoration-none">{{ song.artistName }}</router-link> 
+                    <span v-if="!song.artistName">'Unknown Artist'</span> - {{song.albumTitle || ' (Single)' }}</h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>
@@ -41,7 +43,7 @@ const emit = defineEmits(["play-song"]);
                             <i class="bi bi-three-dots-vertical options-menu"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" @click="openModal">Add to playlist</a></li>
+                            <li><a class="dropdown-item" @click="openModal(song.id)">Add to playlist</a></li>
                             <li v-if="song.albumId"><router-link :to="{path: '/album/' + song.albumId}" class="dropdown-item">Go to album</router-link></li>
                             <li v-if="song.artistId"><router-link :to="{path: '/artist/' + song.artistId}" class="dropdown-item">Go to artist</router-link></li>
                             <li><a class="dropdown-item" href="#">Play next</a></li>
@@ -127,7 +129,7 @@ const emit = defineEmits(["play-song"]);
 
         </div>
 
-        <modal-component :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
+        <modal-component :currentSong="selectedSongId" :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
             <template #header>
                 <h4 class="mb-2">Save to playlist</h4>
             </template>
@@ -139,12 +141,11 @@ const emit = defineEmits(["play-song"]);
                     <div class="col-9">
                         {{ playlist.name }}
                     </div>
-                    <div class="col-1 fs-3 playlist-add-button" @click="logPlaylist(playlist)">
+                    <div class="col-1 fs-3 playlist-add-button" @click="putPlaylist(playlist)">
                         <i class="bi bi-plus"></i>
                     </div>
                 </div>
             </template>
-            <!-- <template #footer>Custom content</template> -->
         </modal-component>
 
     </div>
@@ -206,7 +207,8 @@ export default {
             console.log("SEARCH: " + JSON.stringify(this.currentQueryString));
             this.$store.dispatch('searchResults/executePreSearch', myParam)
         },
-        openModal() {
+        openModal(id) {
+            this.selectedSongId = id;
             this.getUserPlaylists();
             this.isModalOpened = true;
         },
@@ -219,9 +221,11 @@ export default {
         getUserPlaylists() {
             this.$store.dispatch('playlists/getUserPlaylists');
         },
-        logPlaylist(playlist) {
-            console.log(JSON.stringify(playlist));
-            
+        putPlaylist(playlist) {
+            //TODO - dispatch an action, or do it on modalClose?
+            console.log(JSON.stringify(playlist.id));
+            console.log(this.selectedSongId);
+            this.$store.dispatch('playlists/addSongToPlaylist', {id: playlist.id, songId: this.selectedSongId });
         }
     }
 }

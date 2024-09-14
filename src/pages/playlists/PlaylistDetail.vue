@@ -12,6 +12,13 @@
           <p v-if="getPlaylist.songs.length == 0" class="text-center">
             No songs yet, add some!
           </p>
+          <div v-for="song in getPlaylist.songs" :key="song.id">
+            <div class="row">
+              <div class="col-9">
+                {{ song.title }} ({{ song.releaseDate }}) - {{ song.artistName || 'Unknown Artist' }} - {{ song.albumTitle || ' (Single)' }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

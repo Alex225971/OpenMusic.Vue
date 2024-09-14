@@ -1,11 +1,15 @@
 <script setup>
 import { defineProps, defineEmits, ref } from "vue";
 import { onClickOutside } from '@vueuse/core'
+import { useStore } from 'vuex';
+import { onMounted } from "vue";
 
 const props = defineProps({
   isOpen: Boolean,
+  currentSongId: Number,  
 });
 
+const store = useStore();
 const emit = defineEmits(["modal-close","submit-modal"]);
 
 const target = ref(null)
@@ -35,7 +39,6 @@ onClickOutside(target, ()=>emit('modal-close'))
     </div>
   </div>
 </template>
-
 <style scoped>
 .modal-mask {
   position: fixed;
