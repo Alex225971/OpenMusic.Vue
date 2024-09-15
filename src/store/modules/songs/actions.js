@@ -15,8 +15,6 @@ export default {
 
         let responseData = await response.json();
         
-        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
-
         //context.commit('SET_SEARCH_RESULTS', responseData);
     },
     async createSong(context, data) {
@@ -34,8 +32,6 @@ export default {
             genres: []
         };
 
-        console.log("album ID: " + playlistData.albumId)
-
         Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
 
         const response = await fetch('https://localhost:7229/api/Songs', {
@@ -48,7 +44,6 @@ export default {
 
         var responseData = await response.json();
         
-        console.log("song created: " + JSON.stringify(responseData));
     },
     async getAllSongs(context, data) {
         let token = store.getters['user/token'];
@@ -61,7 +56,6 @@ export default {
         });
 
         const responseData = await response.json();
-        console.log("RESPONSE DATA (SONGS):" + JSON.stringify(responseData));
 
         context.commit('SET_SONGS', responseData);
     },
@@ -76,8 +70,6 @@ export default {
         });
 
         const responseData = await response.json();
-
-        console.log("DELETE SONG:" + JSON.stringify(responseData));
 
         context.commit('SET_SONG', null);
     }

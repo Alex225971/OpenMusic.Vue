@@ -6,7 +6,6 @@ export default {
         state.userId = payload.userId;
     },
     SET_ROLES(state, payload) {
-        console.log("Role was actually set as " + payload)
         state.role = payload;
     },
     CLEAR_AUTH(state) {

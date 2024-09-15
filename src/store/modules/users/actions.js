@@ -78,7 +78,6 @@ export default {
         const decodedToken = jwtDecode(responseData.token);
         const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']; 
         
-        console.log("USER ROLES: " + role);
         context.commit('SET_ROLES', role);
 
         localStorage.setItem('role', role);

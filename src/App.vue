@@ -34,7 +34,6 @@ export default {
       this.showPlayer = true;
       this.volume = this.$store.getters['player/volume'];
       this.currentSongUrl = song.songUrl;
-      console.log("Song clicked:", song);
     },
   }
 };

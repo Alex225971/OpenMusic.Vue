@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { nextTick } from 'vue';
+
 export default {
   props: {
     currentSongUrl: {
@@ -47,7 +49,16 @@ export default {
     };
   },
   onMounted() {
+    //Sometimes this works to set volume
+    console.log("MOUNTED WITH VOLUME: " + this.volume)
     this.$refs.player.volume = this.volume;
+  },
+  created() {
+    //Sometimes this works to set volume instead
+    console.log("MOUNTED WITH VOLUME: " + this.volume)
+    nextTick(() => {
+      this.$refs.player.volume = this.volume;
+    })
   },
   methods: {
     setVolume() {
@@ -67,7 +78,6 @@ export default {
       this.isMuted = !this.isMuted;
     },
     updateTimeline() {
-      console.log("seekToTime: " + this.$refs.player);
       if(this.$refs.player) {
         const progressBar = this.$refs.timelineBar;
         const progressPercent = (this.$refs.player.currentTime / this.$refs.player.duration) * 100;
@@ -111,6 +121,9 @@ export default {
     },
     volume() {
       return this.$store.getters['player/volume'];
+    },
+    currentSongQueue() {
+      return this.$store.getters['queue/currentQueue'];
     }
   }
 };

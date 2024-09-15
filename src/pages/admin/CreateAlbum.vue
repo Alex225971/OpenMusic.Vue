@@ -86,7 +86,6 @@ export default {
         this.songs[index].songFile = event.target.files[0];
       },
       createAlbum() {
-        console.log("Songs Data:", JSON.stringify(this.songs));
         this.$store.dispatch('albums/createAlbum', {
           title: this.albumTitle,
           year: this.albumYear,

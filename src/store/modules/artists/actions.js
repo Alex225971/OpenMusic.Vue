@@ -15,8 +15,6 @@ export default {
 
         let responseData = await response.json();
         
-        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
-
         context.commit('SET_ARTISTS', responseData);
     },
     async createArtist(context, data) {
@@ -42,11 +40,8 @@ export default {
         });
 
         let responseData = await response.json();
-        
-        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
-    },
+            },
     async selectArtist(context, data) {
-        console.log("SELECTED ARTIST: " + data);
         context.commit('SET_CURRENT_ARTIST_ID', data);
     },
     async loadInDetail(context, data) {
@@ -61,8 +56,6 @@ export default {
         });
 
         const responseData = await response.json();
-
-        console.log("RESPONSE DATA (ARTIST):" + JSON.stringify(responseData));
 
         context.commit('SET_CURRENT_ARTIST', {
             ...responseData
@@ -79,7 +72,6 @@ export default {
         });
 
         const responseData = await response.json();
-        console.log("RESPONSE DATA (ARTISTS):" + JSON.stringify(responseData));
 
         context.commit('SET_ARTISTS', responseData);
 
@@ -95,8 +87,6 @@ export default {
         });
 
         const responseData = await response.json();
-
-        console.log("DELETE ARTIST:" + JSON.stringify(responseData));
 
         context.commit('SET_ARTIST', null);
     }

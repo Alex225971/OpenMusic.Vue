@@ -6,8 +6,6 @@ export default {
         var formData = new FormData();
         let token = store.getters['user/token'];
 
-        console.log("Songs upon creation:", JSON.stringify(data.songs));
-
         const albumData = {
             title: data.title,
             year: data.year,
@@ -31,8 +29,6 @@ export default {
             }
         });
 
-        console.log("COMPLETE FORM DATA: " + formData);
-
         const response = await fetch('https://localhost:7229/api/Albums', {
             method: 'POST',
             body: formData,
@@ -43,14 +39,10 @@ export default {
 
         let responseData = await response.json();
         
-        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
-
         //context.commit('SET_ALBUMS', responseData);
     },
     async getAlbumsByArtist(context, data) {
         let token = store.getters['user/token'];
-
-        console.log("ARTIST ID: " + data);
         
         const response = await fetch('https://localhost:7229/api/Albums/Artist/' + data, {
             method: 'GET',
@@ -61,8 +53,6 @@ export default {
 
         let responseData = await response.json();
         
-        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
-
         context.commit('SET_ALBUMS', responseData);
     },
     async loadInDetail(context, data) {
@@ -77,8 +67,6 @@ export default {
         });
 
         const responseData = await response.json();
-
-        console.log("RESPONSE DATA:" + JSON.stringify(responseData));
 
         context.commit('SET_CURRENT_ALBUM', {
             ...responseData
@@ -99,8 +87,6 @@ export default {
 
         const responseData = await response.json();
 
-        console.log("ALL ALBUMS:" + JSON.stringify(responseData));
-
         context.commit('SET_ALBUMS', responseData);
     },
     async deleteAlbum(context, data) {
@@ -114,8 +100,6 @@ export default {
         });
 
         const responseData = await response.json();
-
-        console.log("DELETE ALBUM:" + JSON.stringify(responseData));
 
         context.commit('SET_ALBUM', null);
     }

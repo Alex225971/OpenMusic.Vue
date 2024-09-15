@@ -1,5 +1,5 @@
 export default {
-    queue(state) {
+    currentQueue(state) {
         return state.queue;
     }
 }

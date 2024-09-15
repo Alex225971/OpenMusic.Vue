@@ -30,9 +30,13 @@ const emit = defineEmits(["play-song"]);
                 <div class="col-1">
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4 class="mb-0"><a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - 
-                    <router-link v-if="song.artistId" :to="{path: '/artist/' + song.artistId}" class="link-light text-decoration-none">{{ song.artistName }}</router-link> 
-                    <span v-if="!song.artistName">'Unknown Artist'</span> - {{song.albumTitle || ' (Single)' }}</h4>
+                    <h4 class="mb-0">
+                        <a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - 
+                        <router-link v-if="song.artistId" :to="{path: '/artist/' + song.artistId}" class="link-light text-decoration-none">{{ song.artistName }}</router-link> 
+                        <span v-if="!song.artistName">'Unknown Artist'</span> - 
+                        <router-link v-if="song.albumId" :to="{path: '/album/' + song.albumId}" class="link-light text-decoration-none">{{ song.albumTitle }}</router-link>
+                        <span v-if="!song.albumTitle">(Single)</span>
+                    </h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ song.releaseDate }}</p>
@@ -195,7 +199,6 @@ export default {
     },
     methods: {
         playSong(song) {
-            console.log(JSON.stringify(song));
             this.selectedSongUrl = song.songUrl;
             this.playerKey++; //Adding a key means a new instance of the player will be created when the song is played
             this.showPlayer = true;
@@ -204,7 +207,6 @@ export default {
         logQuery() {
             //let myParam = this.currentSearch
             let myParam = this.currentQueryString
-            console.log("SEARCH: " + JSON.stringify(this.currentQueryString));
             this.$store.dispatch('searchResults/executePreSearch', myParam)
         },
         openModal(id) {

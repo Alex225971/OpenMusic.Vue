@@ -33,7 +33,6 @@ export default {
     },
 
     async setCurrentSearch(context, data) {
-        console.log("TRYING TO COMMIT: " + data);
         context.commit('SET_CURRENT_SEARCH', data);
     }
 };

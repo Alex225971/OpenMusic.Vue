@@ -78,7 +78,6 @@ export default {
       return this.$store.getters['searchResults/searchResults'];
     },
     userRole() {
-      console.log("USER ROLE: " + this.$store.getters['user/userRole']);
       return this.$store.getters['user/userRole'];
     },
     currentSearch() {
@@ -91,8 +90,6 @@ export default {
     },
     detailedSearch(input) {      
       this.$store.dispatch('searchResults/setCurrentSearch', input)
-      console.log("Search!")
-      //this.$router.replace('/search?queryString=' + input);
       this.clearSearchBox();
     },
     logout() {

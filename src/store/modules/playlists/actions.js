@@ -93,8 +93,6 @@ export default {
         });
 
         const responseData = await response.json();
-        console.log("PLAYLIST UPDATED: " + responseData);
-
 
     }
 
