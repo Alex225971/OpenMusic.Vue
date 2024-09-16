@@ -18,7 +18,8 @@ export default {
   data() {
     return {
       showPlayer: false,
-      currentSongUrl: null
+      currentSongUrl: null,
+      songKey:null
     }
   },
   components: {
@@ -34,9 +35,10 @@ export default {
       this.showPlayer = true;
       this.volume = this.$store.getters['player/volume'];
       this.currentSongUrl = song.songUrl;
+      this.songKey++;
     },
     handlePlayNext(song) {
-      console.log("PLAY NEXT EMITTED")
+      console.log("PLAY NEXT EMITTED" + JSON.stringify(song))
       this.showPlayer = true;
       this.volume = this.$store.getters['player/volume'];
       this.currentSongUrl = song.songUrl;

@@ -12,7 +12,7 @@ const emit = defineEmits(["play-next"]);
         </audio>
         <div class="player-buttons mx-3">
           <div>
-            <button class="btn btn-outline-success border-0 p-1" @click="togglePlay"><i class="bi bi-skip-start-fill"></i></button> 
+            <button class="btn btn-outline-success border-0 p-1" @click="playPreviousSong"><i class="bi bi-skip-start-fill"></i></button> 
             <button class="btn btn-outline-success border-0 fs-2 p-1" @click="togglePlay"><i v-if="!isPlaying" class="bi bi-play-fill"></i><i v-else class="bi bi-pause-fill"></i></button>
             <button class="btn btn-outline-success border-0 p-1" @click="playNextSong"><i class="bi bi-skip-end-fill"></i></button> 
             <input class="ms-2 slider" ref="volumeSlider" type="range" min="1" max="100" :value="volume * 100" @change="setVolume" />
@@ -51,8 +51,7 @@ export default {
   data() {
     return {
       isPlaying: true,
-      isMuted: false,
-      positionInQueue: 0
+      isMuted: false
     };
   },
   onMounted() {
@@ -120,11 +119,24 @@ export default {
       this.$refs.player.src = newSongUrl;
       this.$refs.player.play();
     },
+    playPreviousSong() {
+      console.log(this.currentPositionInQueue);
+      if(this.currentPositionInQueue > 0) {
+        this.$store.dispatch('queue/updatePosition', this.currentPositionInQueue-1);
+        this.$emit("play-next", this.currentSongQueue[this.currentPositionInQueue]);
+      } else {
+        console.log("CANT SKIP THAT FAR BACK!");
+      }
+    },
     playNextSong() {
-      this.positionInQueue++;
-      let queue = this.$store.getters['queue/currentQueue'];
-      console.log("next song: " + this.positionInQueue + JSON.stringify(queue[this.positionInQueue]));
-      this.$emit("play-next", queue[this.positionInQueue]);
+      console.log(this.currentPositionInQueue);
+      if(this.currentPositionInQueue < this.currentSongQueue.length-1) {
+        this.$store.dispatch('queue/updatePosition', this.currentPositionInQueue+1);
+        this.$emit("play-next", this.currentSongQueue[this.currentPositionInQueue]);
+      } else {
+        console.log("QUEUE ENDED!");
+      }
+      
     }
   },
   computed: {
@@ -137,6 +149,9 @@ export default {
     },
     currentSongQueue() {
       return this.$store.getters['queue/currentQueue'];
+    },
+    currentPositionInQueue() {
+      return this.$store.getters['queue/currentPosition'];
     }
   }
 };

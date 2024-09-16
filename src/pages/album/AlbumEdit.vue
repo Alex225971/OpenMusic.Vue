@@ -1,7 +1,7 @@
 <template>
   <div class="my-0 m-auto col-10 p-5 pb-0">
     <div class="my-0 m-auto col-6 p-5">
-      <form @submit.prevent="createAlbum">
+      <form @submit.prevent="putAlbum">
     <div class="row">
       <div class="col-6">
         <label for="artist" class="form-label">Artist (select)</label>
@@ -52,8 +52,12 @@
 export default {
   created() {
     this.loadAlbumInDetail();
+    this.$store.dispatch('artists/getArtists');
   },
   computed: {
+    artists() {
+      return this.$store.getters['artists/getArtists'];
+    },
     getAlbum() {
       return this.$store.getters['albums/currentAlbum'];
     },
@@ -67,6 +71,18 @@ export default {
         id: this.$route.params.id,
       });
     },
+    selectArtist(artistId) {
+      if(artistId != null) {
+        this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtists'].find(artist => artist.id === artistId).name;
+        this.$store.dispatch('artists/selectArtist', artistId);
+      } else {
+        this.$refs.artistName.innerHTML = 'Unknown Artist (empty)';
+      }
+      this.$store.dispatch('artists/selectArtist', artistId);
+    },
+    putAlbum(album) {
+      this.$store.dispatch('albums/putAlbum', album);
+    }
   },
 };
 </script>

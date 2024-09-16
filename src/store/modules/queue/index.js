@@ -6,7 +6,8 @@ export default {
     namespaced:true,
     state() {
         return {
-            queue: null
+            queue: null,
+            current_position: 0
         }
     },
     mutations,
