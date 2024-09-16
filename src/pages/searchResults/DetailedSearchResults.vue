@@ -33,7 +33,7 @@ const emit = defineEmits(["play-song"]);
                     <h4 class="mb-0">
                         <a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - 
                         <router-link v-if="song.artistId" :to="{path: '/artist/' + song.artistId}" class="link-light text-decoration-none">{{ song.artistName }}</router-link> 
-                        <span v-if="!song.artistName">'Unknown Artist'</span> - 
+                        <span v-if="!song.artistName">Unknown Artist</span> - 
                         <router-link v-if="song.albumId" :to="{path: '/album/' + song.albumId}" class="link-light text-decoration-none">{{ song.albumTitle }}</router-link>
                         <span v-if="!song.albumTitle">(Single)</span>
                     </h4>
@@ -72,11 +72,19 @@ const emit = defineEmits(["play-song"]);
             <hr/>
 
             <div v-for="album in searchResults?.albums" :key="album.id" class="playlist-row row d-flex align-content-center">
-                <div class="col-1">
+                <div class="col-1 album-cover">
                     <img class="w-100 h-100 p-3" :src="album.image" alt="">
+                    <div v-if="album.songs.length > 0" @click="emit('play-song', album.songs[0])" class="play-icon">
+                        <i class="bi bi-play-fill text-white fs-1"></i>
+                    </div>
                 </div>
                 <div class="col-9 align-content-center">
-                    <h4 class="mb-0">{{ album.title }} - {{ album.artistName || 'Unknown Artist' }}</h4>
+                    <h4 class="mb-0">
+                        <router-link :to="{path: '/album/' + album.id}" class="link-light text-decoration-none">{{ album.title }}</router-link>
+                         - 
+                        <router-link v-if="album.artistId" :to="{path: '/artist/' + album.artistId}" class="link-light text-decoration-none">{{ album.artistName }}</router-link>
+                        <span v-if="!album.artistName">Unknown Artist</span>
+                    </h4>
                 </div>
                 <div class="col-1 align-content-center">
                     <p class="mb-0">{{ album.year }}</p>
@@ -101,7 +109,7 @@ const emit = defineEmits(["play-song"]);
             
             <div v-for="artist in searchResults.artists" :key="artist.id" class="playlist-row row d-flex align-content-center">
                 <div class="col-2">
-                    <h4>{{ artist.name }}</h4>
+                    <h4><router-link v-if="artist.name" :to="{path: '/artist/' + artist.id}" class="link-light text-decoration-none">{{ artist.name }}</router-link> </h4>
                 </div>
                 <div class="col-9 align-content-center">
                     <p>{{ artist.bio }}</p>
@@ -127,7 +135,7 @@ const emit = defineEmits(["play-song"]);
                     <img class="w-100 h-100 p-3" :src="playlist.imageUrl" alt="">
                 </div>
                 <div class="col-11 align-content-center">
-                    <h4>{{ playlist.name }}</h4>
+                    <h4><router-link :to="{path: '/playlist/' + playlist.id}" class="link-light text-decoration-none">{{ playlist.name }}</router-link></h4>
                 </div>
             </div>
 

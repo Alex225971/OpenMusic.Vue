@@ -34,7 +34,7 @@ const emit = defineEmits(["play-song"]);
       <div v-for="album in getArtist.albums" :key="album.id" class="col-1">
         <div class="album-cover">
           <img :src="album.image" :alt="album.name" class="mt-3 img-thumbnail">
-          <div v-if="album.songs.length > 0" @click="emit('play-song', album.songs[0])" class="play-icon">
+          <div v-if="album.songs.length > 0" @click="emitAndSetQueue(album)" class="play-icon">
             <i class="bi bi-play-fill text-white fs-1"></i>
           </div>
         </div>
@@ -78,6 +78,10 @@ export default {
         id: this.$route.params.id,
       });
     },
+    emitAndSetQueue(album) {
+      this.$store.dispatch("queue/updateQueue", album.songs);
+      this.$emit("play-song",album.songs[0]);
+    }
   },
 };
 </script>

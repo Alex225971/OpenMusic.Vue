@@ -6,6 +6,24 @@
           <img class="w-100 h-auto" :src="getPlaylist.imageUrl" />
           <h3 class="mt-3 text-center">{{ getPlaylist.name }}</h3>
           <p class="mt-2 text-center">{{ getPlaylist.description }}</p>
+          <div class="playlist-button-group text-center d-flex align-items-center justify-content-center">
+            <a class="link-light me-2" type="button" aria-expanded="false">
+              <i class="bi bi-share"></i>
+            </a>
+            <a class="link-light me-2 fs-1" type="button" aria-expanded="false">
+              <i class="bi bi-play-fill"></i>
+            </a>
+            <div class="dropdown">
+                <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical options-menu"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item"><i class="bi bi-shuffle"></i> Shuffle play</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-music-note-list"></i> Play next</a></li>
+                  <li><a @click="deletePlaylist" class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete playlist</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div class="col-lg-8">
           <h4 class="text-center">Songs</h4>
@@ -43,6 +61,13 @@ export default {
         id: this.$route.params.id,
       });
     },
+    deletePlaylist() {
+      console.log("DELETE")
+    }
   },
 };
 </script>
+<style lang="scss">
+@import './PlaylistDetail.scss';
+</style>
+

@@ -6,6 +6,7 @@ import artistsModule from "./modules/artists/index.js";
 import albumsModule from "./modules/albums/index.js";
 import songsModule from "./modules/songs/index.js";
 import playerModule from "./modules/player/index.js";
+import queueModule from "./modules/queue/index.js";
 
 
 
@@ -17,7 +18,8 @@ const store = createStore({
         artists: artistsModule,
         albums: albumsModule,
         songs: songsModule,
-        player: playerModule
+        player: playerModule,
+        queue: queueModule
     }
 });
 

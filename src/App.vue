@@ -6,7 +6,7 @@
       <router-view @play-song="handlePlaySong"></router-view>
     </div>
   </div>
-  <player :show-player="showPlayer" :volume="volume" :current-song-url="currentSongUrl" v-show="showPlayer" :key="currentSongUrl"></player>
+  <player :show-player="showPlayer" :volume="volume" :current-song-url="currentSongUrl" v-show="showPlayer" :key="currentSongUrl" @play-next="handlePlayNext"></player>
 </template>
 
 <script>
@@ -35,6 +35,12 @@ export default {
       this.volume = this.$store.getters['player/volume'];
       this.currentSongUrl = song.songUrl;
     },
+    handlePlayNext(song) {
+      console.log("PLAY NEXT EMITTED")
+      this.showPlayer = true;
+      this.volume = this.$store.getters['player/volume'];
+      this.currentSongUrl = song.songUrl;
+    }
   }
 };
 </script>

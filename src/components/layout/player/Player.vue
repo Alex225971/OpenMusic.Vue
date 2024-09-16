@@ -1,3 +1,9 @@
+<script setup>
+import { defineEmits } from "vue";
+
+const emit = defineEmits(["play-next"]);
+</script>
+
 <template>
     <div v-show="showPlayer" class="player-container border-light border-top bg-dark">
         
@@ -8,7 +14,7 @@
           <div>
             <button class="btn btn-outline-success border-0 p-1" @click="togglePlay"><i class="bi bi-skip-start-fill"></i></button> 
             <button class="btn btn-outline-success border-0 fs-2 p-1" @click="togglePlay"><i v-if="!isPlaying" class="bi bi-play-fill"></i><i v-else class="bi bi-pause-fill"></i></button>
-            <button class="btn btn-outline-success border-0 p-1" @click="togglePlay"><i class="bi bi-skip-end-fill"></i></button> 
+            <button class="btn btn-outline-success border-0 p-1" @click="playNextSong"><i class="bi bi-skip-end-fill"></i></button> 
             <input class="ms-2 slider" ref="volumeSlider" type="range" min="1" max="100" :value="volume * 100" @change="setVolume" />
             <div class="ms-2 btn btn-outline-success mute-button border-0 fs-2 p-1" @click="toggleMute"><i v-if="!isMuted" class="bi bi-volume-up-fill"></i> <i v-else class="bi bi-volume-mute-fill"></i></div>
           </div>
@@ -45,7 +51,8 @@ export default {
   data() {
     return {
       isPlaying: true,
-      isMuted: false
+      isMuted: false,
+      positionInQueue: 0
     };
   },
   onMounted() {
@@ -112,6 +119,12 @@ export default {
       const newSongUrl = this.src; 
       this.$refs.player.src = newSongUrl;
       this.$refs.player.play();
+    },
+    playNextSong() {
+      this.positionInQueue++;
+      let queue = this.$store.getters['queue/currentQueue'];
+      console.log("next song: " + this.positionInQueue + JSON.stringify(queue[this.positionInQueue]));
+      this.$emit("play-next", queue[this.positionInQueue]);
     }
   },
   computed: {

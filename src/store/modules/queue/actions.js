@@ -4,7 +4,6 @@ import playlists from '.';
 
 export default {
     async updateQueue(context, data) {
-        console.log("QUEUE UPDATED")
+        context.commit('SET_QUEUE', data);
     }
-
 };
