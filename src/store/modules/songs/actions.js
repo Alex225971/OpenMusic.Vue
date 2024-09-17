@@ -1,10 +1,12 @@
 import 'vue3-toastify/dist/index.css';
 import store from 'C:/Users/duble/Documents/code/OpenMusic.Vue/src/store/index.js'
 import playlists from '.';
+import { toast } from 'vue3-toastify';
+import router from '../../../router';
 
 export default {
     async getSongs(context, data) {
-        let token = data.token;
+        let token = store.getters['user/token'];
 
         const response = await fetch('https://localhost:7229/api/Songs', {
             method: 'GET',
@@ -15,7 +17,7 @@ export default {
 
         let responseData = await response.json();
         
-        //context.commit('SET_SEARCH_RESULTS', responseData);
+        context.commit('SET_SONGS', responseData);
     },
     async createSong(context, data) {
 
@@ -42,7 +44,16 @@ export default {
             }
         });
 
-        var responseData = await response.json();
+        if (response.status > 199 && response.status < 300) {
+            toast.success(`Song "${data.name}" created`, {
+                autoClose: 2000,
+            });
+            router.push('/song/menu')
+        } else {
+            toast.error(`Song could not be created, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
         
     },
     async getAllSongs(context, data) {
@@ -65,13 +76,24 @@ export default {
         const response = await fetch('https://localhost:7229/api/Songs/' + data, {
             method: 'DELETE',
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json-patch+json"
             }
         });
 
-        const responseData = await response.json();
+        if (response.status > 199 && response.status < 300) {
+            toast.success(`Song with ID "${data}" deleted`, {
+                autoClose: 2000,
+            });
+            console.log("SONG DELETING SUCCESSFUL")
+            store.dispatch('songs/getSongs'); //Update the store to "get rid" of the deleted song
+        } else {
+            toast.error(`Song could not be deleted, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
 
-        context.commit('SET_SONG', null);
+        //context.commit('SET_SONG', null);
     }
 
 };

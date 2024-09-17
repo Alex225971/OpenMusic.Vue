@@ -14,7 +14,7 @@ const emit = defineEmits(["play-song"]);
         <h2 class="mb-3">Songs</h2>
         <div class="row" v-for="song in getArtist.songs" :key="song.id">
           <div class="col-3">
-            <h5>{{ song.title }}</h5>
+            <h5><a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a></h5>
           </div>
           <div class="col-2">
             <h5>{{ song.artistName }}</h5>
@@ -39,7 +39,7 @@ const emit = defineEmits(["play-song"]);
           </div>
         </div>
         
-        <h5 class="mt-2">{{ album.title }}</h5>
+        <h5 class="mt-2"><router-link :to="{path: '/album/' + album.id}" class="link-light text-decoration-none">{{ album.title }}</router-link></h5>
         <p>{{ album.year }}</p>
       </div>
     </div>

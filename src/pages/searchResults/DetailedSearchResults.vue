@@ -74,7 +74,7 @@ const emit = defineEmits(["play-song"]);
             <div v-for="album in searchResults?.albums" :key="album.id" class="playlist-row row d-flex align-content-center">
                 <div class="col-1 album-cover">
                     <img class="w-100 h-100 p-3" :src="album.image" alt="">
-                    <div v-if="album.songs.length > 0" @click="emit('play-song', album.songs[0])" class="play-icon">
+                    <div v-if="album.songs.length > 0" @click="emitAndSetQueue(album)" class="play-icon">
                         <i class="bi bi-play-fill text-white fs-1"></i>
                     </div>
                 </div>
@@ -206,11 +206,9 @@ export default {
         }
     },
     methods: {
-        playSong(song) {
-            this.selectedSongUrl = song.songUrl;
-            this.playerKey++; //Adding a key means a new instance of the player will be created when the song is played
-            this.showPlayer = true;
-            document.getElementById('player').play();
+        emitAndSetQueue(album) {
+            this.$store.dispatch("queue/updateQueue", album.songs);
+            this.$emit("play-song",album.songs[0]);
         },
         logQuery() {
             //let myParam = this.currentSearch

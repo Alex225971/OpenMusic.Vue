@@ -27,7 +27,7 @@ const emit = defineEmits(["play-next"]);
           </div>
         </div>
         <div class="skip-button me-3">
-          <div class="btn btn-outline-success border-0">
+          <div class="btn btn-outline-success border-0" @click="shuffleQueue">
             <i class="bi bi-shuffle"></i>
           </div>
         </div>
@@ -136,7 +136,9 @@ export default {
       } else {
         console.log("QUEUE ENDED!");
       }
-      
+    },
+    shuffleQueue() {
+      this.$store.dispatch("queue/shuffleQueue");
     }
   },
   computed: {

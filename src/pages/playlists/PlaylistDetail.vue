@@ -1,3 +1,9 @@
+<script setup>
+import { defineEmits } from "vue";
+
+const emit = defineEmits(["play-song"]);
+</script>
+
 <template>
   <div class="my-0 m-auto col-10 p-5 pb-0">
     <div class="my-0 m-auto col-6 p-5">
@@ -10,17 +16,17 @@
             <a class="link-light me-2" type="button" aria-expanded="false">
               <i class="bi bi-share"></i>
             </a>
-            <a class="link-light me-2 fs-1" type="button" aria-expanded="false">
+            <a class="link-light me-2 fs-1" type="button" aria-expanded="false" @click="emitAndSetQueue(getPlaylist)">
               <i class="bi bi-play-fill"></i>
             </a>
             <div class="dropdown">
                 <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-three-dots-vertical options-menu"></i>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-dark">
                   <li><a class="dropdown-item"><i class="bi bi-shuffle"></i> Shuffle play</a></li>
                   <li><a class="dropdown-item" href="#"><i class="bi bi-music-note-list"></i> Play next</a></li>
-                  <li><a @click="deletePlaylist" class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete playlist</a></li>
+                  <li><a @click="deletePlaylist(getPlaylist)" class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete playlist</a></li>
               </ul>
             </div>
           </div>
@@ -61,9 +67,18 @@ export default {
         id: this.$route.params.id,
       });
     },
-    deletePlaylist() {
-      console.log("DELETE")
-    }
+    deletePlaylist(playlist) {
+      let text = "Are you sure you want to delete " + playlist.name + "?";
+      if (confirm(text) == true) {
+        this.$store.dispatch('playlists/deletePlaylist', playlist.id)
+      } else {
+        return;
+      }
+    },
+    emitAndSetQueue(playlist) {
+      this.$store.dispatch("queue/updateQueue", playlist.songs);
+      this.$emit("play-song",playlist.songs[0]);
+    },
   },
 };
 </script>

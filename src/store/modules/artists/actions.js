@@ -1,6 +1,7 @@
 import 'vue3-toastify/dist/index.css';
+import { toast } from 'vue3-toastify';
 import store from 'C:/Users/duble/Documents/code/OpenMusic.Vue/src/store/index.js'
-import playlists from '.';
+import router from '../../../router';
 
 export default {
     async getArtists(context, data) {
@@ -19,28 +20,26 @@ export default {
     },
     async createArtist(context, data) {
 
+        console.log("REQUEST BODY: " + JSON.stringify(data))
         var formData = new FormData();
         let token = store.getters['user/token'];
 
-        const playlistData = {
-            name: data.title,
-            bio: data.bio,
-            started: data.startDate,
-            ended: data.endDate
-        };
-
-        Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
-
         const response = await fetch('https://localhost:7229/api/Artists', {
             method: 'POST',
-            body: formData,
+            body: JSON.stringify(data),
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json-patch+json"
             }
         });
 
-        let responseData = await response.json();
-            },
+        if (response.status > 199 && response.status < 300) {
+            toast.success(`Artist "${data.name}" created`, {
+                autoClose: 2000,
+            });
+            router.push('/artist/menu')
+        }
+    },
     async selectArtist(context, data) {
         context.commit('SET_CURRENT_ARTIST_ID', data);
     },
@@ -79,6 +78,8 @@ export default {
     async deleteArtist(context, data) {
         let token = store.getters['user/token'];
 
+        console.log("DELETING ARTIST: " + data)
+
         const response = await fetch('https://localhost:7229/api/Artists/' + data, {
             method: 'DELETE',
             headers: {
@@ -86,9 +87,17 @@ export default {
             }
         });
 
-        const responseData = await response.json();
-
-        context.commit('SET_ARTIST', null);
+        if (response.status > 199 && response.status < 300) {
+            context.commit('SET_ARTIST', null);
+            store.dispatch('artists/getArtists'); //Update the store to "get rid" of the deleted artist
+            toast.success(`Artist with ID ${data} deleted`, {
+                autoClose: 2000,
+            });
+        } else {
+            toast.error(`Artist could not be deleted, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
     }
 
 };

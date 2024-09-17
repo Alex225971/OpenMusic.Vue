@@ -1,5 +1,7 @@
 import 'vue3-toastify/dist/index.css';
 import store from 'C:/Users/duble/Documents/code/OpenMusic.Vue/src/store/index.js'
+import { toast } from 'vue3-toastify';
+
 
 export default {
     async createAlbum(context, data) {
@@ -99,9 +101,16 @@ export default {
             }
         });
 
-        const responseData = await response.json();
-
-        context.commit('SET_ALBUM', null);
+        if (response.status > 199 && response.status < 300) {
+            toast.success(`Album with ID "${data}" deleted`, {
+                autoClose: 2000,
+            });
+            store.dispatch('albums/getAllAlbums'); //Update the store to "get rid" of the deleted album
+        } else {
+            toast.error(`Album could not be deleted, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
     }
 
 };

@@ -1,6 +1,7 @@
 import 'vue3-toastify/dist/index.css';
 import store from 'C:/Users/duble/Documents/code/OpenMusic.Vue/src/store/index.js'
-import playlists from '.';
+import router from '../../../router';
+import { toast } from 'vue3-toastify';
 
 export default {
     async createPlaylist(context, data) {
@@ -93,6 +94,30 @@ export default {
         });
 
         const responseData = await response.json();
+
+    },
+    async deletePlaylist(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Playlists/' + data, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        if (response.status > 199 && response.status < 300) {
+            store.dispatch('playlists/getUserPlaylists'); //Update the store to "get rid" of the deleted playlist
+            router.push('/home');
+            toast.success(`Playlist with ID "${data}" deleted`, {
+                autoClose: 2000,
+            });
+        } else {
+            toast.error(`Playlist could not be deleted, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
+
 
     }
 

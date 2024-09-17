@@ -1,8 +1,8 @@
 <template>
   <div class="my-0 m-auto col-10 p-5 pb-0">
-    <form>
+    <form @submit.prevent="createArtist">
           <div class="col-6">
-            <label for="artistName" class="form-label">Artist name <span class="text-danger">*</span></label>
+            <label for="artistName" class="form-label">Artist name<span class="text-danger">*</span></label>
             <input type="text" class="form-control mb-3" id="artistName" placeholder="Name" v-model="artistName">
           </div>
         <div class="col-6">
@@ -26,9 +26,6 @@
 </template>
 <script>
 export default {
-    created() {
-      
-    },
     computed: {
         artists() {
             return this.$store.getters['artists/artists'];
@@ -41,7 +38,12 @@ export default {
             });
         },
         createArtist() {
-          
+          this.$store.dispatch('artists/createArtist', {
+            name: this.artistName,
+            bio: this.artistBio,
+            startDate: this.startDate,
+            endDate: this.endDate
+          });
         }
     }
 }
