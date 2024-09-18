@@ -94,6 +94,27 @@ export default {
         }
 
         //context.commit('SET_SONG', null);
+    },
+    async getArtistSongsAndSetQueue(context, data) {
+        let token = store.getters['user/token'];
+        console.log("DATA: " + JSON.stringify(data))
+
+        const response = await fetch('https://localhost:7229/api/Songs/Artist/' + data, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        var responseData = await response.json();
+
+        if (response.status > 199 && response.status < 300) {
+            context.dispatch('queue/updateQueue', responseData, { root: true });
+        } else {
+            toast.error(`Queueing songs failed, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
     }
 
 };

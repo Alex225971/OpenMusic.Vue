@@ -80,6 +80,7 @@ export default {
     },
     emitAndSetQueue(album) {
       this.$store.dispatch("queue/updateQueue", album.songs);
+      console.log("song i wanna play: " + JSON.stringify(album.songs[0]));
       this.$emit("play-song",album.songs[0]);
     }
   },

@@ -3,7 +3,7 @@
     <div class="sidebar-list text-light">
       <ul>
         <li>
-          <router-link to="/home" class="link-light"
+          <router-link to="/home" class="link-light mb-2"
             ><i class="bi bi-house-door-fill me-2"></i> Home</router-link
           >
         </li>

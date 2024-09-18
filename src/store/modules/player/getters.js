@@ -4,6 +4,7 @@ export default {
     },
     volume(state) {
         console.log("GETTERS VOLUME: " + state.volume);
+        console.log("GETTERS USER VOLUME: " + localStorage.getItem('userVolume'));
         return localStorage.getItem('userVolume') || state.volume; //Get localStorage volume for users who have set it, state.volume as backup
     },
     currentSong(state) {

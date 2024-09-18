@@ -31,8 +31,8 @@ const emit = defineEmits(["play-song"]);
                 </div>
                 <div class="col-9 align-content-center">
                     <h4 class="mb-0">
-                        <a @click="emit('play-song', song)" class="link-light text-decoration-none">{{ song.title }}</a> - 
-                        <router-link v-if="song.artistId" :to="{path: '/artist/' + song.artistId}" class="link-light text-decoration-none">{{ song.artistName }}</router-link> 
+                        <a @click="getSongsAndPlay(song)" class="link-light text-decoration-none">{{ song.title }}</a> - 
+                        <router-link v-if="song.artistId" :to="{path: '/artist/' + song.artistId}" class="link-light text-decoration-none">{{ song.artistName }}</router-link>
                         <span v-if="!song.artistName">Unknown Artist</span> - 
                         <router-link v-if="song.albumId" :to="{path: '/album/' + song.albumId}" class="link-light text-decoration-none">{{ song.albumTitle }}</router-link>
                         <span v-if="!song.albumTitle">(Single)</span>
@@ -234,6 +234,29 @@ export default {
             console.log(JSON.stringify(playlist.id));
             console.log(this.selectedSongId);
             this.$store.dispatch('playlists/addSongToPlaylist', {id: playlist.id, songId: this.selectedSongId });
+        },
+        getSongsAndPlay(song) {
+            // if(song.artistId) {
+            //     this.$store.dispatch('songs/getArtistSongsAndSetQueue', song.artistId);
+            // }
+            // console.log("song i wanna play: " + JSON.stringify(song));
+            // this.$emit("play-song", song);
+
+            if (song.artistId) {
+                console.log("Dispatch result:", this.$store.dispatch('songs/getArtistSongsAndSetQueue', song.artistId));
+                this.$store.dispatch('songs/getArtistSongsAndSetQueue', song.artistId)
+                .then(() => { // Ensure the store is updated before emitting the event
+                    console.log("song i wanna play: " + JSON.stringify(song));
+                    this.$emit("play-song", song);
+                })
+                .catch(error => {
+                    console.error("Error fetching artist songs:", error);
+                    // Handle the error gracefully, maybe show a user-friendly message
+                });
+            } else {
+                console.warn("Cannot play song, missing artistId:", song);
+                // Consider handling this case, maybe play the song directly without fetching artist songs
+            }
         }
     }
 }
