@@ -19,6 +19,28 @@ export default {
         
         context.commit('SET_SONGS', responseData);
     },
+    async loadInDetail(context, data) {
+        store.getters['songs/currentSong'];
+        let token = store.getters['user/token'];
+
+        console.log("GETTING TO SONGS")
+
+        const response = await fetch('https://localhost:7229/api/Songs/' + data.id, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const responseData = await response.json();
+
+        context.commit('SET_CURRENT_SONG', {
+            ...responseData
+        });
+        console.log("SETTING ID: " + data.id)
+        context.commit('artists/SET_CURRENT_ARTIST_ID', data.artistId, { root: true });
+        context.commit('albums/SET_CURRENT_ALBUM_ID', data.albumId, { root: true });
+    },
     async createSong(context, data) {
 
         var formData = new FormData();
@@ -115,6 +137,16 @@ export default {
                 autoClose: 2000,
             });
         }
+    },
+    async putSong(context, data) {
+        let token = store.getters['user/token'];
+        
+        const response = await fetch('https://localhost:7229/api/Songs/' + data.id, {
+            method: 'PUT',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
     }
 
 };

@@ -16,6 +16,7 @@ import ArtistDetail from './pages/artist/ArtistDetail.vue';
 import AlbumsMenu from './pages/admin/Albums/AlbumsMenu.vue';
 import ArtistsMenu from './pages/admin/Artists/ArtistsMenu.vue';
 import SongsMenu from './pages/admin/Songs/SongsMenu.vue';
+import SongsEdit from './pages/admin/Songs/SongsEdit.vue';
 import ArtistEdit from './pages/artist/ArtistEdit.vue';
 import AlbumEdit from './pages/album/AlbumEdit.vue';
 
@@ -56,6 +57,7 @@ const router = createRouter({
             children: [{ path: 'new', name: 'song', component: CreateSong }],
         },
         { path: '/song/menu', component: SongsMenu, meta: { guarded: true } },
+        { path: '/song/edit/:id', component: SongsEdit, meta: { guarded: true } },
         { path: '/:notFound(.*)', component: NotFound, meta: { guarded: true } },
     ]
 });

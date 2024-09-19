@@ -236,17 +236,11 @@ export default {
             this.$store.dispatch('playlists/addSongToPlaylist', {id: playlist.id, songId: this.selectedSongId });
         },
         getSongsAndPlay(song) {
-            // if(song.artistId) {
-            //     this.$store.dispatch('songs/getArtistSongsAndSetQueue', song.artistId);
-            // }
-            // console.log("song i wanna play: " + JSON.stringify(song));
-            // this.$emit("play-song", song);
 
             if (song.artistId) {
                 console.log("Dispatch result:", this.$store.dispatch('songs/getArtistSongsAndSetQueue', song.artistId));
                 this.$store.dispatch('songs/getArtistSongsAndSetQueue', song.artistId)
                 .then(() => { // Ensure the store is updated before emitting the event
-                    console.log("song i wanna play: " + JSON.stringify(song));
                     this.$emit("play-song", song);
                 })
                 .catch(error => {
@@ -254,8 +248,8 @@ export default {
                     // Handle the error gracefully, maybe show a user-friendly message
                 });
             } else {
-                console.warn("Cannot play song, missing artistId:", song);
-                // Consider handling this case, maybe play the song directly without fetching artist songs
+                console.warn("Queue not set because no artist was found", song);
+                this.$emit("play-song", song);
             }
         }
     }

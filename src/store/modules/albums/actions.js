@@ -1,6 +1,8 @@
 import 'vue3-toastify/dist/index.css';
 import store from 'C:/Users/duble/Documents/code/OpenMusic.Vue/src/store/index.js'
 import { toast } from 'vue3-toastify';
+import router from '../../../router';
+
 
 
 export default {
@@ -40,6 +42,17 @@ export default {
         });
 
         let responseData = await response.json();
+
+        if (response.status > 199 && response.status < 300) {
+            toast.success(`Album "${data.name}" created`, {
+                autoClose: 2000,
+            });
+            router.push('/album/menu')
+        } else {
+            toast.error(`Album could not be created, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
         
         //context.commit('SET_ALBUMS', responseData);
     },
@@ -73,6 +86,8 @@ export default {
         context.commit('SET_CURRENT_ALBUM', {
             ...responseData
         });
+        console.log("SETTING ID: " + data.id)
+        context.commit('artists/SET_CURRENT_ARTIST_ID', data.id, { root: true });
     },
     async selectAlbum(context, data) {
         context.commit('SET_CURRENT_ALBUM_ID', data);
@@ -111,6 +126,51 @@ export default {
                 autoClose: 2000,
             });
         }
-    }
+    },
+    async putAlbum(context, data) {
+        var formData = new FormData();
+        let token = store.getters['user/token'];
 
+        const albumData = {
+            title: data.title,
+            year: data.year,
+            artistId: data.artistId
+        };
+
+        Object.keys(albumData).forEach(key => formData.append(key, albumData[key]));
+
+
+        //Songs won't be included for now, until I can figure out how this would work on the API side
+        // data.songs.forEach((song, index) => {
+        //     formData.append(`songs[${index}].title`, song.title);
+        //     formData.append(`songs[${index}].releaseDate`, song.releaseDate);
+        //     formData.append(`songs[${index}].songUrl`, '1');
+        
+        //     // If you need to upload song files as well, append the files
+        //     if (song.songFile) {
+        //         formData.append(`songs[${index}].songFile`, song.songFile);
+        //     }
+            
+        // });
+        
+        const response = await fetch('https://localhost:7229/api/Albums/' + data.id, {
+            method: 'PUT',
+            body: formData,
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        if (response.status > 199 && response.status < 300) {
+            toast.success(`Album with ID "${data}" updated`, {
+                autoClose: 2000,
+            });
+            store.dispatch('albums/getAllAlbums'); //Update the store to "get rid" of the deleted album
+            router.push('/album/menu')
+        } else {
+            toast.error(`Album could not be updated, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
+    }
 };

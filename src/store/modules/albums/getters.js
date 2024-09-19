@@ -1,5 +1,6 @@
 export default {
     currentAlbumId(state) {
+        console.log("Getters current album ID: " + state.currentAlbumId);
         return state.currentAlbumId;
     },
     currentAlbum(state) {

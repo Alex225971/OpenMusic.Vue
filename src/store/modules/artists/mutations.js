@@ -6,6 +6,7 @@ export default {
         state.currentArtist = payload;
     },
     SET_CURRENT_ARTIST_ID(state, payload) {
+        console.log("SET_CURRENT_ARTIST_ID: " + payload)
         state.currentArtistId = payload;
     }
 };
