@@ -140,18 +140,22 @@ export default {
         Object.keys(albumData).forEach(key => formData.append(key, albumData[key]));
 
 
-        //Songs won't be included for now, until I can figure out how this would work on the API side
-        // data.songs.forEach((song, index) => {
-        //     formData.append(`songs[${index}].title`, song.title);
-        //     formData.append(`songs[${index}].releaseDate`, song.releaseDate);
-        //     formData.append(`songs[${index}].songUrl`, '1');
+        //Songs and files added here
+        data.songs.forEach((song, index) => {
+            formData.append(`songs[${index}].title`, song.title);
+            formData.append(`songs[${index}].releaseDate`, song.releaseDate);
+            formData.append(`songs[${index}].songUrl`, '1');
+            if(song.id === undefined) {
+                song.id = 0;
+            }
+            formData.append(`songs[${index}].id`, song.id);
         
-        //     // If you need to upload song files as well, append the files
-        //     if (song.songFile) {
-        //         formData.append(`songs[${index}].songFile`, song.songFile);
-        //     }
+            //Songs added to a list inside the album DTO
+            if (song.songFile) {
+                formData.append(`songs[${index}].songFile`, song.songFile);
+            }
             
-        // });
+        });
         
         const response = await fetch('https://localhost:7229/api/Albums/' + data.id, {
             method: 'PUT',

@@ -25,20 +25,20 @@
             <div class="row">
               <div class="col-4">
                 <label class="form-label" :for="'songTitle-' + index">Song {{ index + 1 }} name</label>
-                <input class="form-control text-muted" disabled v-model="song.title" :id="'songTitle-' + index" type="text" placeholder="Song title" />
+                <input class="form-control" v-model="song.title" :id="'songTitle-' + index" type="text" placeholder="Song title" />
               </div>
               <div class="col-4">
                 <label class="form-label" :for="'releaseDate-' + index">Release date</label>
-                <input type="date" disabled  class="form-control text-muted" :id="'releaseDate-' + index" min="1" v-model="song.releaseDate">
+                <input type="date"  class="form-control" :id="'releaseDate-' + index" min="1" v-model="song.releaseDate">
               </div>
               <div class="col-4">
                 <label class="form-label" :for="'songFile-' + index">Song file</label>
-                <input disabled  @change="onFileSelected($event, index)" name="songFile" class="form-control text-muted" type="file" :id="'songFile-' + index"/>
+                <input  @change="onFileSelected($event, index)" name="songFile" class="form-control" type="file" :id="'songFile-' + index"/>
               </div>
             </div>
           </div>
 
-        <button class="btn btn-outline-light" disabled type="button" @click="addSong">Add song<i class="bi bi-plus"></i></button>
+        <button class="btn btn-outline-light" type="button" @click="addSong">Add song<i class="bi bi-plus"></i></button>
       </div>
     </div>
     </form>
