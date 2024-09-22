@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-6">
         <label for="artist" class="form-label">Artist (select)</label>
-        <select class="dropdown mb-3 form-select" v-if="artists && artists.length > 0" v-model="getAlbum.artistName">
+        <select class="dropdown mb-3 form-select" v-if="artists && artists.length > 0" v-model="getAlbum.artistName" @change="selectArtist(getAlbum.artistName)">
           <option class="dropdown-toggle" name="artist" type="button" data-bs-toggle="dropdown" aria-expanded="false" ref="artistName">
             Unknown Artist (empty)
           </option>
@@ -88,21 +88,22 @@ export default {
     onFileSelected(event, index) {
       this.getAlbum.songs[index].songFile = event.target.files[0];
     },
-    selectArtist(artistId) {
-      if(artistId != null) {
-        this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtists'].find(artist => artist.id === artistId).name;
+    selectArtist(artistName) {
+      //Find the artist id based on the name (don't have access to both at the same time)
+      const selectedArtist = this.artists.find(artist => artist.name === artistName);
+      if (selectedArtist) {
+        const artistId = selectedArtist.id;
         this.$store.dispatch('artists/selectArtist', artistId);
       } else {
-        this.$refs.artistName.innerHTML = 'Unknown Artist (empty)';
+        console.error("Artist not found:", artistName);
       }
-      this.$store.dispatch('artists/selectArtist', artistId);
     },
     putAlbum() {
       this.album = {
         id: this.getAlbum.id,
         title: this.getAlbum.title,
         year: this.getAlbum.year,
-        artistId: this.getAlbum.artistId,
+        artistId: this.$store.getters['artists/currentArtistId'],
         songs: this.getAlbum.songs
       }
       console.log("PUT ALBUM: " + JSON.stringify(this.album))

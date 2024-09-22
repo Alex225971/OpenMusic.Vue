@@ -4,6 +4,7 @@ export default {
         return state.currentArtistId;
     },
     currentArtist(state) {
+        console.log("Getter artist " + JSON.stringify(state.currentArtist));
         return state.currentArtist;
     },
     getArtists(state) {

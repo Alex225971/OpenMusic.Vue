@@ -1,55 +1,64 @@
 <template>
   <div class="my-0 m-auto col-10 p-5 pb-0">
-    <h1 class="mt-5 ms-5">{{ getArtist.name }}</h1>
-    <p class="mt-2 ms-5">{{ getArtist.bio }}</p>
-    <hr/>
-    <div class="row mt-2 ms-5" v-if="getArtist.songs.length > 0">
-      <div class="col-12 ">
-        <h2>Songs</h2>
-        <div class="row" v-for="song in getArtist.songs" :key="song.id">
+    <form @submit.prevent="createArtist">
+          <div class="col-6">
+            <label for="artistName" class="form-label">Artist name<span class="text-danger">*</span></label>
+            <input type="text" class="form-control mb-3" id="artistName" placeholder="Name" v-model="artist.name">
+          </div>
+        <div class="col-6">
+          <label for="artistBio" class="form-label">Bio</label>
+          <textarea type="text" class="form-control mb-3" placeholder="Write a short bio for the artist" id="artistBio" v-model="artist.bio"></textarea>
+        </div>
+
+        <div class="row">
           <div class="col-3">
-            <h5>{{ song.title }}</h5>
+            <label for="startDate" class="mb-2">Start date:</label>
+            <input class="form-control" type="date" id="startDate" name="artistStart" value="2024-01-01" v-model="this.startedDate"/>
           </div>
-          <div class="col-2">
-            <h5>{{ song.artistName }}</h5>
-          </div>
-          <div class="col-2">
-            <h5>{{ song.albumTitle || 'Single' }}</h5>
+          <div class="col-3 pe-0">
+            <label for="endDate" class="mb-2">End date:</label>
+            <input class="form-control mb-3" type="date" id="endDate" name="artistEnd" value="2024-01-01" v-model="this.endedDate"/>
           </div>
         </div>
-      </div>
-    </div>
-    <hr />
-    <div class="row mt-2 ms-5" v-if="getArtist.albums.length > 0">
-      <h2>Albums</h2>
-      <div v-for="album in getArtist.albums" :key="album.id" class="col-1">
-        <img :src="album.image" :alt="album.name" class="mt-3 img-thumbnail">
-        <h5 class="mt-2">{{ album.title }}</h5>
-        <p>{{ album.year }}</p>
-      </div>
-    </div>
-    <hr/>
+        <button class="btn btn-light" type="submit">Submit</button>
+    </form>
   </div>
 </template>
 <script>
 export default {
-  created() {
-    this.loadArtistInDetail();
-  },
-  computed: {
-    getArtist() {
-      return this.$store.getters['artists/currentArtist'];
+    computed: {
+        artist() {
+          return this.$store.getters['artists/currentArtist'];
+        },
+        startedDate() {
+          return this.sqlToJsDate(JSON.stringify(this.artist.started));
+        },
+        endedDate() {
+          return this.sqlToJsDate(JSON.stringify(this.artist.ended));
+        }
     },
-    isLoggedIn() {
-      return this.$store.getters['user/isAuthenticated'];
+    created() {
+      this.loadArtist();
+      //this.sqlToJsDate(this.artist);
     },
-  },
-  methods: {
-    loadArtistInDetail() {
-      this.$store.dispatch('artists/loadInDetail', {
-        id: this.$route.params.id,
-      });
+    mounted() {
+      console.log("ARTIST STARTED: " + this.startedDate);
+      console.log("ARTIST ENDED: " + this.endedDate);
     },
-  },
-};
+    methods: {
+        loadArtist() {
+            this.$store.dispatch('artists/getArtist', {
+              id: this.$route.params.id,
+            });
+        },
+        putArtist() {
+          this.$store.dispatch('artists/putArtist', {
+            name: this.artistName,
+            bio: this.artistBio,
+            startDate: this.startDate,
+            endDate: this.endDate
+          });
+        }
+    },
+}
 </script>

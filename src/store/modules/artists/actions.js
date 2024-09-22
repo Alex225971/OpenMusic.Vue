@@ -18,6 +18,20 @@ export default {
         
         context.commit('SET_ARTISTS', responseData);
     },
+    async getArtist(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Artists/' + data.id, {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        let responseData = await response.json();
+        
+        context.commit('artists/SET_CURRENT_ARTIST', {...responseData}, { root: true });
+    },
     async createArtist(context, data) {
 
         console.log("REQUEST BODY: " + JSON.stringify(data))

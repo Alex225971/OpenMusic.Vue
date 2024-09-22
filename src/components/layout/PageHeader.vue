@@ -21,14 +21,22 @@
             aria-label="Search"
             v-on:keyup="executePreSearch($event.target.value)"
             ref="search"
+            @focus="setActive"
+            @blur="setInactive"
           />
-          <div class="search-results col-4" :class="{ 'search-active': isActive, 'search-hidden': isHidden }">
+          <div class="search-results col-4" v-show="this.isActive && $refs.search.value">
             <div class="row my-2" v-if="searchResults">
               <div class="col-12 ms-3 m-2">
                 <router-link @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
               </div>
               <div class="col-12 ms-3 m-2" v-for="playlist in searchResults.playlists" :key="playlist.id">
                 <router-link @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', query: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
+              </div>
+              <div class="col-12 ms-3 m-2" v-for="album in searchResults.albums" :key="album.id">
+                <router-link @click="fillSearch(album.name)" :to="{ path: '/search', name: 'search', query: { queryString: album.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ album.name }}</router-link>
+              </div>
+              <div class="col-12 ms-3 m-2" v-for="artist in searchResults.artists" :key="artist.id">
+                <router-link @click="fillSearch(artist.name)" :to="{ path: '/search', name: 'search', query: { queryString: artist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ artist.name }}</router-link>
               </div>
             </div>
           </div>
@@ -65,6 +73,8 @@ export default {
   data() {
     return {
       searchResultsData: this.$store.getters['searchResults/searchResults'],
+      isActive: false,
+      isHidden: true,
     };
   },
   computed: {
@@ -85,6 +95,16 @@ export default {
     }
   },
   methods: {
+    setActive() {
+      this.isActive = true;
+    },
+    setInactive() {
+      setTimeout(() => {
+        if (!this.$refs.search.value) {
+          this.isActive = false;
+        }
+      }, 100);
+    },
     executePreSearch(input) {
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
@@ -102,8 +122,11 @@ export default {
     },
     fillSearch(input) {
       this.$refs.search.value = input;
-      this.$store.dispatch('searchResults/setCurrentSearch', input)
-      this.handleLinkClick();
+      this.$store.dispatch('searchResults/setCurrentSearch', input);
+      //this.handleLinkClick();
+      if(this.$refs.searchResults) {      
+                this.$refs.searchResults.$el.classList.add('hidden')
+            }
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
     clearSearchBox() {

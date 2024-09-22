@@ -7,6 +7,7 @@ export default {
         return state.currentAlbum;
     },
     getAlbums(state) {
+        console.log("Getters albums: " + JSON.stringify(state.albums));
         return state.albums;
     }
 }

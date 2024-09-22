@@ -138,15 +138,26 @@ export default {
             });
         }
     },
-    async putSong(context, data) {
+    async putSong(context, song) {
         let token = store.getters['user/token'];
+        console.log("SONG: " + JSON.stringify(song))
         
-        const response = await fetch('https://localhost:7229/api/Songs/' + data.id, {
+        const response = await fetch('https://localhost:7229/api/Songs/' + song.id, {
             method: 'PUT',
+            body: JSON.stringify(song),
             headers: {
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json-patch+json"
             }
         });
+
+        if (response.status > 199 && response.status < 300) {
+            router.push('/song/menu')
+        } else {
+            toast.error(`Song updating failed, something went wrong`, {
+                autoClose: 2000,
+            });
+        }
     }
 
 };

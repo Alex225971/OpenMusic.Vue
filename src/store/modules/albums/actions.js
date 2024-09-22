@@ -67,7 +67,7 @@ export default {
         });
 
         let responseData = await response.json();
-        
+        console.log("ALBUMS SET: " + JSON.stringify(responseData))
         context.commit('SET_ALBUMS', responseData);
     },
     async loadInDetail(context, data) {
@@ -87,7 +87,9 @@ export default {
             ...responseData
         });
         console.log("SETTING ID: " + data.id)
-        context.commit('artists/SET_CURRENT_ARTIST_ID', data.id, { root: true });
+        console.log("CURRENT ARTIST ID: " + JSON.stringify(responseData.artistId));
+
+        context.commit('artists/SET_CURRENT_ARTIST_ID', responseData.artistId, { root: true });
     },
     async selectAlbum(context, data) {
         context.commit('SET_CURRENT_ALBUM_ID', data);

@@ -33,13 +33,27 @@ const emit = defineEmits(["play-song"]);
         </div>
         <div class="col-lg-8">
           <h4 class="text-center">Songs</h4>
-          <p v-if="getPlaylist.songs.length == 0" class="text-center">
+          <p v-if="!getPlaylist.songs" class="text-center">
+            Songs came back null, sort out the API?
+          </p>
+          <p v-if="getPlaylist.songs && getPlaylist.songs.length == 0" class="text-center">
             No songs yet, add some!
           </p>
           <div v-for="song in getPlaylist.songs" :key="song.id">
             <div class="row">
               <div class="col-9">
-                {{ song.title }} ({{ song.releaseDate }}) - {{ song.artistName || 'Unknown Artist' }} - {{ song.albumTitle || ' (Single)' }}
+                {{ song.title }} ({{ song.releaseDate }}) - <span v-if="song.artist">{{ song.artist.name}}</span> <span v-else>Unknown Artist</span> <span v-if="song.album">{{ song.album.title}}</span> <span v-else>(Single)</span>
+              </div>
+              <div class="col-1 align-content-center">
+                <div class="dropdown">
+                  <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-three-dots-vertical options-menu"></i>
+                  </a>
+                  <ul class="dropdown-menu">
+                      <li><a class="dropdown-item"><i class="bi bi-trash"></i> Remove from playlist</a></li>
+                      <li><a class="dropdown-item" href="#">Play next</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
