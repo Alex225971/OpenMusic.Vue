@@ -58,6 +58,7 @@ export default {
     },
     async getAlbumsByArtist(context, data) {
         let token = store.getters['user/token'];
+        console.log("GETTING ALBUMS FOR ARTIST: " + JSON.stringify(data))
         
         const response = await fetch('https://localhost:7229/api/Albums/Artist/' + data, {
             method: 'GET',

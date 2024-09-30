@@ -45,17 +45,19 @@
 </template>
 <script>
 export default {
-  created() {
-    this.$store.dispatch('songs/loadInDetail', {id: this.$route.params.id,});
-    this.$store.dispatch('artists/getArtists');
+  async created() {
+    await this.$store.dispatch('songs/loadInDetail', {id: this.$route.params.id,});
+    this.$store.dispatch('albums/getAlbumsByArtist', this.getSong.artistId);
+    this.$store.dispatch('artists/getArtistsForSelect');
   },
   onMounted() {
+    console.log("GETTING ALBUMS BY ARTIST")
     this.$store.dispatch('albums/getAlbumsByArtist', this.getSong.artistId);
     this.onArtistSelect();
   },
   computed: {
     artists() {
-      return this.$store.getters['artists/getArtists'];
+      return this.$store.getters['artists/getArtistsForSelect'];
     },
     albums() {
       return this.$store.getters['albums/getAlbums'];
@@ -78,10 +80,10 @@ export default {
         
     },
     selectArtist(artistName) {
-      var artistId = this.$store.getters['artists/getArtists'].find(artist => artist.name === artistName).id;
+      var artistId = this.$store.getters['artists/getArtistsForSelect'].find(artist => artist.name === artistName).id;
         console.log("ARTIST NAME: " + artistName);
       if(artistName != null) {
-        this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtists'].find(artist => artist.name === artistName).name;
+        this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtistsForSelect'].find(artist => artist.name === artistName).name;
         this.$store.dispatch('artists/selectArtist', artistId);
         this.$store.dispatch('albums/getAlbumsByArtist', artistId);
       } else {
@@ -93,10 +95,10 @@ export default {
       var albumId = this.$store.getters['albums/getAlbums'].find(album => album.title === albumTitle).id;
       if(albumTitle != null) {
         console.log("ALBUM GETTER: " + this.$store.getters['albums/getAlbums']);
-        this.$refs.artistName.innerHTML = this.$store.getters['albums/getAlbums'].find(album => album.title === albumTitle).title;
+        this.$refs.albumTitle.innerHTML = this.$store.getters['albums/getAlbums'].find(album => album.title === albumTitle).title;
         this.$store.dispatch('albums/selectAlbum', albumId);
       } else {
-        this.$refs.artistName.innerHTML = 'Unknown Artist (empty)';
+        this.$refs.albumTitle.innerHTML = 'Unknown Artist (empty)';
       }
       this.$store.dispatch('albums/selectAlbum', albumId);
     },

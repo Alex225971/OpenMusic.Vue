@@ -23,8 +23,6 @@ export default {
         store.getters['songs/currentSong'];
         let token = store.getters['user/token'];
 
-        console.log("GETTING TO SONGS")
-
         const response = await fetch('https://localhost:7229/api/Songs/' + data.id, {
             method: 'GET',
             headers: {
@@ -37,9 +35,9 @@ export default {
         context.commit('SET_CURRENT_SONG', {
             ...responseData
         });
-        console.log("SETTING ID: " + data.id)
-        context.commit('artists/SET_CURRENT_ARTIST_ID', data.artistId, { root: true });
-        context.commit('albums/SET_CURRENT_ALBUM_ID', data.albumId, { root: true });
+        console.log("SETTING ID: " + JSON.stringify(data))
+        context.commit('artists/SET_CURRENT_ARTIST_ID', responseData.artistId, { root: true });
+        context.commit('albums/SET_CURRENT_ALBUM_ID', responseData.albumId, { root: true });
     },
     async createSong(context, data) {
 

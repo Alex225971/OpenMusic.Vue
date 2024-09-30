@@ -18,6 +18,20 @@ export default {
         
         context.commit('SET_ARTISTS', responseData);
     },
+    async getArtistsForSelect(context, data) {
+        let token = store.getters['user/token'];
+
+        const response = await fetch('https://localhost:7229/api/Artists/ArtistsForSelect', {
+            method: 'GET',
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        let responseData = await response.json();
+        
+        context.commit('SET_ARTISTS_FOR_SELECT', responseData);
+    },
     async getArtist(context, data) {
         let token = store.getters['user/token'];
 

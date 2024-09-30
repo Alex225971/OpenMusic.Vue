@@ -10,5 +10,9 @@ export default {
     getArtists(state) {
         console.log("Getter triggered " + JSON.stringify(state.artists));
         return state.artists;
+    },
+    getArtistsForSelect(state) {
+        console.log("ARTISTS FOR DISPLAY IN SELECT MENU " + JSON.stringify(state.artists));
+        return state.artistsForSelect;
     }
 }

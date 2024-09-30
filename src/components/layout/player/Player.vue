@@ -56,12 +56,10 @@ export default {
   },
   onMounted() {
     //Sometimes this works to set volume
-    console.log("MOUNTED WITH VOLUME: " + this.volume)
     this.$refs.player.volume = this.volume;
   },
   created() {
     //Sometimes this works to set volume instead
-    console.log("MOUNTED WITH VOLUME: " + this.volume)
     nextTick(() => {
       this.$refs.player.volume = this.volume;
     })

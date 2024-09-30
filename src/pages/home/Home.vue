@@ -3,3 +3,10 @@
         <h1>Welcome to OpenMusic</h1>
     </div>
 </template>
+<script>
+export default {
+    created() {
+        this.$store.dispatch('search/loadInDetail');
+    }
+}
+</script>
