@@ -17,7 +17,7 @@
         <h5 class="mb-3">Album details</h5>
         <label for="album" class="form-label">Album (select)</label>
         <select class="dropdown mb-3 form-select" v-if="albums && albums.length > 0" v-model="getSong.albumTitle" @change="selectAlbum(getSong.albumTitle)">
-          <option class="dropdown-toggle" name="album" type="button" data-bs-toggle="dropdown" aria-expanded="false" ref="albumTitle">
+          <option class="dropdown-toggle" name="album" type="button" data-bs-toggle="dropdown" aria-expanded="false" ref="albumTitleNull" value="Unknown Album (single)">
             Unknown Album (single)
           </option>
           <option class="dropdown-item" v-for="album in albums" :key="album.id" @click="selectAlbum(album.id)">{{ album.title }}</option>
@@ -49,6 +49,9 @@ export default {
     await this.$store.dispatch('songs/loadInDetail', {id: this.$route.params.id,});
     this.$store.dispatch('albums/getAlbumsByArtist', this.getSong.artistId);
     this.$store.dispatch('artists/getArtistsForSelect');
+    if(!this.getSong.albumTitle) {
+      this.getSong.albumTitle = 'Unknown Album (single)'
+    }
   },
   onMounted() {
     console.log("GETTING ALBUMS BY ARTIST")
@@ -81,8 +84,7 @@ export default {
     },
     selectArtist(artistName) {
       var artistId = this.$store.getters['artists/getArtistsForSelect'].find(artist => artist.name === artistName).id;
-        console.log("ARTIST NAME: " + artistName);
-      if(artistName != null) {
+      if(artistId) {
         this.$refs.artistName.innerHTML = this.$store.getters['artists/getArtistsForSelect'].find(artist => artist.name === artistName).name;
         this.$store.dispatch('artists/selectArtist', artistId);
         this.$store.dispatch('albums/getAlbumsByArtist', artistId);
@@ -92,15 +94,13 @@ export default {
       this.$store.dispatch('artists/selectArtist', artistId);
     },
     selectAlbum(albumTitle) {
-      var albumId = this.$store.getters['albums/getAlbums'].find(album => album.title === albumTitle).id;
-      if(albumTitle != null) {
-        console.log("ALBUM GETTER: " + this.$store.getters['albums/getAlbums']);
-        this.$refs.albumTitle.innerHTML = this.$store.getters['albums/getAlbums'].find(album => album.title === albumTitle).title;
-        this.$store.dispatch('albums/selectAlbum', albumId);
+      if(this.getSong.albumTitle === 'Unknown Album (single)') {
+        console.log("HOORAY");
+        this.$store.dispatch('albums/deSelectAlbum');
       } else {
-        this.$refs.albumTitle.innerHTML = 'Unknown Artist (empty)';
+        var albumId = this.$store.getters['albums/getAlbums'].find(album => album.title === albumTitle).id;
+        this.$store.dispatch('albums/selectAlbum', albumId);
       }
-      this.$store.dispatch('albums/selectAlbum', albumId);
     },
     putSong(songId) {
       console.log("SONG: " + JSON.stringify(songId))

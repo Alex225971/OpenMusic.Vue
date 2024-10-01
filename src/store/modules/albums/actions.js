@@ -93,7 +93,11 @@ export default {
         context.commit('artists/SET_CURRENT_ARTIST_ID', responseData.artistId, { root: true });
     },
     async selectAlbum(context, data) {
+        console.log("SELECTING ALBUM, DATA = " + data);
         context.commit('SET_CURRENT_ALBUM_ID', data);
+    },
+    async deSelectAlbum(context, data) {
+        context.commit('SET_CURRENT_ALBUM_ID', null);
     },
     async getAllAlbums(context, data) {
         let token = store.getters['user/token'];
