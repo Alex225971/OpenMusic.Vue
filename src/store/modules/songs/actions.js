@@ -8,7 +8,7 @@ export default {
     async getSongs(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Songs', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Songs', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -23,7 +23,7 @@ export default {
         store.getters['songs/currentSong'];
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Songs/' + data.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Songs/' + data.id, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -56,7 +56,7 @@ export default {
 
         Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
 
-        const response = await fetch('https://localhost:7229/api/Songs', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Songs', {
             method: 'POST',
             body: formData,
             headers: {
@@ -79,7 +79,7 @@ export default {
     async getAllSongs(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Songs/', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Songs/', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -93,7 +93,7 @@ export default {
     async deleteSong(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Songs/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Songs/' + data, {
             method: 'DELETE',
             headers: {
                 "Authorization": "Bearer " + token,
@@ -119,7 +119,7 @@ export default {
         let token = store.getters['user/token'];
         console.log("DATA: " + JSON.stringify(data))
 
-        const response = await fetch('https://localhost:7229/api/Songs/Artist/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artist/' + data, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -140,7 +140,7 @@ export default {
         let token = store.getters['user/token'];
         console.log("SONG: " + JSON.stringify(song))
         
-        const response = await fetch('https://localhost:7229/api/Songs/' + song.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Songs/' + song.id, {
             method: 'PUT',
             body: JSON.stringify(song),
             headers: {

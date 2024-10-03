@@ -7,7 +7,7 @@ export default {
     async getArtists(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Artists', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -21,7 +21,7 @@ export default {
     async getArtistsForSelect(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Artists/ArtistsForSelect', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists/ArtistsForSelect', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -35,7 +35,7 @@ export default {
     async getArtist(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Artists/' + data.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists/' + data.id, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -52,7 +52,7 @@ export default {
         var formData = new FormData();
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Artists', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -75,7 +75,7 @@ export default {
         store.getters['artists/currentArtistId'];
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Artists/' + data.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists/' + data.id, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -91,7 +91,7 @@ export default {
     async getAllArtists(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Artists/', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists/', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -108,7 +108,7 @@ export default {
 
         console.log("DELETING ARTIST: " + data)
 
-        const response = await fetch('https://localhost:7229/api/Artists/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists/' + data, {
             method: 'DELETE',
             headers: {
                 "Authorization": "Bearer " + token

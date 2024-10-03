@@ -20,7 +20,7 @@ export default {
         let token = store.getters['user/token'];
         let query = '?pageNumber=' + defaultParams.pageNumber + '&pageSize=' + defaultParams.pageSize + '&queryString=' + defaultParams.queryString;
 
-        const response = await fetch('https://localhost:7229/api/search' + query, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL +'search' + query, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token

@@ -14,7 +14,7 @@ export default {
             password: data.password
         };
 
-        var response = await fetch('https://localhost:7229/api/Auth/register', {
+        var response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/register', {
             method: 'POST',
             body: JSON.stringify(userData),
             headers: new Headers({ 'content-type': 'application/json' })
@@ -23,7 +23,7 @@ export default {
         if (response.status > 199 && response.status < 300) {
             //If the registration was successful we want to log in the user so they don't have to log in immediately after
 
-            response = await fetch('https://localhost:7229/api/Auth/login', {
+            response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/login', {
                 method: 'POST',
                 body: JSON.stringify({
                     email: data.email,
@@ -56,7 +56,7 @@ export default {
             password: data.password
         };
 
-        const response = await fetch('https://localhost:7229/api/Auth/login', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/login', {
             method: 'POST',
             body: JSON.stringify(userData),
             headers: new Headers({ 'content-type': 'application/json' })

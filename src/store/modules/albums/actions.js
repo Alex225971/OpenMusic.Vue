@@ -33,7 +33,7 @@ export default {
             }
         });
 
-        const response = await fetch('https://localhost:7229/api/Albums', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Albums', {
             method: 'POST',
             body: formData,
             headers: {
@@ -60,7 +60,7 @@ export default {
         let token = store.getters['user/token'];
         console.log("GETTING ALBUMS FOR ARTIST: " + JSON.stringify(data))
         
-        const response = await fetch('https://localhost:7229/api/Albums/Artist/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Albums/Artist/' + data, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -75,7 +75,7 @@ export default {
         store.getters['albums/currentAlbumId'];
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Albums/' + data.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Albums/' + data.id, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -102,7 +102,7 @@ export default {
     async getAllAlbums(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Albums/', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Albums/', {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -116,7 +116,7 @@ export default {
     async deleteAlbum(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Albums/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Albums/' + data, {
             method: 'DELETE',
             headers: {
                 "Authorization": "Bearer " + token
@@ -164,7 +164,7 @@ export default {
             
         });
         
-        const response = await fetch('https://localhost:7229/api/Albums/' + data.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Albums/' + data.id, {
             method: 'PUT',
             body: formData,
             headers: {

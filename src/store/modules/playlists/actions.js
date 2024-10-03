@@ -20,7 +20,7 @@ export default {
 
         Object.keys(playlistData).forEach(key => formData.append(key, playlistData[key]));
 
-        const response = await fetch('https://localhost:7229/api/Playlists', {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Playlists', {
             method: 'POST',
             body: formData,
             headers: {
@@ -42,7 +42,7 @@ export default {
         let token = store.getters['user/token'];
         let query = '?creatorId=' + store.getters['user/userId'];
 
-        const response = await fetch('https://localhost:7229/api/Playlists' + query, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Playlists' + query, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -68,7 +68,7 @@ export default {
         store.getters['playlists/currentPlaylistId'];
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Playlists/' + data.id, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Playlists/' + data.id, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token
@@ -86,7 +86,7 @@ export default {
         let playlistId = data.id;
         let songId = data.songId;
 
-        const response = await fetch('https://localhost:7229/api/Playlists/' + playlistId + '?songId=' + songId, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Playlists/' + playlistId + '?songId=' + songId, {
             method: 'PUT',
             headers: {
                 "Authorization": "Bearer " + token
@@ -99,7 +99,7 @@ export default {
     async deletePlaylist(context, data) {
         let token = store.getters['user/token'];
 
-        const response = await fetch('https://localhost:7229/api/Playlists/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Playlists/' + data, {
             method: 'DELETE',
             headers: {
                 "Authorization": "Bearer " + token
