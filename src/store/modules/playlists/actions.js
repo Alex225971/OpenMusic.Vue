@@ -1,5 +1,5 @@
 import 'vue3-toastify/dist/index.css';
-import store from '../index.js'
+import store from '../../index.js'
 import router from '../../../router';
 import { toast } from 'vue3-toastify';
 

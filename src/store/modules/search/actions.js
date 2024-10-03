@@ -1,7 +1,7 @@
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import playlists from '../playlists';
-import store from '../..';
+import store from '../../index.js';
 
 export default {
     async executePreSearch(context, data) {

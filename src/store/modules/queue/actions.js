@@ -1,5 +1,5 @@
 import 'vue3-toastify/dist/index.css';
-import store from '../index.js'
+import store from '../../index.js'
 import playlists from '.';
 
 export default {

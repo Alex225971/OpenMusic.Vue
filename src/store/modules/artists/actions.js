@@ -1,6 +1,6 @@
 import 'vue3-toastify/dist/index.css';
 import { toast } from 'vue3-toastify';
-import store from '../index.js'
+import store from '../../index.js'
 import router from '../../../router';
 
 export default {
