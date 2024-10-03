@@ -119,7 +119,7 @@ export default {
         let token = store.getters['user/token'];
         console.log("DATA: " + JSON.stringify(data))
 
-        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artist/' + data, {
+        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Artists/' + data, {
             method: 'GET',
             headers: {
                 "Authorization": "Bearer " + token

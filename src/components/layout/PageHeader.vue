@@ -24,13 +24,13 @@
             @focus="setActive"
             @blur="setInactive"
           />
-          <div class="search-results col-4" v-show="this.isActive && $refs.search.value">
+          <div class="search-results col-4" :class="{ active: isActive, hidden: isActive == false }" v-show="this.isActive">
             <div class="row my-2" v-if="searchResults">
               <div class="col-12 ms-3 m-2">
-                <router-link @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
+                <router-link class="w-100" @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
               </div>
               <div class="col-12 ms-3 m-2" v-for="playlist in searchResults.playlists" :key="playlist.id">
-                <router-link @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', query: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
+                <router-link class="w-100" @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', query: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
               </div>
               <div class="col-12 ms-3 m-2" v-for="album in searchResults.albums" :key="album.id">
                 <router-link @click="fillSearch(album.name)" :to="{ path: '/search', name: 'search', query: { queryString: album.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ album.name }}</router-link>
@@ -96,13 +96,13 @@ export default {
   },
   methods: {
     setActive() {
+      console.log("SEARCH ACTIVE")
       this.isActive = true;
     },
     setInactive() {
       setTimeout(() => {
-        if (!this.$refs.search.value) {
+        console.log("SEARCH INACTIVE")
           this.isActive = false;
-        }
       }, 100);
     },
     executePreSearch(input) {
