@@ -13,7 +13,7 @@
           aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <form class="d-flex col-4" v-on:keyup.enter="detailedSearch(this.$refs.search.value)" @submit.prevent="executePreSearch(this.$refs.search.value)">
+        <form class="d-flex col-4" v-on:keyup.enter="detailedSearch(this.$refs.search.value, true)" @submit.prevent="detailedSearch(this.$refs.search.value, true)">
           <input
             class="form-control search-bar"
             type="search"
@@ -26,18 +26,13 @@
           />
           <div class="search-results col-4" :class="{ active: isActive, hidden: isActive == false }" v-show="this.isActive">
             <div class="row my-2" v-if="searchResults">
-              <div class="col-12 ms-3 m-2">
-                <router-link class="w-100" @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
-              </div>
-              <div class="col-12 ms-3 m-2" v-for="playlist in searchResults.playlists" :key="playlist.id">
-                <router-link class="w-100" @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', query: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
-              </div>
-              <div class="col-12 ms-3 m-2" v-for="album in searchResults.albums" :key="album.id">
-                <router-link @click="fillSearch(album.name)" :to="{ path: '/search', name: 'search', query: { queryString: album.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ album.name }}</router-link>
-              </div>
-              <div class="col-12 ms-3 m-2" v-for="artist in searchResults.artists" :key="artist.id">
-                <router-link @click="fillSearch(artist.name)" :to="{ path: '/search', name: 'search', query: { queryString: artist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ artist.name }}</router-link>
-              </div>
+                <router-link class="col-11 p-2 mx-3 search-results-item" @click="fillSearch(this.$refs.search.value)" :to="{ path: '/search', name: 'search', query: { queryString: this.$refs.search.value }}"><i class="bi bi-search p-1 pe-2"></i> {{ this.$refs.search.value }}</router-link>
+                
+                <router-link v-for="playlist in searchResults.playlists" :key="playlist.id" class="col-11 p-2 mx-3 search-results-item" @click="fillSearch(playlist.name)" :to="{ path: '/search', name: 'search', query: { queryString: playlist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ playlist.name }}</router-link>
+                
+                <router-link v-for="album in searchResults.albums" :key="album.id" class="col-11 p-2 mx-3 search-results-item" @click="fillSearch(album.title)" :to="{ path: '/search', name: 'search', query: { queryString: album.title }}"><i class="bi bi-search p-1 pe-2"></i> {{ album.title }}</router-link>
+                
+                <router-link v-for="artist in searchResults.artists" :key="artist.id" class="col-11 p-2 mx-3 search-results-item" @click="fillSearch(artist.name)" :to="{ path: '/search', name: 'search', query: { queryString: artist.name }}"><i class="bi bi-search p-1 pe-2"></i> {{ artist.name }}</router-link>
             </div>
           </div>
           <button class="btn btn-outline-light search-button" type="submit">
@@ -69,12 +64,15 @@
 </template>
 
 <script>
+import router from '../../router.js';
+
 export default {
   data() {
     return {
       searchResultsData: this.$store.getters['searchResults/searchResults'],
       isActive: false,
       isHidden: true,
+      usingSubmit: false,
     };
   },
   computed: {
@@ -108,9 +106,18 @@ export default {
     executePreSearch(input) {
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
-    detailedSearch(input) {      
-      this.$store.dispatch('searchResults/setCurrentSearch', input)
-      this.clearSearchBox();
+    detailedSearch(input, submitUsed) {
+      console.log("EXECUTING DETAILED SEARCH WITH DATA: " + input);
+      this.$store.dispatch('searchResults/setCurrentSearch', input);
+
+      if(submitUsed) {
+        //this.handleLinkClick();
+        console.log("SUBMIT WAS USED");
+        this.$router.push({ 
+          name: 'search', 
+          query: { queryString: input }
+        });
+      }
     },
     logout() {
       let text = "Are you sure you want tom log out?";
@@ -125,13 +132,14 @@ export default {
       this.$store.dispatch('searchResults/setCurrentSearch', input);
       //this.handleLinkClick();
       if(this.$refs.searchResults) {      
-                this.$refs.searchResults.$el.classList.add('hidden')
-            }
+        this.$refs.searchResults.$el.classList.add('hidden')
+      }
       return this.$store.dispatch('searchResults/executePreSearch', input);
     },
-    clearSearchBox() {
-      this.fillSearch(null);
-    },
+    // clearSearchBox() {
+    //   console.log("CLEARING SEARCH")
+    //   this.fillSearch(null);
+    // },
   },
 };
 </script>
