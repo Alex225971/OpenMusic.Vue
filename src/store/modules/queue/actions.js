@@ -32,6 +32,6 @@ export default {
         
         console.log("QUEUE AFTER SHUFFLE: " + JSON.stringify(queueToShuffle));
 
-        context.commit('SET_CURRENT_POSITION', 0);
+        context.commit('SET_CURRENT_POSITION', -1);
     }
 };

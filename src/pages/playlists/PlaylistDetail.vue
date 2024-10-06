@@ -49,9 +49,9 @@ const emit = defineEmits(["play-song"]);
                   <a class="dropdown-toggle link-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="bi bi-three-dots-vertical options-menu"></i>
                   </a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu dropdown-menu-dark">
                       <li><a class="dropdown-item"><i class="bi bi-trash"></i> Remove from playlist</a></li>
-                      <li><a class="dropdown-item" href="#">Play next</a></li>
+                      <li><a class="dropdown-item" href="#"><i class="bi bi-music-note-list"></i> Play next</a></li>
                   </ul>
                 </div>
               </div>

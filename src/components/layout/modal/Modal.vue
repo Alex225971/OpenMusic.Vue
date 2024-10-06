@@ -30,9 +30,7 @@ onClickOutside(target, ()=>emit('modal-close'))
         </div>
         <div class="modal-footer">
           <slot name="footer">
-            <div>
-              <button class="btn btn-outline-light" type="submit" @click="emit('submit-modal')" @click.stop="emit('modal-close')">Submit</button>
-            </div>
+            
           </slot>
         </div>
       </div>
@@ -58,6 +56,11 @@ onClickOutside(target, ()=>emit('modal-close'))
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   overflow: auto;
   max-height: 80vh;
+}
+.modal-header {
+  display:flex;
+  flex-direction:row;
+  justify-content: space-between;
 }
 
 </style>

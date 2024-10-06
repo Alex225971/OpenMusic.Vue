@@ -26,6 +26,7 @@
 }
 .playlist-modal-row {
     align-items: center;
+    margin-bottom: 20px;
 }
 .playlist-add-button:hover {
     color: #198754 !important;
@@ -62,4 +63,8 @@
             text-decoration: underline !important;
         }
     }
+}
+.modal-close-button:hover {
+  color: #198754 !important;
+  cursor: pointer;
 }

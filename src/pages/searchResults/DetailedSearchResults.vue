@@ -144,10 +144,11 @@ const emit = defineEmits(["play-song"]);
         <modal-component :currentSong="selectedSongId" :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
             <template #header>
                 <h4 class="mb-2">Save to playlist</h4>
+                <i @click="closeModal" class="bi bi-x fs-3 modal-close-button"></i>
             </template>
             <template #content>
                 <div class="row playlist-modal-row" v-for="playlist in userPlaylists" :key="playlist.id">
-                    <div class="col-2 mb-3">
+                    <div class="col-2">
                         <img class="w-100 h-100" :src="playlist.imageUrl" alt="">
                     </div>
                     <div class="col-9">
@@ -157,6 +158,8 @@ const emit = defineEmits(["play-song"]);
                         <i class="bi bi-plus"></i>
                     </div>
                 </div>
+            </template>
+            <template #footer>
             </template>
         </modal-component>
 
