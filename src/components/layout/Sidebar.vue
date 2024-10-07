@@ -44,7 +44,6 @@ export default {
     };
   },
   created() {
-    //TODO - make sure user is logged in before making request for playlists
     if(this.isLoggedIn) {
       this.loadPlaylists();
     }
