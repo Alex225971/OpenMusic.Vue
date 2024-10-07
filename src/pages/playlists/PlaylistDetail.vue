@@ -41,7 +41,7 @@ const emit = defineEmits(["play-song"]);
           </p>
           <div v-for="song in getPlaylist.songs" :key="song.id">
             <div class="row">
-              <div class="col-9">
+              <div class="col-11">
                 {{ song.title }} ({{ song.releaseDate }}) - <span v-if="song.artist">{{ song.artist.name}}</span> <span v-else>Unknown Artist</span> <span v-if="song.album">{{ song.album.title}}</span> <span v-else>(Single)</span>
               </div>
               <div class="col-1 align-content-center">

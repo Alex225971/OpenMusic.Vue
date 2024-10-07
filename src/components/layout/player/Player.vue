@@ -5,8 +5,11 @@ const emit = defineEmits(["play-next"]);
 </script>
 
 <template>
-    <div v-show="showPlayer" class="player-container border-light border-top bg-dark">
-        
+<div class="player-container border-top border-light bg-dark">
+  <div class="song-details pt-1 text-light">
+    <p class="mb-0">{{ currentSongTitle }} - {{ currentArtist }} ({{ currentAlbum || 'Single' }}) </p>
+  </div>
+  <div v-show="showPlayer" class="controls-container">    
         <audio id="player" ref="player" autoplay @timeupdate="updateTimeline" @ended="playNextSong">
             <source :src="currentSongUrl" type="audio/ogg">
         </audio>
@@ -32,6 +35,8 @@ const emit = defineEmits(["play-next"]);
           </div>
         </div>
     </div>
+</div>
+    
 </template>
 
 <script>
@@ -40,6 +45,18 @@ import { nextTick } from 'vue';
 export default {
   props: {
     currentSongUrl: {
+      type: String,
+      default: null
+    },
+    currentArtist: {
+      type: String,
+      default: null
+    },
+    currentSongTitle: {
+      type: String,
+      default: null
+    },
+    currentAlbum: {
       type: String,
       default: null
     },
