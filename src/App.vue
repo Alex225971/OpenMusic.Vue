@@ -1,7 +1,7 @@
 <template>
   <page-header></page-header>
   <div class="container-fluid">
-    <div class="row bg-dark text-light d-flex flex-grow-1">
+    <div class="row bg-dark text-light d-flex page-content">
       <sidebar></sidebar>
       <router-view @play-song="handlePlaySong"></router-view>
     </div>
@@ -70,3 +70,6 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+@import './App.scss';
+</style>
