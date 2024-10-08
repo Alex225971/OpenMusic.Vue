@@ -13,24 +13,62 @@ export default {
             email: data.email,
             password: data.password
         };
-
-        var response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/register', {
-            method: 'POST',
-            body: JSON.stringify(userData),
-            headers: new Headers({ 'content-type': 'application/json' })
-        });
-
-        if (response.status > 199 && response.status < 300) {
-            //If the registration was successful we want to log in the user so they don't have to log in immediately after
-
-            response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/login', {
+        try {
+            var response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/register', {
                 method: 'POST',
-                body: JSON.stringify({
-                    email: data.email,
-                    password: data.password
-                }),
+                body: JSON.stringify(userData),
                 headers: new Headers({ 'content-type': 'application/json' })
             });
+
+            if (response.status > 199 && response.status < 300) {
+                //If the registration was successful we want to log in the user so they don't have to log in immediately after
+
+                response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: data.email,
+                        password: data.password
+                    }),
+                    headers: new Headers({ 'content-type': 'application/json' })
+                });
+                const responseData = await response.json();
+
+                localStorage.setItem('firstName', responseData.firstName);
+                localStorage.setItem('token', responseData.token);
+                localStorage.setItem('userId', responseData.userId);
+
+                context.commit('setUser', {
+                    ...userData,
+                    firstName: responseData.firstName,
+                    userId: responseData.userId,
+                    token: responseData.token
+                });
+                return;
+            } else {
+                toast.error(`Error ${response.status} please try again`, {
+                    autoClose: 2000,
+                });
+            }
+        } catch(error) {
+            toast.error(`Could not establish a connection with the server, error: ` + error, {
+            autoClose: 2000,
+        });
+        } 
+        
+    },
+    async loginUser(context, data) {
+        const userData = {
+            email: data.email,
+            password: data.password
+        };
+
+        try {
+            const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/login', {
+                method: 'POST',
+                body: JSON.stringify(userData),
+                headers: new Headers({ 'content-type': 'application/json' })
+            });
+
             const responseData = await response.json();
 
             localStorage.setItem('firstName', responseData.firstName);
@@ -43,46 +81,22 @@ export default {
                 userId: responseData.userId,
                 token: responseData.token
             });
-            return;
-        } else {
-            toast.error(`Error ${response.status} please try again`, {
-                autoClose: 2000,
+
+            const decodedToken = jwtDecode(responseData.token);
+            const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']; 
+            
+            context.commit('SET_ROLES', role);
+
+            localStorage.setItem('role', role);
+
+            store.dispatch('playlists/getUserPlaylists');
+        } catch(error) {
+            toast.error(`Could not establish a connection with the serve, error: ` + error, {
+                autoClose: 3000,
             });
         }
-    },
-    async loginUser(context, data) {
-        const userData = {
-            email: data.email,
-            password: data.password
-        };
 
-        const response = await fetch(process.env.VUE_APP_BASE_API_URL + 'Auth/login', {
-            method: 'POST',
-            body: JSON.stringify(userData),
-            headers: new Headers({ 'content-type': 'application/json' })
-        });
-
-        const responseData = await response.json();
-
-        localStorage.setItem('firstName', responseData.firstName);
-        localStorage.setItem('token', responseData.token);
-        localStorage.setItem('userId', responseData.userId);
-
-        context.commit('setUser', {
-            ...userData,
-            firstName: responseData.firstName,
-            userId: responseData.userId,
-            token: responseData.token
-        });
-
-        const decodedToken = jwtDecode(responseData.token);
-        const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']; 
         
-        context.commit('SET_ROLES', role);
-
-        localStorage.setItem('role', role);
-
-        store.dispatch('playlists/getUserPlaylists');
     },
     checkAuth(context) {
         const firstName = localStorage.getItem('firstName');
